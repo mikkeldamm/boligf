@@ -131,7 +131,12 @@
     </Reference>
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Boligf.Application\Boligf.Application.csproj">
+      <Project>{1c7cf26e-8628-44a5-b35c-5c52ce1c77d5}</Project>
+      <Name>Boligf.Application</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\AuthConfig.cs" />
     <Compile Include="Configuration\WebApiConfig.cs" />

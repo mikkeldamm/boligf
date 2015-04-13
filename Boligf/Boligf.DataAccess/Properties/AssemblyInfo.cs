@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Boligf.DataAccess")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("DFDS A/S")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Boligf.DataAccess")]
-[assembly: AssemblyCopyright("Copyright © DFDS A/S 2015")]
+[assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("2ded952e-eab2-4a5f-a71d-51606c950df7")]
+[assembly: Guid("353ddcb7-235a-45cf-816e-cbe7c2205dce")]
 
 // Version information for an assembly consists of the following four values:
 //
