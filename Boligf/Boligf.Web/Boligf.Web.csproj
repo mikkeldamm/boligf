@@ -65,10 +65,22 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Index.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\Fonts\" />
+    <Folder Include="Assets\Icons\" />
+    <Folder Include="Assets\Images\" />
+    <Folder Include="Scripts\Application\" />
+    <Folder Include="Scripts\Libraries\Angular\" />
+    <Folder Include="Scripts\Libraries\Jquery\" />
+    <Folder Include="Styles\Application\" />
+    <Folder Include="Styles\Libraries\Foundation\" />
+    <Folder Include="Views\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
