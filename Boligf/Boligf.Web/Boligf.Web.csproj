@@ -57,6 +57,55 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Styles\initializer.css">
+      <DependentUpon>initializer.scss</DependentUpon>
+    </Content>
+    <Content Include="Styles\initializer.min.css">
+      <DependentUpon>initializer.css</DependentUpon>
+    </Content>
+    <Content Include="Styles\Libraries\Foundation\components\_accordion.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_alert-boxes.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_block-grid.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_breadcrumbs.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_button-groups.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_buttons.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_clearing.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_dropdown-buttons.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_dropdown.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_flex-video.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_forms.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_global.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_grid.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_icon-bar.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_inline-lists.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_joyride.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_keystrokes.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_labels.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_magellan.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_offcanvas.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_orbit.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_pagination.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_panels.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_pricing-tables.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_progress-bars.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_range-slider.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_reveal.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_side-nav.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_split-buttons.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_sub-nav.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_switches.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_tables.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_tabs.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_thumbs.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_tooltips.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_top-bar.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_type.scss" />
+    <Content Include="Styles\Libraries\Foundation\components\_visibility.scss" />
+    <Content Include="Styles\Libraries\Foundation\_functions.scss" />
+    <Content Include="Styles\_settings.scss" />
+    <Content Include="Styles\_normalize.scss" />
+    <Content Include="Styles\initializer.scss" />
+    <Content Include="Styles\Libraries\Foundation\_foundation.scss" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -76,10 +125,7 @@
     <Folder Include="Assets\Icons\" />
     <Folder Include="Assets\Images\" />
     <Folder Include="Scripts\Application\" />
-    <Folder Include="Scripts\Libraries\Angular\" />
-    <Folder Include="Scripts\Libraries\Jquery\" />
     <Folder Include="Styles\Application\" />
-    <Folder Include="Styles\Libraries\Foundation\" />
     <Folder Include="Views\" />
   </ItemGroup>
   <PropertyGroup>
