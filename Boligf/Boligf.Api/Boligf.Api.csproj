@@ -139,6 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\AuthConfig.cs" />
+    <Compile Include="Configuration\IoCConfig.cs" />
     <Compile Include="Configuration\WebApiConfig.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
