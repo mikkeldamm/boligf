@@ -4,8 +4,8 @@ module Boligf {
 
 	export class States {
 
-		public static Home: string = "home";
-		public static Login: string = "login";
-		public static Logout: string = "logout";
+		static Home: string = "home";
+		static Login: string = "login";
+		static Logout: string = "logout";
 	}
 } 

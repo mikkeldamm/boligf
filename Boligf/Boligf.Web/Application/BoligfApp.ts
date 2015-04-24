@@ -11,15 +11,14 @@ module Boligf {
 		constructor() {
 
 			Startup.BoligfApp = angular.module('BoligfApp', [
-				'ngResource',
 				'ui.router',
 				'pascalprecht.translate'
 			]);
 
-			this.SetupConfiguration();
+			this.setupConfiguration();
 		}
 
-		private SetupConfiguration() {
+		private setupConfiguration() {
 
 			var providerInjects: any[] = [
 				'$stateProvider',
@@ -37,13 +36,13 @@ module Boligf {
 				locationProvider: ng.ILocationProvider
 			) => {
 
-				this.SetupTranslations(translateProvider);
+				this.setupTranslations(translateProvider);
 
-				this.SetupDefaultRouting(urlRouterProvider, locationProvider);
+				this.setupDefaultRouting(urlRouterProvider, locationProvider);
 
-				this.SetupStates(stateProvider);
+				this.setupStates(stateProvider);
 
-				this.SetupHttpInterceptors(httpProvider);
+				this.setupHttpInterceptors(httpProvider);
 
 			};
 
@@ -52,7 +51,7 @@ module Boligf {
 			Startup.BoligfApp.config(providerInjects);
 		}
 
-		private SetupTranslations(translateProvider: ng.translate.ITranslateProvider) {
+		private setupTranslations(translateProvider: ng.translate.ITranslateProvider) {
 
 			translateProvider.useStaticFilesLoader({
 				prefix: '/Locale/locale-',
@@ -62,36 +61,36 @@ module Boligf {
 			translateProvider.preferredLanguage('en');
 		}
 
-		private SetupDefaultRouting(urlRouterProvider: ng.ui.IUrlRouterProvider, locationProvider: ng.ILocationProvider) {
+		private setupDefaultRouting(urlRouterProvider: ng.ui.IUrlRouterProvider, locationProvider: ng.ILocationProvider) {
 
 			urlRouterProvider.otherwise("/");
 
 			locationProvider.html5Mode(true);
 		}
 
-		private SetupStates(stateProvider: ng.ui.IStateProvider) {
+		private setupStates(stateProvider: ng.ui.IStateProvider) {
 
 			stateProvider
 				.state(Boligf.States.Home, {
 					url: '/',
-					templateUrl: "" // TODO: Get template url via template handler
-				})
-				.state(Boligf.States.Login, {
-					url: '/login',
-					templateUrl: "" // TODO: Get template url via template handler
-				})
-				.state(Boligf.States.Logout, {
-					url: '/logout',
-					templateUrl: "" // TODO: Get template url via template handler
+					templateUrl: "/Application/Pages/Authentication/Authentication.html" // TODO: Get template url via template handler
 				});
+			//.state(Boligf.States.Login, {
+			//	url: '/login',
+			//	templateUrl: "" // TODO: Get template url via template handler
+			//})
+			//.state(Boligf.States.Logout, {
+			//	url: '/logout',
+			//	templateUrl: "" // TODO: Get template url via template handler
+			//});
 		}
 
-		private SetupHttpInterceptors(httpProvider: ng.IHttpProvider) {
+		private setupHttpInterceptors(httpProvider: ng.IHttpProvider) {
 
 			//httpProvider.interceptors.push("IInterceptHttpProvider");
 		}
 
-		static Run() {
+		public static Run() {
 
 			return new Startup();
 		}
