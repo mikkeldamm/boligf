@@ -1,20 +1,32 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
+using Boligf.Application;
+using d60.Cirqus.Views;
+using d60.Cirqus.Views.ViewManagers;
 
 namespace Boligf.Api.Controllers
 {
     public class ValuesController : ApiController
     {
-        // GET api/values
+	    private readonly IViewManager<ProcessorConfiguration.CounterView> _counterView;
+
+	    public ValuesController(IViewManager<ProcessorConfiguration.CounterView> counterView)
+	    {
+		    _counterView = counterView;
+	    }
+
+	    // GET api/values
         public IEnumerable<string> Get()
         {
             return new[] { "value1", "value2" };
         }
 
         // GET api/values/5
-        public string Get(int id)
+        public string Get(string id)
         {
-            return "value";
+	        var counterView = _counterView.Load(id);
+
+	        return counterView.CurrentValue.ToString();
         }
 
         // POST api/values

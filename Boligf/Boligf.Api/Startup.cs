@@ -40,7 +40,7 @@ namespace Boligf.Api
 
 		private static void ConfigureDomain(IAppBuilder app)
 		{
-			ProcessorConfiguration.Setup();
+			ProcessorConfiguration.Setup().Wait();
 		}
     }
 }

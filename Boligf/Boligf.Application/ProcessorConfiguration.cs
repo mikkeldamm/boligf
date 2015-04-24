@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using d60.Cirqus;
 using d60.Cirqus.Aggregates;
 using d60.Cirqus.Commands;
@@ -16,12 +18,12 @@ namespace Boligf.Application
 	{
 		public static ICommandProcessor CommandProcessor { get; private set; }
 
-		public static void Setup()
+		public static async Task Setup()
 		{
 			const string msSqlConnection = @"Data Source=(localdb)\v11.0;Initial Catalog=BoligfTest;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
 			const string msSqlEventStoreTableName = "Events";
 
-			MsSqlViewManager<CounterView> viewManager = new MsSqlViewManager<CounterView>(msSqlConnection, "Counters");
+			IViewManager<CounterView> viewManager = new MsSqlViewManager<CounterView>(msSqlConnection, "Counters");
 
 			CommandProcessor = d60.Cirqus.CommandProcessor
 				.With()
@@ -32,11 +34,24 @@ namespace Boligf.Application
 			var counterView = viewManager.Load("id");
 			var test1 = counterView.CurrentValue;
 
-			CommandProcessor.ProcessCommand(new IncrementCounter("id", 1));
-			//CommandProcessor.ProcessCommand(new IncrementCounter("id", 2));
-			//CommandProcessor.ProcessCommand(new IncrementCounter("id", 3));
-			//CommandProcessor.ProcessCommand(new IncrementCounter("id", 5));
-			//CommandProcessor.ProcessCommand(new IncrementCounter("id", 8));
+			var result = CommandProcessor.ProcessCommand(new IncrementCounter("id", 1));
+
+			await viewManager.WaitUntilProcessed(result, TimeSpan.FromMinutes(2));
+
+			var counterView2 = viewManager.Load("id");
+			var test2 = counterView2.CurrentValue;
+		}
+
+		public class IncrementCounterCommand : ExecutableCommand
+		{
+			public override void Execute(ICommandContext context)
+			{
+				var counter = context.Load<Counter>("id");
+
+				counter.Increment(Delta);
+			}
+
+			public int Delta { get; set; }
 		}
 
 		public class IncrementCounter : Command<Counter>
