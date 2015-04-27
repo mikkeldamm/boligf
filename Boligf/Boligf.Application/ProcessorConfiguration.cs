@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Boligf.DataAccess.ViewManagers;
 using d60.Cirqus;
 using d60.Cirqus.Aggregates;
 using d60.Cirqus.Commands;
@@ -23,7 +24,7 @@ namespace Boligf.Application
 			const string msSqlConnection = @"Data Source=(localdb)\v11.0;Initial Catalog=BoligfTest;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
 			const string msSqlEventStoreTableName = "Events";
 
-			IViewManager<CounterView> viewManager = new MsSqlViewManager<CounterView>(msSqlConnection, "Counters");
+			IViewManager<CounterView> viewManager = new DataViewManager<CounterView>();
 
 			CommandProcessor = d60.Cirqus.CommandProcessor
 				.With()

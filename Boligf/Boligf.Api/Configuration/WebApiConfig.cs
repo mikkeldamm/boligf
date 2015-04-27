@@ -10,9 +10,12 @@ namespace Boligf.Api.Configuration
     {
         public static void Setup(IAppBuilder app)
         {
-            var httpConfiguration = new HttpConfiguration();
+	        var httpConfiguration = new HttpConfiguration
+	        {
+		        DependencyResolver = GlobalConfiguration.Configuration.DependencyResolver
+	        };
 
-            httpConfiguration.MapHttpAttributeRoutes();
+	        httpConfiguration.MapHttpAttributeRoutes();
             httpConfiguration.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
