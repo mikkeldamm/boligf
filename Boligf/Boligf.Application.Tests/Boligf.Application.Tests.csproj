@@ -63,12 +63,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Boligf.Application\Boligf.Application.csproj">
-      <Project>{1c7cf26e-8628-44a5-b35c-5c52ce1c77d5}</Project>
-      <Name>Boligf.Application</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <Choose>

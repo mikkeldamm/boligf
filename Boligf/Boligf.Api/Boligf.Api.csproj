@@ -154,26 +154,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Boligf.Application\Boligf.Application.csproj">
-      <Project>{1c7cf26e-8628-44a5-b35c-5c52ce1c77d5}</Project>
-      <Name>Boligf.Application</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Boligf.Commands\Boligf.Commands.csproj">
-      <Project>{4A12B31C-AA35-4729-AC56-8C95349F16C0}</Project>
-      <Name>Boligf.Commands</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Boligf.Views\Boligf.Views.csproj">
-      <Project>{e6dbb3ba-b1c3-4db4-b085-944fbfe6e611}</Project>
-      <Name>Boligf.Views</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
+    <Compile Include="Commands\CreateAssociationCommand.cs" />
     <Compile Include="Configuration\AuthConfig.cs" />
     <Compile Include="Configuration\IoCConfig.cs" />
     <Compile Include="Configuration\WebApiConfig.cs" />
     <Compile Include="Controllers\AssociationController.cs" />
+    <Compile Include="Domain\Association.cs" />
+    <Compile Include="Domain\Events\AssociationCreated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Views\Association\GetAllAssociationsView.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Web.config">
@@ -186,7 +176,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Infrastructure\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>

@@ -64,12 +64,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Boligf.DataAccess\Boligf.DataAccess.csproj">
-      <Project>{adcccfc4-9753-47bb-8a42-77e3294b9d20}</Project>
-      <Name>Boligf.DataAccess</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <Choose>
