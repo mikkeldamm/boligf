@@ -161,6 +161,7 @@
     <Compile Include="Controllers\AssociationController.cs" />
     <Compile Include="Domain\Association.cs" />
     <Compile Include="Domain\Events\AssociationCreated.cs" />
+    <Compile Include="Domain\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Views\Association\GetAllAssociationsView.cs" />
