@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
 using Boligf.Api.Commands;
+using Boligf.Api.Play;
 using Boligf.Api.Views.Association;
 using d60.Cirqus;
 using d60.Cirqus.Views.ViewManagers;
@@ -28,7 +29,7 @@ namespace Boligf.Api.Controllers
 		// GET api/values
 		public IEnumerable<string> Get()
 		{
-			var view = _getAllAssociationsView.Load(GlobalInstanceLocator.GetViewInstanceId());
+			var view = _getAllAssociationsView.LoadFully();
 
 			return view.Names;
 		}
