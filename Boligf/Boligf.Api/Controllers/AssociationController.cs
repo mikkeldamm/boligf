@@ -5,10 +5,10 @@ using Boligf.Api.Play;
 using Boligf.Api.Views.Association;
 using d60.Cirqus;
 using d60.Cirqus.Views.ViewManagers;
-using d60.Cirqus.Views.ViewManagers.Locators;
 
 namespace Boligf.Api.Controllers
 {
+	[Authorize]
 	public class AssociationController : ApiController
 	{
 		private readonly ICommandProcessor _commandProcessor;

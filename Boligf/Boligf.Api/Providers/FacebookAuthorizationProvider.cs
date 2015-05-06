@@ -4,6 +4,16 @@ using Microsoft.Owin.Security.Facebook;
 
 namespace Boligf.Api.Providers
 {
+	public class FacebookOAuthOptions : FacebookAuthenticationOptions
+	{
+		public FacebookOAuthOptions(IFacebookAuthenticationProvider facebookAuthenticationProvider)
+		{
+			AppId = "xxxxxx";
+			AppSecret = "xxxxxx";
+			Provider = facebookAuthenticationProvider;
+		}
+	}
+
 	public class FacebookAuthorizationProvider : FacebookAuthenticationProvider
 	{
 		public override Task Authenticated(FacebookAuthenticatedContext context)

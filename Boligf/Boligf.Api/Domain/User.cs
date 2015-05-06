@@ -1,11 +1,13 @@
-﻿using d60.Cirqus.Aggregates;
-using Microsoft.AspNet.Identity;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Boligf.Api.Domain
 {
-	public class User : AggregateRoot, IUser
+	public class User : IdentityUser
 	{
-		public string Email { get; set; }
-		public string UserName { get; set; }
+		[Required]
+		public string Name { get; set; }
+		[Required]
+		public string Lastname { get; set; }
 	}
 }

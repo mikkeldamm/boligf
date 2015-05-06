@@ -4,6 +4,16 @@ using Microsoft.Owin.Security.Google;
 
 namespace Boligf.Api.Providers
 {
+	public class GoogleOAuthOptions : GoogleOAuth2AuthenticationOptions
+	{
+		public GoogleOAuthOptions(IGoogleOAuth2AuthenticationProvider googleOAuth2AuthenticationProvider)
+		{
+			ClientId = "xxxxxx";
+			ClientSecret = "xxxxxx";
+			Provider = googleOAuth2AuthenticationProvider;
+		}
+	}
+
 	public class GoogleAuthorizationProvider : IGoogleOAuth2AuthenticationProvider
 	{
 		public void ApplyRedirect(GoogleOAuth2ApplyRedirectContext context)

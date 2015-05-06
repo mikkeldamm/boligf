@@ -15,7 +15,6 @@ namespace Boligf.Api
 			ConfigureCors(app);
 			ConfigureAuth(app);
 			ConfigureWebApi(app);
-			ConfigureDomain(app);
 		}
 
 		private static void ConfigureIoC(IAppBuilder app)
@@ -36,11 +35,6 @@ namespace Boligf.Api
 		private static void ConfigureWebApi(IAppBuilder app)
 		{
 			WebApiConfig.Setup(app);
-		}
-
-		private static void ConfigureDomain(IAppBuilder app)
-		{
-			//ProcessorConfiguration.Setup().Wait();
 		}
 	}
 }

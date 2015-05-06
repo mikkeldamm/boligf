@@ -44,8 +44,18 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\d60.Cirqus.0.60.3\lib\NET45\d60.Cirqus.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Owin">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
@@ -170,12 +180,17 @@
     <Compile Include="Configuration\AuthConfig.cs" />
     <Compile Include="Configuration\IoCConfig.cs" />
     <Compile Include="Configuration\WebApiConfig.cs" />
+    <Compile Include="Context\Connection.cs" />
+    <Compile Include="Context\UserContext.cs" />
     <Compile Include="Controllers\AssociationController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Domain\Association.cs" />
     <Compile Include="Domain\Events\AssociationCreated.cs" />
     <Compile Include="Domain\User.cs" />
+    <Compile Include="Infrastructure\UserManager.cs" />
     <Compile Include="Play\ViewManagerExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\AuthorizationServerOptions.cs" />
     <Compile Include="Providers\AuthorizationServerProvider.cs" />
     <Compile Include="Providers\FacebookAuthorizationProvider.cs" />
     <Compile Include="Providers\GoogleAuthorizationProvider.cs" />
@@ -183,6 +198,7 @@
     <Compile Include="Views\Association\GetAllAssociationsView.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ForFun.txt" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -193,9 +209,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Infrastructure\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
