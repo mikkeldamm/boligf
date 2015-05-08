@@ -1,6 +1,6 @@
 ﻿using System.Web.Http;
 using Boligf.Api.Context;
-using Boligf.Api.Domain;
+using Boligf.Api.Domain.Entities;
 using Boligf.Api.Infrastructure;
 using Boligf.Api.Providers;
 using Boligf.Api.Views.Association;
@@ -41,7 +41,7 @@ namespace Boligf.Api.Configuration
 			var userContext = new UserContext();
 
 			container.RegisterSingle<UserContext>(() => userContext);
-			container.RegisterSingle<UserStore<User>>(() => new UserStore<User>(userContext));
+			container.RegisterSingle<UserStore<UserIdentity>>(() => new UserStore<UserIdentity>(userContext));
 			container.RegisterSingle<IUserManager, UserManager>();
 		}
 
@@ -59,10 +59,10 @@ namespace Boligf.Api.Configuration
 
 		private static void SetupCirqusConfiguration(Container container)
 		{
-			var getAllAssociationsView = new InMemoryViewManager<GetAllAssociationsView>();
-			var getSingleAssociationView = new InMemoryViewManager<GetSingleAssociationsView>();
+			var getAssociationView = new InMemoryViewManager<GetAssociationView>();
+			var getUserAssociationsView = new InMemoryViewManager<GetUserAssociationsView>();
 
-			var views = new IViewManager[] {getAllAssociationsView, getSingleAssociationView};
+			var views = new IViewManager[] { getAssociationView, getUserAssociationsView };
 
 			var commandProcessor = CommandProcessor
 				.With()
@@ -70,8 +70,8 @@ namespace Boligf.Api.Configuration
 				.EventDispatcher(ed => ed.UseViewManagerEventDispatcher(views))
 				.Create();
 
-			container.RegisterSingle<IViewManager<GetAllAssociationsView>>(getAllAssociationsView);
-			container.RegisterSingle<IViewManager<GetSingleAssociationsView>>(getSingleAssociationView);
+			container.RegisterSingle<IViewManager<GetAssociationView>>(getAssociationView);
+			container.RegisterSingle<IViewManager<GetUserAssociationsView>>(getUserAssociationsView);
 
 			container.RegisterSingle<ICommandProcessor>(commandProcessor);
 		}

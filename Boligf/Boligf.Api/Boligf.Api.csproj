@@ -177,6 +177,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\CreateAssociationCommand.cs" />
+    <Compile Include="Commands\CreateUserCommand.cs" />
+    <Compile Include="Commands\RegisterUserToAssociationCommand.cs" />
     <Compile Include="Configuration\AuthConfig.cs" />
     <Compile Include="Configuration\IoCConfig.cs" />
     <Compile Include="Configuration\WebApiConfig.cs" />
@@ -185,9 +187,20 @@
     <Compile Include="Controllers\AssociationController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Domain\Association.cs" />
+    <Compile Include="Domain\Events\MemberRegisteredToAssociation.cs" />
+    <Compile Include="Domain\Events\UserCreated.cs" />
+    <Compile Include="Domain\Events\UserDetailsUpdated.cs" />
+    <Compile Include="Domain\Events\UserEmailUpdated.cs" />
     <Compile Include="Domain\Events\AssociationCreated.cs" />
+    <Compile Include="Domain\Events\AssociationNameUpdated.cs" />
+    <Compile Include="Domain\Entities\UserIdentity.cs" />
     <Compile Include="Domain\User.cs" />
     <Compile Include="Infrastructure\UserManager.cs" />
+    <Compile Include="Migrations\201505061943460_InitialCreate.cs" />
+    <Compile Include="Migrations\201505061943460_InitialCreate.Designer.cs">
+      <DependentUpon>201505061943460_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Play\ViewManagerExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\AuthorizationServerOptions.cs" />
@@ -195,10 +208,11 @@
     <Compile Include="Providers\FacebookAuthorizationProvider.cs" />
     <Compile Include="Providers\GoogleAuthorizationProvider.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Views\Association\GetAllAssociationsView.cs" />
+    <Compile Include="Views\Association\GetUserAssociationsView.cs" />
+    <Compile Include="Views\Association\GetAssociationView.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ForFun.txt" />
+    <Content Include="Play\ForFun.txt" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -209,7 +223,11 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201505061943460_InitialCreate.resx">
+      <DependentUpon>201505061943460_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>

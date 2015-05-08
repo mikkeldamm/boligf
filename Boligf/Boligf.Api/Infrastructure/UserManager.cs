@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Boligf.Api.Domain;
+using Boligf.Api.Commands;
+using Boligf.Api.Domain.Entities;
+using d60.Cirqus;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -7,21 +9,43 @@ namespace Boligf.Api.Infrastructure
 {
 	public interface IUserManager
 	{
-		Task<User> FindAsync(string userName, string password);
-		Task<IdentityResult> CreateAsync(User user, string password);
+		Task<UserIdentity> FindAsync(string userName, string password);
+		Task<IdentityResult> CreateAsync(UserIdentity user, string password);
 	}
 
-	public class UserManager : UserManager<User>, IUserManager
+	public class UserManager : UserManager<UserIdentity>, IUserManager
 	{
-		public UserManager(UserStore<User> store) : base(store)
+		private readonly ICommandProcessor _commandProcessor;
+
+		public UserManager(UserStore<UserIdentity> store, ICommandProcessor commandProcessor) : base(store)
 		{
+			_commandProcessor = commandProcessor;
 			SetupUserValidations();
 			SetupPasswordValidations();
 		}
 
+		public override async Task<IdentityResult> CreateAsync(UserIdentity user, string password)
+		{
+			var createdIdentity = await base.CreateAsync(user, password);
+			if (createdIdentity.Succeeded)
+			{
+				var newlyCreatedUser = await FindAsync(user.UserName, password);
+				if (newlyCreatedUser != null)
+				{
+					_commandProcessor.ProcessCommand(new CreateUserCommand(newlyCreatedUser.Id)
+					{
+						Email = newlyCreatedUser.Email,
+						FirstName = newlyCreatedUser.Name
+					});
+				}
+			}
+
+			return createdIdentity;
+		}
+
 		private void SetupUserValidations()
 		{
-			UserValidator = new UserValidator<User>(this)
+			UserValidator = new UserValidator<UserIdentity>(this)
 			{
 				AllowOnlyAlphanumericUserNames = false,
 				RequireUniqueEmail = true

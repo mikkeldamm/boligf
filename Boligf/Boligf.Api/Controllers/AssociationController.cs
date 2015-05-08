@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Http;
 using Boligf.Api.Commands;
-using Boligf.Api.Play;
 using Boligf.Api.Views.Association;
 using d60.Cirqus;
 using d60.Cirqus.Views.ViewManagers;
@@ -12,41 +12,39 @@ namespace Boligf.Api.Controllers
 	public class AssociationController : ApiController
 	{
 		private readonly ICommandProcessor _commandProcessor;
-		private readonly IViewManager<GetAllAssociationsView> _getAllAssociationsView;
-		private readonly IViewManager<GetSingleAssociationsView> _getSingleAssociationView;
+		private readonly IViewManager<GetAssociationView> _getAssociationView;
 
 		public AssociationController(
 			ICommandProcessor commandProcessor,
-			IViewManager<GetAllAssociationsView> getAllAssociationsView,
-			IViewManager<GetSingleAssociationsView> getSingleAssociationView
+			IViewManager<GetAssociationView> getAssociationView
 			)
 		{
 			_commandProcessor = commandProcessor;
-			_getAllAssociationsView = getAllAssociationsView;
-			_getSingleAssociationView = getSingleAssociationView;
+			_getAssociationView = getAssociationView;
 		}
 
 		// GET api/values
 		public IEnumerable<string> Get()
 		{
-			var view = _getAllAssociationsView.LoadFully();
-
-			return view.Names;
+			return new[] {""};
 		}
 
 		// GET api/values/5
 		public string Get(string id)
 		{
 			var associationId = id;
-			var view = _getSingleAssociationView.Load(associationId);
+			var view = _getAssociationView.Load(associationId);
 
-			return view.Name;
+			return view.AssociationName;
 		}
 
 		// POST api/values
-		public void Post([FromBody]string value)
+		public void Post([FromBody]string name, string userId)
 		{
-			_commandProcessor.ProcessCommand(new CreateAssociationCommand("1234", value));
+			var associationId = Guid.NewGuid().ToString();
+
+			_commandProcessor.ProcessCommand(new CreateAssociationCommand(associationId) { Name = name });
+			_commandProcessor.ProcessCommand(new RegisterUserToAssociationCommand(associationId) { UserId = userId });
 		}
 
 		// PUT api/values/5
