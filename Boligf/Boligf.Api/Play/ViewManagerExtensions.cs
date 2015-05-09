@@ -5,7 +5,7 @@ namespace Boligf.Api.Play
 {
 	public static class ViewManagerExtensions
 	{
-		public static TView LoadFully<TView>(this IViewManager<TView> viewInstance) where TView : IViewInstance
+		public static TView Load<TView>(this IViewManager<TView> viewInstance) where TView : IViewInstance<GlobalInstanceLocator>
 		{
 			return viewInstance.Load(GlobalInstanceLocator.GetViewInstanceId());
 		}

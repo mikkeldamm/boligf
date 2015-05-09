@@ -4,7 +4,7 @@ using d60.Cirqus.Extensions;
 using d60.Cirqus.Views.ViewManagers;
 using d60.Cirqus.Views.ViewManagers.Locators;
 
-namespace Boligf.Api.Views.Association
+namespace Boligf.Api.Views.User
 {
 	public class GetUserAssociationsView : IViewInstance<GlobalInstanceLocator>, 
 		ISubscribeTo<MemberRegisteredToAssociation>

@@ -10,7 +10,10 @@ namespace Boligf.Api.Infrastructure
 	public interface IUserManager
 	{
 		Task<UserIdentity> FindAsync(string userName, string password);
+		Task<UserIdentity> FindByIdAsync(string id);
 		Task<IdentityResult> CreateAsync(UserIdentity user, string password);
+		Task<IdentityResult> UpdateAsync(UserIdentity user);
+		Task<IdentityResult> DeleteAsync(UserIdentity user);
 	}
 
 	public class UserManager : UserManager<UserIdentity>, IUserManager
@@ -20,6 +23,7 @@ namespace Boligf.Api.Infrastructure
 		public UserManager(UserStore<UserIdentity> store, ICommandProcessor commandProcessor) : base(store)
 		{
 			_commandProcessor = commandProcessor;
+
 			SetupUserValidations();
 			SetupPasswordValidations();
 		}
@@ -34,13 +38,39 @@ namespace Boligf.Api.Infrastructure
 				{
 					_commandProcessor.ProcessCommand(new CreateUserCommand(newlyCreatedUser.Id)
 					{
-						Email = newlyCreatedUser.Email,
-						FirstName = newlyCreatedUser.Name
+						Email = newlyCreatedUser.Email
 					});
 				}
 			}
 
 			return createdIdentity;
+		}
+
+		public override async Task<IdentityResult> UpdateAsync(UserIdentity user)
+		{
+			var result = await base.UpdateAsync(user);
+			if (result.Succeeded)
+			{
+				_commandProcessor.ProcessCommand(new UpdateUserDetailsCommand(user.Id)
+				{
+					Email = user.Email,
+					FirstName = user.Name,
+					LastName = user.Lastname
+				});
+			}
+
+			return result;
+		}
+
+		public override async Task<IdentityResult> DeleteAsync(UserIdentity user)
+		{
+			var result = await base.DeleteAsync(user);
+			if (result.Succeeded)
+			{
+				_commandProcessor.ProcessCommand(new DeleteUserCommand(user.Id));
+			}
+
+			return result;
 		}
 
 		private void SetupUserValidations()

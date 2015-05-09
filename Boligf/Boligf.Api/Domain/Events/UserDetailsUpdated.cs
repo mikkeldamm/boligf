@@ -4,6 +4,7 @@ namespace Boligf.Api.Domain.Events
 {
 	public class UserDetailsUpdated : DomainEvent<User>
 	{
-		public string Firstname { get; set; }
+		public string FirstName { get; set; }
+		public string LastName { get; set; }
 	}
 }

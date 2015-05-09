@@ -1,9 +1,11 @@
-﻿using System.Web.Http;
+﻿using System.Collections.Generic;
+using System.Web.Http;
 using Boligf.Api.Context;
 using Boligf.Api.Domain.Entities;
 using Boligf.Api.Infrastructure;
 using Boligf.Api.Providers;
 using Boligf.Api.Views.Association;
+using Boligf.Api.Views.User;
 using d60.Cirqus;
 using d60.Cirqus.MsSql.Config;
 using d60.Cirqus.Views;
@@ -20,20 +22,23 @@ namespace Boligf.Api.Configuration
 {
 	public class IoCConfig
 	{
+		private static readonly List<IViewManager> Views = new List<IViewManager>();
+		private static Container _container;
+
 		public static void Setup(IAppBuilder app)
 		{
-			var container = new Container();
+			_container = new Container();
 
-			SetupCirqusConfiguration(container);
-			SetupUserStuff(container);
-			SetupProviders(container);
+			SetupCirqusConfiguration(_container);
+			SetupUserStuff(_container);
+			SetupProviders(_container);
 
-			container.RegisterWebApiControllers(GlobalConfiguration.Configuration);
-			container.Verify();
+			_container.RegisterWebApiControllers(GlobalConfiguration.Configuration);
+			_container.Verify();
 
-			GlobalConfiguration.Configuration.DependencyResolver = new SimpleInjectorWebApiDependencyResolver(container);
+			GlobalConfiguration.Configuration.DependencyResolver = new SimpleInjectorWebApiDependencyResolver(_container);
 
-			IoCContainer.Container = container;
+			IoCContainer.Container = _container;
 		}
 
 		private static void SetupUserStuff(Container container)
@@ -59,21 +64,27 @@ namespace Boligf.Api.Configuration
 
 		private static void SetupCirqusConfiguration(Container container)
 		{
-			var getAssociationView = new InMemoryViewManager<GetAssociationView>();
-			var getUserAssociationsView = new InMemoryViewManager<GetUserAssociationsView>();
-
-			var views = new IViewManager[] { getAssociationView, getUserAssociationsView };
+			RegisterSimpleViewInstance<GetAssociationView>();
+			RegisterSimpleViewInstance<GetUserAssociationsView>();
+			RegisterSimpleViewInstance<GetUserView>();
+			RegisterSimpleViewInstance<GetUsersView>();
 
 			var commandProcessor = CommandProcessor
 				.With()
 				.EventStore(e => e.UseSqlServer(Connection.DataConnectionName, "test2events"))
-				.EventDispatcher(ed => ed.UseViewManagerEventDispatcher(views))
+				.EventDispatcher(ed => ed.UseViewManagerEventDispatcher(Views.ToArray()))
 				.Create();
 
-			container.RegisterSingle<IViewManager<GetAssociationView>>(getAssociationView);
-			container.RegisterSingle<IViewManager<GetUserAssociationsView>>(getUserAssociationsView);
-
 			container.RegisterSingle<ICommandProcessor>(commandProcessor);
+		}
+
+		private static void RegisterSimpleViewInstance<TView>() where TView : class, IViewInstance, ISubscribeTo, new()
+		{
+			var viewInstance = new InMemoryViewManager<TView>();
+
+			Views.Add(viewInstance);
+
+			_container.RegisterSingle<IViewManager<TView>>(viewInstance);
 		}
 	}
 

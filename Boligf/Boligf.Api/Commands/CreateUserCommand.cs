@@ -6,7 +6,6 @@ namespace Boligf.Api.Commands
 	public class CreateUserCommand: Command<User>
 	{
 		public string Email { get; set; }
-		public string FirstName { get; set; }
 
 		public CreateUserCommand(string id) : base(id)
 		{
@@ -15,7 +14,7 @@ namespace Boligf.Api.Commands
 
 		public override void Execute(User aggregateRoot)
 		{
-			aggregateRoot.UpdateNewlyCreatedDetails(Email, FirstName);
+			aggregateRoot.UpdateEmail(Email);
 		}
 	}
 }

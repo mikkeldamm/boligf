@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Web.Http;
 using Boligf.Api.Commands;
+using Boligf.Api.Play;
 using Boligf.Api.Views.Association;
 using d60.Cirqus;
 using d60.Cirqus.Views.ViewManagers;
