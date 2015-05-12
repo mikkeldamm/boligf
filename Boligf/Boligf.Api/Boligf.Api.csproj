@@ -198,6 +198,7 @@
     <Compile Include="Domain\Events\AssociationNameUpdated.cs" />
     <Compile Include="Domain\Entities\UserIdentity.cs" />
     <Compile Include="Domain\User.cs" />
+    <Compile Include="Filters\ValidateModelFilterAttribute.cs" />
     <Compile Include="Infrastructure\UserManager.cs" />
     <Compile Include="Migrations\201505061943460_InitialCreate.cs" />
     <Compile Include="Migrations\201505061943460_InitialCreate.Designer.cs">

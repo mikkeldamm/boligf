@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Boligf.Api.Domain.Entities;
@@ -62,6 +63,9 @@ namespace Boligf.Api.Controllers
 
 		public async Task Delete(string id)
 		{
+			if (User.GetId() != id)
+				throw new UnauthorizedAccessException("You cannot deleted a user other than yours");
+
 			var user = await _userManager.FindByIdAsync(id);
 
 			await _userManager.DeleteAsync(user);
