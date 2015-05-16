@@ -1,0 +1,64 @@
+﻿using Boligf.Api.Infrastructure;
+using d60.Cirqus;
+using d60.Cirqus.Commands;
+
+namespace Boligf.Api.Commands
+{
+	public interface IExecutableCommand<TCommand>
+	{
+		TCommand Command { get; set; }
+		CommandProcessingResult Process(TCommand command);
+	}
+
+	public class ExecutableCommandHandler<TCommand> : ExecutableCommand, IExecutableCommand<TCommand>
+	{
+		private readonly ICommandProcessor _commandProcessor;
+
+		public ExecutableCommandHandler(ICommandProcessor commandProcessor)
+		{
+			_commandProcessor = commandProcessor;
+		}
+
+		public TCommand Command { get; set; }
+
+		public virtual CommandProcessingResult Process(TCommand command)
+		{
+			Command = command;
+
+			return _commandProcessor.ProcessCommand(this);
+		}
+
+		public override void Execute(ICommandContext context)
+		{
+			
+		}
+	}
+
+	public class LoginUserCommand
+	{
+		public string Username { get; private set; }
+		public string Password { get; private set; }
+
+		public LoginUserCommand(string username, string password)
+		{
+			Username = username;
+			Password = password;
+		}
+	}
+
+	public class LoginUserCommandHandler : ExecutableCommandHandler<LoginUserCommand>
+	{
+		private readonly IUserManager _userManager;
+
+		public LoginUserCommandHandler(ICommandProcessor commandProcessor, IUserManager userManager) : base(commandProcessor)
+		{
+			_userManager = userManager;
+		}
+
+		public override void Execute(ICommandContext context)
+		{
+			var user = _userManager.FindAsync(Command.Username, Command.Password);
+			
+		}
+	}
+}

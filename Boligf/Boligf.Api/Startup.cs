@@ -12,10 +12,9 @@ namespace Boligf.Api
 		public void Configuration(IAppBuilder app)
 		{
 			ConfigureIoC(app);
-			ConfigureAuth(app);
 			ConfigureCors(app);
+			ConfigureAuth(app);
 			ConfigureWebApi(app);
-			ConfigureDomain(app);
 		}
 
 		private static void ConfigureIoC(IAppBuilder app)
@@ -23,24 +22,19 @@ namespace Boligf.Api
 			IoCConfig.Setup(app);
 		}
 
-		private static void ConfigureAuth(IAppBuilder app)
-		{
-			AuthConfig.Setup(app);
-		}
-
 		private static void ConfigureCors(IAppBuilder app)
 		{
 			app.UseCors(CorsOptions.AllowAll);
 		}
 
+		private static void ConfigureAuth(IAppBuilder app)
+		{
+			AuthConfig.Setup(app);
+		}
+
 		private static void ConfigureWebApi(IAppBuilder app)
 		{
 			WebApiConfig.Setup(app);
-		}
-
-		private static void ConfigureDomain(IAppBuilder app)
-		{
-			//ProcessorConfiguration.Setup().Wait();
 		}
 	}
 }
