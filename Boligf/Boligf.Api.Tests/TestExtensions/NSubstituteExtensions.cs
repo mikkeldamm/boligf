@@ -6,7 +6,6 @@ namespace Boligf.Api.Tests.TestExtensions
 	{
 		public static void IgnoreAwait(this Task task)
 		{
-
 		}
 	}
 }
