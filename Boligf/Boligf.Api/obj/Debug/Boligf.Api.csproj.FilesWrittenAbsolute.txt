@@ -1,0 +1,5 @@
+/Users/mikkeldamm/Documents/Source/boligf/Boligf/Boligf.Api/obj/Debug/.NETFramework,Version=v4.5.1.AssemblyAttribute.cs
+/Users/mikkeldamm/Documents/Source/boligf/Boligf/Boligf.Api/obj/Debug/Boligf.Api.Migrations.InitialCreate.resources
+/Users/mikkeldamm/Documents/Source/boligf/Boligf/Boligf.Api/obj/Debug/Boligf.Api.Migrations.UserFirstAndLastNameRequiredRemoved.resources
+/Users/mikkeldamm/Documents/Source/boligf/Boligf/Boligf.Api/bin/EntityFramework.SqlServer.dll
+/Users/mikkeldamm/Documents/Source/boligf/Boligf/Boligf.Api/bin/Microsoft.Web.Infrastructure.dll
