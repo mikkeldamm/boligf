@@ -53,7 +53,7 @@ namespace Boligf.Api.Tests.Controllers
 
 		[Fact]
 		public void Get_NoUsersLoaded_ThrowsNullReference()
-		{ 
+		{
 			// Arrange
 			_getUsersViewMock
 			   .Load()
@@ -166,10 +166,10 @@ namespace Boligf.Api.Tests.Controllers
 			// Assert
 			_userManagerMock
 				.Received()
-				.UpdateAsync(Arg.Is<UserIdentity>(i => 
-					i.Email == "a@b.dk" && 
+				.UpdateAsync(Arg.Is<UserIdentity>(i =>
+					i.Email == "a@b.dk" &&
 					i.UserName == "a@b.dk" &&
-					i.Name == "a" && 
+					i.Name == "a" &&
 					i.Lastname == "b" &&
 					i.Id == userId
 				))
@@ -199,7 +199,7 @@ namespace Boligf.Api.Tests.Controllers
 		}
 
 		[Fact]
-		public void  Delete_InputIdDifferentFromUserId_ThrowsUnAuthorized()
+		public void Delete_InputIdDifferentFromUserId_ThrowsUnAuthorized()
 		{
 			// Arrange
 			var contextUserId = "4321";
@@ -222,10 +222,10 @@ namespace Boligf.Api.Tests.Controllers
 			};
 
 			var genericIdentity = new GenericIdentity("newMockIdentity");
-			
+
 			genericIdentity.AddClaims(claims);
-			
-			var genericPrincipal = new GenericPrincipal(genericIdentity, new string[] {});
+
+			var genericPrincipal = new GenericPrincipal(genericIdentity, new string[] { });
 
 			_userController.User = genericPrincipal;
 		}

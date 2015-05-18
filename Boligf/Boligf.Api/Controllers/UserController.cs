@@ -18,7 +18,7 @@ namespace Boligf.Api.Controllers
 		private readonly IViewManager<GetUserView> _getUserView;
 		private readonly IViewManager<GetUsersView> _getUsersView;
 
-		public UserController(IUserManager userManager, 
+		public UserController(IUserManager userManager,
 			IViewManager<GetUserView> getUserView,
 			IViewManager<GetUsersView> getUsersView)
 		{
