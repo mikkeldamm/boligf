@@ -117,11 +117,6 @@
     <Content Include="Styles\initializer.scss" />
     <Content Include="Styles\Libraries\Foundation\_foundation.scss" />
     <Content Include="packages.config" />
-    <Content Include="Styles\Application\_base.scss" />
-    <Content Include="Styles\Application\_app.scss" />
-    <Content Include="Styles\initializer.css.map">
-      <DependentUpon>initializer.css</DependentUpon>
-    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -140,6 +135,7 @@
     <Folder Include="Assets\Fonts\" />
     <Folder Include="Assets\Icons\" />
     <Folder Include="Assets\Images\" />
+    <Folder Include="Styles\Application\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Application\BoligfApp.ts" />

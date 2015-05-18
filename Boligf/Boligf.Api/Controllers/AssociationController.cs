@@ -1,51 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web.Http;
 using Boligf.Api.Commands;
-using Boligf.Api.Play;
 using Boligf.Api.Views.Association;
 using d60.Cirqus;
 using d60.Cirqus.Views.ViewManagers;
+using d60.Cirqus.Views.ViewManagers.Locators;
 
 namespace Boligf.Api.Controllers
 {
-	[Authorize]
 	public class AssociationController : ApiController
 	{
 		private readonly ICommandProcessor _commandProcessor;
-		private readonly IViewManager<GetAssociationView> _getAssociationView;
+		private readonly IViewManager<GetAllAssociationsView> _getAllAssociationsView;
+		private readonly IViewManager<GetSingleAssociationsView> _getSingleAssociationView;
 
 		public AssociationController(
 			ICommandProcessor commandProcessor,
-			IViewManager<GetAssociationView> getAssociationView
+			IViewManager<GetAllAssociationsView> getAllAssociationsView,
+			IViewManager<GetSingleAssociationsView> getSingleAssociationView
 			)
 		{
 			_commandProcessor = commandProcessor;
-			_getAssociationView = getAssociationView;
+			_getAllAssociationsView = getAllAssociationsView;
+			_getSingleAssociationView = getSingleAssociationView;
 		}
 
 		// GET api/values
 		public IEnumerable<string> Get()
 		{
-			return new[] {""};
+			var view = _getAllAssociationsView.Load(GlobalInstanceLocator.GetViewInstanceId());
+
+			return view.Names;
 		}
 
 		// GET api/values/5
 		public string Get(string id)
 		{
 			var associationId = id;
-			var view = _getAssociationView.Load(associationId);
+			var view = _getSingleAssociationView.Load(associationId);
 
-			return view.AssociationName;
+			return view.Name;
 		}
 
 		// POST api/values
-		public void Post([FromBody]string name, string userId)
+		public void Post([FromBody]string value)
 		{
-			var associationId = Guid.NewGuid().ToString();
-
-			_commandProcessor.ProcessCommand(new CreateAssociationCommand(associationId) { Name = name });
-			_commandProcessor.ProcessCommand(new RegisterUserToAssociationCommand(associationId) { UserId = userId });
+			_commandProcessor.ProcessCommand(new CreateAssociationCommand("1234", value));
 		}
 
 		// PUT api/values/5

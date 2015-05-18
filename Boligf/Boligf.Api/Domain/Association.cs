@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using Boligf.Api.Domain.Events;
 using d60.Cirqus.Aggregates;
 using d60.Cirqus.Events;
@@ -6,46 +6,20 @@ using d60.Cirqus.Events;
 namespace Boligf.Api.Domain
 {
 	public class Association : AggregateRoot, 
-		IEmit<AssociationCreated>,
-		IEmit<AssociationNameUpdated>, 
-		IEmit<MemberRegisteredToAssociation>
+		IEmit<AssociationCreated>
 	{ 
 		public string Name { get; set; }
-		public List<string> Members { get; set; }
-
-		public Association()
-		{
-			Members = new List<string>();
-		}
 
 		protected override void Created()
 		{
 			Emit(new AssociationCreated());
 		}
 
-		public void UpdateName(string name)
-		{
-			Emit(new AssociationNameUpdated { Name = name });
-		}
-
-		public void RegisterMember(string userId)
-		{
-			Emit(new MemberRegisteredToAssociation { MemberId = userId });
-		}
-
 		public void Apply(AssociationCreated e)
 		{
-
-		}
-
-		public void Apply(AssociationNameUpdated e)
-		{
-			Name = e.Name;
-		}
-
-		public void Apply(MemberRegisteredToAssociation e)
-		{
-			Members.Add(e.MemberId);
+			// Instead of this we ofcourse needs a new event for setting name
+			// And it can still be in the command
+			Name = "IAmCreated" + DateTime.Now.Millisecond;
 		}
 	}
 }

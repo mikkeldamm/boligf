@@ -5,16 +5,16 @@ namespace Boligf.Api.Commands
 {
 	public class CreateAssociationCommand : Command<Association>
 	{
-		public string Name { get; set; }
+		private readonly string _name;
 
-		public CreateAssociationCommand(string associationId) : base(associationId)
+		public CreateAssociationCommand(string aggregateRootId, string name) : base(aggregateRootId)
 		{
-
+			_name = name;
 		}
 
 		public override void Execute(Association aggregateRoot)
 		{
-			aggregateRoot.UpdateName(Name);
+
 		}
 	}
 }

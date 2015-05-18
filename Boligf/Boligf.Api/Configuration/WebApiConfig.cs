@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Net.Http.Formatting;
 using System.Web.Http;
-using Boligf.Api.Filters;
 using Newtonsoft.Json.Serialization;
 using Owin;
 
@@ -11,10 +10,10 @@ namespace Boligf.Api.Configuration
 	{
 		public static void Setup(IAppBuilder app)
 		{
-			var httpConfiguration = new HttpConfiguration();
-
-			httpConfiguration.DependencyResolver = GlobalConfiguration.Configuration.DependencyResolver;
-			httpConfiguration.Filters.Add(new ValidateModelFilterAttribute());
+			var httpConfiguration = new HttpConfiguration
+			{
+				DependencyResolver = GlobalConfiguration.Configuration.DependencyResolver
+			};
 
 			httpConfiguration.MapHttpAttributeRoutes();
 			httpConfiguration.Routes.MapHttpRoute(

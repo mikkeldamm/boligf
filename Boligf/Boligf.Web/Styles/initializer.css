@@ -6553,6 +6553,7 @@ th.hide-for-touch {
   td.show-for-print {
     display: table-cell !important; }
   th.show-for-print {
+<<<<<<< HEAD
     display: table-cell !important; } }
 
 body {
@@ -6561,3 +6562,7 @@ body {
 #header {
   position: relative;
   background-color: #404040; }
+=======
+    display: table-cell !important; }
+ }
+>>>>>>> parent of b866918... Merge remote-tracking branch 'origin/master'
