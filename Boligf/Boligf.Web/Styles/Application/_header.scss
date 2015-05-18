@@ -1,0 +1,42 @@
+﻿@import '../_settings.scss';
+
+#header {
+
+    background-color: $color-base; 
+
+    header {
+
+        .brand {
+            
+            display: inline-block;
+            padding: 1em;
+            background-color: $color-brand;
+            text-decoration: none;
+
+            @media #{$medium-up} {
+                    
+                padding: 1em 3em;
+            }
+
+            .logo {
+
+                width: 2em;
+
+                @media #{$medium-up} {
+                    
+                    margin-right: 0.5em;
+                }
+            }
+
+            span {
+
+                display: none;
+
+                @media #{$medium-up} {
+                    
+                    display: inline;
+                }
+            }
+        }
+    }
+}

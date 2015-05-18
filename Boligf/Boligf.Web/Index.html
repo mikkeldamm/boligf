@@ -3,15 +3,31 @@
 <head>
 	<title></title>
 	<base href="/" />
-	<link rel="stylesheet" href="/Styles/initializer.css"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="/Styles/initializer.min.css"/>
 </head>
 <body>
 
-	<div>
-	
+	<div id="header">
+		<header>
+			<a href="/" class="brand">
+				<img src="/Assets/Images/boligflogoblack.svg" alt="BoligForeninger" class="logo" />
+				<span class="hide-for-small-only">BoligForeninger</span>
+			</a>
+		</header>
+	</div>
+	<div id="navigation">
+		<nav>
+			<ul>
+				<li>Home</li>
+				<li>About</li>
+				<li>Members</li>
+				<li>Documents</li>
+			</ul>
+		</nav>
 	</div>
 
-<div ui-view>
+	<div ui-view>
 
 	</div>
 

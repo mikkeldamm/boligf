@@ -1,1 +1,19 @@
-﻿
+﻿@import '../_settings.scss';
+
+body {
+    
+    font-family: 'News Cycle', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    min-width: 320px;
+}
+
+a {
+
+    color: $color-dark;
+    text-decoration: none;
+
+    &:hover {
+
+        color: $color-dark;
+        text-decoration: none;
+    }
+}
