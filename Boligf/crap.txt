@@ -1,6 +1,0 @@
-<a href="/" class="icon icon-user user-link" data-ng-click="testM()" data-authenticated>
-				<span class="hide-for-small-only">Mikkel Damm</span>
-			</a>
-			<a data-ui-sref="login" class="icon icon-lock logout-link">
-				{{ 'header_panel_logout' | translate }}
-			</a>
