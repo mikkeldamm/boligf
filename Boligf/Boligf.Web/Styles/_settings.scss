@@ -7,6 +7,8 @@ $color-light-medium: #fcfcfc;
 $color-brand: #FFDA00;
 $color-brand-extra: #d2f898;
 
+$text-color: $color-light;
+
 
 // Foundation by ZURB
 // foundation.zurb.com
@@ -91,6 +93,7 @@ $include-xl-html-grid-classes: true;
 $row-width: rem-calc(1000);
 $total-columns: 12;
 $column-gutter: rem-calc(30);
+$column-gutter-half: ($column-gutter/2);
 
 // c. Global
 // - - - - - - - - - - - - - - - - - - - - - - - - -

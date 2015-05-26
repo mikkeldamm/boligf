@@ -2,8 +2,24 @@
 
 body {
     
-    font-family: 'News Cycle', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Segoe UI', sans-serif;
     min-width: 320px;
+    background-color: #EEF2F3;
+}
+
+h1 {
+
+}
+
+h2 {
+
+}
+
+h3 {
+
+    font-size: 1em;
+    font-weight: normal;
+    margin: 0 0 1em 0;
 }
 
 a {
@@ -17,3 +33,5 @@ a {
         text-decoration: none;
     }
 }
+
+@include align-classes;

@@ -1,0 +1,22 @@
+﻿@import '../_settings.scss';
+
+#footer {
+
+    position: relative;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #E8EBEC;
+    box-shadow: inset 0 1px 7px -4px rgba(0, 0, 0, 0.3);
+
+    @media #{$medium-up} {
+
+        position: fixed;
+    }
+
+    footer {
+        
+        font-size: 0.875em;
+        padding: 1em $column-gutter-half;
+    }
+}

@@ -1,26 +1,33 @@
 ﻿@import '../_settings.scss';
 
 #header {
-
-    background-color: $color-base; 
+ 
+    background-color: $color-brand;
+    border-top: 5px solid darken($color-brand, 5%);
 
     header {
+
+        overflow: hidden;
+        color: $text-color;
+        font-size: 0.875em;
+        padding-left: $column-gutter-half;
+        padding-right: $column-gutter-half;
 
         .brand {
             
             display: inline-block;
-            padding: 1em;
-            background-color: $color-brand;
+            padding: 1em 0 1em 0;
             text-decoration: none;
 
             @media #{$medium-up} {
                     
-                padding: 1em 3em;
+                padding: 1em 0 1em 0;
             }
 
             .logo {
 
-                width: 2em;
+                height: 1.35em;
+                margin-top: -0.17em;
 
                 @media #{$medium-up} {
                     
@@ -35,6 +42,47 @@
                 @media #{$medium-up} {
                     
                     display: inline;
+                }
+            }
+        }
+
+        a.selector {
+
+            float: right;
+            display: inline-block;
+            padding: 1em 1.6em;
+            text-decoration: none;
+            border-right: 1px solid darken($color-brand, 5%);
+            border-left: 1px solid darken($color-brand, 5%);
+
+            &:last-child {
+
+                border-right: none;
+            }
+
+            i {
+
+                margin-left: 1em;
+                font-size: 1.2em;
+                transition: font 0.1s ease-in;
+            }
+
+            &:hover {
+
+                i {
+
+                    font-size: 1.4em;
+                }
+            }
+
+            &.language {
+
+                i {
+
+                    @media #{$small-only} {
+                        
+                        margin-left: 0;
+                    }
                 }
             }
         }

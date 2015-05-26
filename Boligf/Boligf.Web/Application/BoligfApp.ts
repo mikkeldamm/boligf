@@ -73,8 +73,25 @@ module Boligf {
 			stateProvider
 				.state(Boligf.States.Home, {
 					url: '/',
-					templateUrl: "/Application/Pages/Authentication/Authentication.html" // TODO: Get template url via template handler
+					templateUrl: "/Application/Pages/Home/Home.html"
+				})
+				.state(Boligf.States.News, {
+					url: '/news',
+					templateUrl: "/Application/Pages/"
+				})
+				.state(Boligf.States.Documents, {
+					url: '/documents',
+					templateUrl: "/Application/Pages/"
+				})
+				.state(Boligf.States.Board, {
+					url: '/board',
+					templateUrl: "/Application/Pages/"
+				})
+				.state(Boligf.States.Residents, {
+					url: '/residents',
+					templateUrl: "/Application/Pages/"
 				});
+
 			//.state(Boligf.States.Login, {
 			//	url: '/login',
 			//	templateUrl: "" // TODO: Get template url via template handler

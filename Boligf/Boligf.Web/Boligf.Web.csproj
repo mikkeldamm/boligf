@@ -64,6 +64,9 @@
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-ui-router.d.ts" />
     <TypeScriptCompile Include="Scripts\_references.ts" />
     <Content Include="Application\Pages\Authentication\Authentication.html" />
+    <Content Include="Application\Pages\Home\Home.html" />
+    <Content Include="Assets\Fonts\fontawesome-webfont.svg" />
+    <Content Include="Assets\Images\boligflogobrand.svg" />
     <Content Include="Assets\Images\boligflogoblack.svg" />
     <Content Include="Scripts\Libraries\angular.translate-loader.min.js" />
     <Content Include="Scripts\Libraries\angular.translate.min.js" />
@@ -125,6 +128,16 @@
     </Content>
     <Content Include="Styles\Application\_header.scss" />
     <Content Include="Styles\Application\_fonts.scss" />
+    <Content Include="Styles\Application\_navigation.scss" />
+    <Content Include="Styles\Application\_overview.scss" />
+    <Content Include="Locale\locale-en.json" />
+    <Content Include="Styles\Application\_footer.scss" />
+    <Content Include="Styles\Application\_section.scss" />
+    <Content Include="Assets\Fonts\fontawesome-webfont %281%29.eot" />
+    <Content Include="Assets\Fonts\fontawesome-webfont.eot" />
+    <Content Include="Assets\Fonts\fontawesome-webfont.ttf" />
+    <Content Include="Assets\Fonts\fontawesome-webfont.woff" />
+    <Content Include="Assets\Fonts\fontawesome-webfont.woff2" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -140,7 +153,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Assets\Fonts\" />
     <Folder Include="Assets\Icons\" />
   </ItemGroup>
   <ItemGroup>

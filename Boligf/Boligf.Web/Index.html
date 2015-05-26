@@ -1,34 +1,58 @@
 ﻿<!DOCTYPE html>
 <html ng-app="BoligfApp">
 <head>
-	<title></title>
+	<title>Boligf - {{ 'Meta_Title' | translate }}</title>
 	<base href="/" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<style>.ng-cloak, .ng-translate-cloak, .translate-cloak { display: none; }</style>
 	<link rel="stylesheet" href="/Styles/initializer.min.css"/>
 </head>
-<body>
+<body data-ng-cloak data-translate-cloak class="ng-cloak">
 
 	<div id="header">
-		<header>
+		<header class="row">
 			<a href="/" class="brand">
 				<img src="/Assets/Images/boligflogoblack.svg" alt="BoligForeninger" class="logo" />
-				<span class="hide-for-small-only">BoligForeninger</span>
+				<span class="hide-for-small-only">{{ 'Logo_Text' | translate }}</span>
+			</a>
+			<a href="javascript:void(0);" class="selector language">
+				<span>
+					<span class="hide-for-small-only">English</span>
+					<i class="fa fa-language"></i>
+				</span>
+			</a>
+			<a href="/" class="selector profile">
+				<span>
+					<span class="hide-for-small-only">Nordre Fasanvej</span>
+					<span>124a</span>
+					<span>3tv.</span>
+					<i class="fa fa-map-marker"></i>
+				</span>
 			</a>
 		</header>
 	</div>
 	<div id="navigation">
-		<nav>
+		<div class="small-menu hide-for-medium-up">
+			<i class="fa fa-bars"></i>{{ 'Navigation_Mobile' | translate }}
+		</div>
+		<nav class="row hide-for-small-down">
 			<ul>
-				<li>Home</li>
-				<li>About</li>
-				<li>Members</li>
-				<li>Documents</li>
+				<li><a ui-sref="home">{{ 'Navigation_Home' | translate }}</a></li>
+				<li><a ui-sref="news">{{ 'Navigation_News' | translate }}</a></li>
+				<li><a ui-sref="documents">{{ 'Navigation_Documents' | translate }}</a></li>
+				<li><a ui-sref="board">{{ 'Navigation_Board' | translate }}</a></li>
+				<li><a ui-sref="residents">{{ 'Navigation_Residents' | translate }}</a></li>
 			</ul>
 		</nav>
 	</div>
-
-	<div ui-view>
-
+	<div id="section">
+		<div class="row" ui-view></div>
+	</div>
+	<div id="footer">
+		<footer class="row">
+			<div class="column small-12 medium-6 small-only-text-center">© {{ 'Footer_Company' | translate }}</div>
+			<div class="column small-12 medium-6 small-only-text-center text-right"><a href="tel:{{ 'Footer_Phone' | translate }}">{{ 'Footer_Phone' | translate }}</a> | <a href="mailto:{{ 'Footer_Email' | translate }}">{{ 'Footer_Email' | translate }}</a></div>
+		</footer>
 	</div>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
