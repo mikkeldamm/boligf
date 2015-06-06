@@ -16,6 +16,12 @@
 		static Logout: string = "authentication.logout";
 	}
 
+	export class Association {
+
+		static Base: string = "association";
+		static Register: string = "association.register";
+	}
+
 	export class Errors {
 
 		static E404: string = "404";

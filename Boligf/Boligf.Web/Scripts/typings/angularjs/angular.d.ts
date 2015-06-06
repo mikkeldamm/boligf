@@ -1,4 +1,4 @@
-// Type definitions for Angular JS 1.3+
+﻿// Type definitions for Angular JS 1.3+
 // Project: http://angularjs.org
 // Definitions by: Diego Vilar <http://github.com/diegovilar>
 // Definitions: https://github.com/borisyankov/DefinitelyTyped
@@ -7,7 +7,7 @@
 /// <reference path="../jquery/jquery.d.ts" />
 
 declare var angular: angular.IAngularStatic;
-
+ 
 // Support for painless dependency injection
 interface Function {
 	$inject?: string[];
@@ -1067,7 +1067,7 @@ declare module angular {
 		 * @param cacheId Name or id of the newly created cache.
 		 * @param optionsMap Options object that specifies the cache behavior. Properties:
 		 * 
-		 * capacity � turns the cache into LRU cache.
+		 * capacity — turns the cache into LRU cache.
 		 */
 		(cacheId: string, optionsMap?: { capacity?: number; }): ICacheObject;
 

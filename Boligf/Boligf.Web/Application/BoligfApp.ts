@@ -2,6 +2,7 @@
 
 	export interface IBoligfApp extends ng.IModule { }
 	export interface IConfig {
+		ApiDomainClean: string;
 		ApiDomain: string;
 	}
 
@@ -21,7 +22,8 @@
 
 			// TODO: Maybe get these from environment? (config file)
 			Config = <IConfig> {
-				ApiDomain: 'http://localhost:17776'
+				ApiDomainClean: 'http://localhost:17776',
+				ApiDomain: 'http://localhost:17776/api'
 			};
 		}
 
@@ -113,11 +115,19 @@
 					url: '/login',
 					templateUrl: "/Application/Pages/Authentication/Login.html",
 					controller: "LoginController",
-					controllerAs: "login"
+					controllerAs: "loginCtrl"
 				})
-				.state(Boligf.States.Authentication.Logout, {
-					url: '/logout',
-					templateUrl: ""
+				.state(Boligf.States.Association.Base, {
+					url: '/association',
+					templateUrl: "/Application/Pages/Association/Association.html",
+					controller: "AssociationController",
+					controllerAs: "associationCtrl"
+				})
+				.state(Boligf.States.Association.Register, {
+					url: '/register',
+					templateUrl: "/Application/Pages/Association/Register.html",
+					controller: "Association_RegisterController",
+					controllerAs: "registerCtrl"
 				})
 				.state(Boligf.States.Errors.E404, {
 					url: '/404',

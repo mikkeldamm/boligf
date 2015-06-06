@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Web.Http;
 using Boligf.Api.Commands;
-using Boligf.Api.Play;
 using Boligf.Api.Views.Association;
 using d60.Cirqus;
 using d60.Cirqus.Views.ViewManagers;
@@ -23,14 +22,12 @@ namespace Boligf.Api.Controllers
 			_commandProcessor = commandProcessor;
 			_getAssociationView = getAssociationView;
 		}
-
-		// GET api/values
+		
 		public IEnumerable<string> Get()
 		{
 			return new[] {""};
 		}
-
-		// GET api/values/5
+		
 		public string Get(string id)
 		{
 			var associationId = id;
@@ -39,21 +36,21 @@ namespace Boligf.Api.Controllers
 			return view.AssociationName;
 		}
 
-		// POST api/values
-		public void Post([FromBody]string name, string userId)
+		[AllowAnonymous]
+		public string Post([FromBody]Models.Post.AssociationRegister associationRegister)
 		{
 			var associationId = Guid.NewGuid().ToString();
 
-			_commandProcessor.ProcessCommand(new CreateAssociationCommand(associationId) { Name = name });
-			_commandProcessor.ProcessCommand(new RegisterUserToAssociationCommand(associationId) { UserId = userId });
-		}
+			_commandProcessor.ProcessCommand(new CreateAssociationCommand(associationId) { Name = associationRegister.Name });
+			_commandProcessor.ProcessCommand(new RegisterUserToAssociationCommand(associationId) { UserId = associationRegister.UserId });
 
-		// PUT api/values/5
+			return associationId;
+        }
+		
 		public void Put(int id, [FromBody]string value)
 		{
 		}
-
-		// DELETE api/values/5
+		
 		public void Delete(int id)
 		{
 		}

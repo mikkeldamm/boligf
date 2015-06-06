@@ -25,20 +25,20 @@ namespace Boligf.Api.Controllers
 			_userManager = userManager;
 			_getUserView = getUserView;
 			_getUsersView = getUsersView;
-		}
+        }
 
 		public List<UserProfile> Get()
 		{
 			return _getUsersView.Load().UserProfiles;
 		}
-
+		
 		public UserProfile Get(string id)
 		{
 			return _getUserView.Load(id).UserProfile;
 		}
 
 		[AllowAnonymous]
-		public async Task Post([FromBody]Models.Post.UserRegister userRegister)
+		public async Task<string> Post([FromBody]Models.Post.UserRegister userRegister)
 		{
 			var user = new UserIdentity
 			{
@@ -47,6 +47,8 @@ namespace Boligf.Api.Controllers
 			};
 
 			await _userManager.CreateAsync(user, userRegister.Password);
+
+			return user.Id;
 		}
 
 		public async Task Put(string id, [FromBody]Models.Put.UserUpdate userUpdate)
@@ -64,7 +66,7 @@ namespace Boligf.Api.Controllers
 		public async Task Delete(string id)
 		{
 			if (User.GetId() != id)
-				throw new UnauthorizedAccessException("You cannot deleted a user other than yours");
+				throw new UnauthorizedAccessException("You cannot delete a user other than yours");
 
 			var user = await _userManager.FindByIdAsync(id);
 

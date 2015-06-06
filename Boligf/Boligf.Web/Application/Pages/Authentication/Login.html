@@ -2,14 +2,14 @@
 	{{ 'Authentication_Login_Email' | translate }}:
 </div>
 <div class="column small-12">
-	<input type="text" ng-model="login.email" />
+	<input type="text" ng-model="loginCtrl.email" />
 </div>
 <div class="column small-12">
 	{{ 'Authentication_Login_Password' | translate }}:
 </div>
 <div class="column small-12">
-	<input type="text" ng-model="login.password" />
+	<input type="text" ng-model="loginCtrl.password" />
 </div>
 <div class="column small-12">
-	<button ng-click="login.login()">{{ 'Authentication_Login_Submit' | translate }}</button>
+	<button ng-click="loginCtrl.login()">{{ 'Authentication_Login_Submit' | translate }}</button>
 </div>

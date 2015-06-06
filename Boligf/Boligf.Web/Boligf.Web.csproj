@@ -21,6 +21,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <TypeScriptToolsVersion>1.4</TypeScriptToolsVersion>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -59,8 +60,13 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Application\ApiService.ts" />
+    <TypeScriptCompile Include="Application\Pages\Association\AssociationService.ts" />
+    <TypeScriptCompile Include="Application\Pages\Association\AuthenticationController.ts" />
+    <TypeScriptCompile Include="Application\Pages\Association\RegisterController.ts" />
     <TypeScriptCompile Include="Application\Pages\Authentication\AuthenticationController.ts" />
     <TypeScriptCompile Include="Application\Pages\Authentication\LoginController.ts" />
+    <TypeScriptCompile Include="Application\Pages\User\UserService.ts" />
     <TypeScriptCompile Include="_references.ts" />
     <TypeScriptCompile Include="Application\BearerTokenInterceptor.ts" />
     <TypeScriptCompile Include="Application\BearerTokenStorageService.ts" />
@@ -69,6 +75,8 @@
     <TypeScriptCompile Include="Application\States.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-translate.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-ui-router.d.ts" />
+    <Content Include="Application\Pages\Association\Association.html" />
+    <Content Include="Application\Pages\Association\Register.html" />
     <Content Include="Application\Pages\Authentication\Login.html" />
     <Content Include="Application\Pages\Authentication\Authentication.html" />
     <Content Include="Application\Pages\Home\Home.html" />

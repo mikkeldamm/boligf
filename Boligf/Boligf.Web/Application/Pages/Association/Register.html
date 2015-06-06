@@ -1,0 +1,46 @@
+﻿<div class="column small-12">
+	{{ 'Association_Register_UserName' | translate }}:
+</div>
+<div class="column small-12">
+	<input type="text" ng-model="registerCtrl.user.name" />
+</div>
+<div class="column small-12">
+	{{ 'Association_Register_UserEmail' | translate }}:
+</div>
+<div class="column small-12">
+	<input type="text" ng-model="registerCtrl.user.email" />
+</div>
+<div class="column small-12">
+	{{ 'Association_Register_UserPassword' | translate }}:
+</div>
+<div class="column small-12">
+	<input type="text" ng-model="registerCtrl.user.password" />
+</div>
+<div>-------</div>
+<div class="column small-12">
+	{{ 'Association_Register_Name' | translate }}:
+</div>
+<div class="column small-12">
+	<input type="text" ng-model="registerCtrl.association.name" />
+</div>
+<div class="column small-12">
+	{{ 'Association_Register_StreetAddress' | translate }}:
+</div>
+<div class="column small-12">
+	<input type="text" ng-model="registerCtrl.association.streetAddress" />
+</div>
+<div class="column small-12">
+	{{ 'Association_Register_Zip' | translate }}:
+</div>
+<div class="column small-12">
+	<input type="text" ng-model="registerCtrl.association.zip" />
+</div>
+<div class="column small-12">
+	{{ 'Association_Register_City' | translate }}:
+</div>
+<div class="column small-12">
+	<input type="text" ng-model="registerCtrl.association.city" />
+</div>
+<div class="column small-12">
+	<button ng-click="registerCtrl.register()">{{ 'Association_Register_Submit' | translate }}</button>
+</div>

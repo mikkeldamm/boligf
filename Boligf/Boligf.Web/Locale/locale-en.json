@@ -17,5 +17,13 @@
 	"Authentication_Login": "Login",
 	"Authentication_Login_Email": "Email",
 	"Authentication_Login_Password": "Password",
-	"Authentication_Login_Submit": "Login"
+	"Authentication_Login_Submit": "Login",
+	"Association_Register_UserName": "Name",
+	"Association_Register_UserEmail": "Email",
+	"Association_Register_UserPassword": "Password",
+	"Association_Register_Name": "Name",
+	"Association_Register_StreetAddress": "Address",
+	"Association_Register_Zip": "Zip",
+  "Association_Register_City": "City",
+  "Association_Register_Submit": "Register"
 }
