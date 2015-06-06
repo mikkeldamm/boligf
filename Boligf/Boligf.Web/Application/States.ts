@@ -1,15 +1,24 @@
-﻿/// <reference path="../Scripts/_references.ts"/>
+﻿module Boligf.States {
 
-module Boligf {
-
-	export class States {
+	export class Default {
 
 		static Home: string = "home";
 		static News: string = "news";
 		static Documents: string = "documents";
 		static Board: string = "board";
 		static Residents: string = "residents";
-		static Login: string = "login";
-		static Logout: string = "logout";
+	}
+
+	export class Authentication {
+
+		static Base: string = "authentication";
+		static Login: string = "authentication.login";
+		static Logout: string = "authentication.logout";
+	}
+
+	export class Errors {
+
+		static E404: string = "404";
+		static E403: string = "403";
 	}
 } 

@@ -13,5 +13,9 @@
 	"Home_Header_Board": "Board",
 	"Footer_Company": "Boligf",
 	"Footer_Phone": "+45 2174 6766",
-	"Footer_Email": "info@boligf.dk"
+	"Footer_Email": "info@boligf.dk",
+	"Authentication_Login": "Login",
+	"Authentication_Login_Email": "Email",
+	"Authentication_Login_Password": "Password",
+	"Authentication_Login_Submit": "Login"
 }

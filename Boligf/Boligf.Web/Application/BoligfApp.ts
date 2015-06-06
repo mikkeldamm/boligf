@@ -1,19 +1,31 @@
-﻿/// <reference path="../Scripts/_references.ts"/>
-
-module Boligf {
+﻿module Boligf {
 
 	export interface IBoligfApp extends ng.IModule { }
-	
-	export class Startup {
+	export interface IConfig {
+		ApiDomain: string;
+	}
 
-		static BoligfApp: IBoligfApp;
+	export var Config: IConfig;
+	export var App: IBoligfApp;
+
+	export class Startup {
 
 		constructor() {
 
-			Startup.BoligfApp = angular.module('BoligfApp', [
+			App = angular.module('BoligfApp', [
 				'ui.router',
+				'ngResource',
+				'ngCookies',
 				'pascalprecht.translate'
 			]);
+
+			// TODO: Maybe get these from environment? (config file)
+			Config = <IConfig> {
+				ApiDomain: 'http://localhost:17776'
+			};
+		}
+
+		public Run() {
 
 			this.setupConfiguration();
 		}
@@ -48,7 +60,7 @@ module Boligf {
 
 			providerInjects.push(configFunc);
 
-			Startup.BoligfApp.config(providerInjects);
+			App.config(providerInjects);
 		}
 
 		private setupTranslations(translateProvider: ng.translate.ITranslateProvider) {
@@ -71,47 +83,63 @@ module Boligf {
 		private setupStates(stateProvider: ng.ui.IStateProvider) {
 
 			stateProvider
-				.state(Boligf.States.Home, {
+				.state(Boligf.States.Default.Home, {
 					url: '/',
 					templateUrl: "/Application/Pages/Home/Home.html"
 				})
-				.state(Boligf.States.News, {
+				.state(Boligf.States.Default.News, {
 					url: '/news',
 					templateUrl: "/Application/Pages/"
 				})
-				.state(Boligf.States.Documents, {
+				.state(Boligf.States.Default.Documents, {
 					url: '/documents',
 					templateUrl: "/Application/Pages/"
 				})
-				.state(Boligf.States.Board, {
+				.state(Boligf.States.Default.Board, {
 					url: '/board',
 					templateUrl: "/Application/Pages/"
 				})
-				.state(Boligf.States.Residents, {
+				.state(Boligf.States.Default.Residents, {
 					url: '/residents',
 					templateUrl: "/Application/Pages/"
+				})
+				.state(Boligf.States.Authentication.Base, {
+					url: '/authentication',
+					templateUrl: "/Application/Pages/Authentication/Authentication.html",
+					controller: "AuthenticationController",
+					controllerAs: "authentication"
+				})
+				.state(Boligf.States.Authentication.Login, {
+					url: '/login',
+					templateUrl: "/Application/Pages/Authentication/Login.html",
+					controller: "LoginController",
+					controllerAs: "login"
+				})
+				.state(Boligf.States.Authentication.Logout, {
+					url: '/logout',
+					templateUrl: ""
+				})
+				.state(Boligf.States.Errors.E404, {
+					url: '/404',
+					template: "<span>404 page</span>"
+				})
+				.state(Boligf.States.Errors.E403, {
+					url: '/403',
+					template: "<span>403 page</span>"
 				});
-
-			//.state(Boligf.States.Login, {
-			//	url: '/login',
-			//	templateUrl: "" // TODO: Get template url via template handler
-			//})
-			//.state(Boligf.States.Logout, {
-			//	url: '/logout',
-			//	templateUrl: "" // TODO: Get template url via template handler
-			//});
 		}
 
 		private setupHttpInterceptors(httpProvider: ng.IHttpProvider) {
 
-			//httpProvider.interceptors.push("IInterceptHttpProvider");
+			httpProvider.interceptors.push("IInterceptHttpProvider");
 		}
 
-		public static Run() {
+		public static Initialize() {
 
 			return new Startup();
 		}
 	}
 }
 
-Boligf.Startup.Run();
+// TODO: Find better way to do this
+var app = Boligf.Startup.Initialize();

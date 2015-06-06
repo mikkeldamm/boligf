@@ -11,7 +11,7 @@
 
 	<div id="header">
 		<header class="row">
-			<a href="/" class="brand">
+			<a ui-sref="home" class="brand">
 				<img src="/Assets/Images/boligflogoblack.svg" alt="BoligForeninger" class="logo" />
 				<span class="hide-for-small-only">{{ 'Logo_Text' | translate }}</span>
 			</a>
@@ -21,12 +21,18 @@
 					<i class="fa fa-language"></i>
 				</span>
 			</a>
-			<a href="/" class="selector profile">
+			<a href="/" class="selector profile" boligf-is-authorized="true">
 				<span>
 					<span class="hide-for-small-only">Nordre Fasanvej</span>
 					<span>124a</span>
 					<span>3tv.</span>
 					<i class="fa fa-map-marker"></i>
+				</span>
+			</a>
+			<a ui-sref="authentication.login" class="selector login" boligf-is-authorized="false">
+				<span>
+					<span>{{ 'Authentication_Login' | translate }}</span>
+					<i class="fa fa-lock"></i>
 				</span>
 			</a>
 		</header>
@@ -57,12 +63,17 @@
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-resource.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-cookies.js"></script>
 
 	<script src="/Scripts/Libraries/angular.ui-router.min.js"></script>
 	<script src="/Scripts/Libraries/angular.translate.min.js"></script>
 	<script src="/Scripts/Libraries/angular.translate-loader.min.js"></script>
 
 	<script src="/Scripts/app.js"></script>
+	<script>
+		app.Run();
+	</script>
 
 </body>
 </html>

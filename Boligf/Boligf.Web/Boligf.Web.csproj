@@ -59,10 +59,17 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Application\Pages\Authentication\AuthenticationController.ts" />
+    <TypeScriptCompile Include="Application\Pages\Authentication\LoginController.ts" />
+    <TypeScriptCompile Include="_references.ts" />
+    <TypeScriptCompile Include="Application\BearerTokenInterceptor.ts" />
+    <TypeScriptCompile Include="Application\BearerTokenStorageService.ts" />
+    <TypeScriptCompile Include="Application\Pages\Authentication\AuthenticationService.ts" />
+    <TypeScriptCompile Include="Application\Pages\Authentication\IsAuthorizedDirective.ts" />
     <TypeScriptCompile Include="Application\States.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-translate.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-ui-router.d.ts" />
-    <TypeScriptCompile Include="Scripts\_references.ts" />
+    <Content Include="Application\Pages\Authentication\Login.html" />
     <Content Include="Application\Pages\Authentication\Authentication.html" />
     <Content Include="Application\Pages\Home\Home.html" />
     <Content Include="Assets\Fonts\fontawesome-webfont.svg" />
