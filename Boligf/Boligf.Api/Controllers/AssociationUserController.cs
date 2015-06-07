@@ -16,7 +16,7 @@ namespace Boligf.Api.Controllers
 		[Route("{associationId}/user/{id}"), HttpGet]
 		public Models.View.AssociationUserProfile Get(string associationId, string id)
 		{
-			throw new ArgumentException("Dette er en custom fejl", associationId);
+			throw new ArgumentException("Dette er en custom fejl", id);
 		}
 	}
 }
