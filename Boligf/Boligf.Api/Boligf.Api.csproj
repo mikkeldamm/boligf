@@ -272,6 +272,7 @@
     <Compile Include="Providers\GoogleAuthorizationProvider.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Models\View\UserProfile.cs" />
+    <Compile Include="Views\Association\GetAssociationUserView.cs" />
     <Compile Include="Views\User\GetUserAssociationsView.cs" />
     <Compile Include="Views\Association\GetAssociationView.cs" />
     <Compile Include="Views\User\GetUsersView.cs" />
