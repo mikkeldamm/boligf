@@ -177,7 +177,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\AttachUserToAddressCommand.cs" />
     <Compile Include="Commands\CreateAssociationCommand.cs" />
+    <Compile Include="Commands\AddAddressToAssociationCommand.cs" />
     <Compile Include="Commands\UpdateUserDetailsCommand.cs" />
     <Compile Include="Commands\DeleteUserCommand.cs" />
     <Compile Include="Commands\CreateUserCommand.cs" />
@@ -188,8 +190,11 @@
     <Compile Include="Context\Connection.cs" />
     <Compile Include="Context\UserContext.cs" />
     <Compile Include="Controllers\AssociationController.cs" />
+    <Compile Include="Controllers\AssociationUserController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Domain\Association.cs" />
+    <Compile Include="Domain\Events\UserAttachedToAddress.cs" />
+    <Compile Include="Domain\Events\AddressAddedToAssociation.cs" />
     <Compile Include="Domain\Events\MemberRegisteredToAssociation.cs" />
     <Compile Include="Domain\Events\UserCreated.cs" />
     <Compile Include="Domain\Events\UserDeleted.cs" />
@@ -213,6 +218,7 @@
     <Compile Include="Models\Post\AssociationRegister.cs" />
     <Compile Include="Models\Post\UserRegister.cs" />
     <Compile Include="Models\Put\UserUpdate.cs" />
+    <Compile Include="Models\View\AssociationUserProfile.cs" />
     <Compile Include="Play\PrincipalExtensions.cs" />
     <Compile Include="Play\ViewManagerExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

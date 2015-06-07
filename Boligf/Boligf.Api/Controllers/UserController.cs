@@ -11,6 +11,7 @@ using d60.Cirqus.Views.ViewManagers;
 
 namespace Boligf.Api.Controllers
 {
+	[RoutePrefix("api/user")]
 	[Authorize]
 	public class UserController : ApiController
 	{
@@ -27,16 +28,19 @@ namespace Boligf.Api.Controllers
 			_getUsersView = getUsersView;
         }
 
+		[Route(""), HttpGet]
 		public List<UserProfile> Get()
 		{
 			return _getUsersView.Load().UserProfiles;
 		}
-		
+
+		[Route("{id}"), HttpGet]
 		public UserProfile Get(string id)
 		{
 			return _getUserView.Load(id).UserProfile;
 		}
 
+		[Route(""), HttpPost]
 		[AllowAnonymous]
 		public async Task<string> Post([FromBody]Models.Post.UserRegister userRegister)
 		{
@@ -51,6 +55,7 @@ namespace Boligf.Api.Controllers
 			return user.Id;
 		}
 
+		[Route(""), HttpPut]
 		public async Task Put(string id, [FromBody]Models.Put.UserUpdate userUpdate)
 		{
 			var user = await _userManager.FindByIdAsync(id);
@@ -63,6 +68,7 @@ namespace Boligf.Api.Controllers
 			await _userManager.UpdateAsync(user);
 		}
 
+		[Route(""), HttpDelete]
 		public async Task Delete(string id)
 		{
 			if (User.GetId() != id)

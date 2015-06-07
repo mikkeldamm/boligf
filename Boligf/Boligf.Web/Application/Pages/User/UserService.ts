@@ -7,15 +7,9 @@
 		firstName: string;
 		lastName: string;
 	}
-
-	export interface IGetUser {
-
-		email: string;
-	}
-
+	
 	export interface IRegisterUser {
-
-		name: string;
+		
 		email: string;
 		password: string;
 	}
