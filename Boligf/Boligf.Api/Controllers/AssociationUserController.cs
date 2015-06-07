@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Http;
 
 namespace Boligf.Api.Controllers
@@ -15,7 +16,7 @@ namespace Boligf.Api.Controllers
 		[Route("{associationId}/user/{id}"), HttpGet]
 		public Models.View.AssociationUserProfile Get(string associationId, string id)
 		{
-			return null;
+			throw new ArgumentException("Dette er en custom fejl", associationId);
 		}
 	}
 }
