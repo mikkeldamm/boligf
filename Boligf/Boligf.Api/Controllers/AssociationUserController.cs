@@ -27,8 +27,8 @@ namespace Boligf.Api.Controllers
 		public Models.View.AssociationUserProfile Get(string associationId, string id)
 		{
 			var view = _getAssociationView.Load(associationId);
-			
-			throw new ArgumentException("Dette er en custom fejl2", id);
+
+			return new Models.View.AssociationUserProfile {Email = "larssnabeladamm.dk"};
 		}
 	}
 }
