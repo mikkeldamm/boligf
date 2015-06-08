@@ -28,7 +28,7 @@ namespace Boligf.Api.Controllers
 		{
 			var view = _getAssociationView.Load(associationId);
 			
-			throw new ArgumentException("Dette er en custom fejl", id);
+			throw new ArgumentException("Dette er en custom fejl2", id);
 		}
 	}
 }
