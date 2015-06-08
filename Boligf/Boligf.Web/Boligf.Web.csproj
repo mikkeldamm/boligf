@@ -85,6 +85,7 @@
     <Content Include="Scripts\Libraries\angular.translate-loader.min.js" />
     <Content Include="Scripts\Libraries\angular.translate.min.js" />
     <Content Include="Scripts\Libraries\angular.ui-router.min.js" />
+    <Content Include="Styles\Application\_overview.scss" />
     <Content Include="Styles\initializer.css">
       <DependentUpon>initializer.scss</DependentUpon>
     </Content>
@@ -143,7 +144,6 @@
     <Content Include="Styles\Application\_header.scss" />
     <Content Include="Styles\Application\_fonts.scss" />
     <Content Include="Styles\Application\_navigation.scss" />
-    <Content Include="Styles\Application\_overview.scss" />
     <Content Include="Locale\locale-en.json" />
     <Content Include="Styles\Application\_footer.scss" />
     <Content Include="Styles\Application\_section.scss" />
