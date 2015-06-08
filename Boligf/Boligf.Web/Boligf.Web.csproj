@@ -67,7 +67,6 @@
     <TypeScriptCompile Include="Application\Pages\Authentication\AuthenticationController.ts" />
     <TypeScriptCompile Include="Application\Pages\Authentication\LoginController.ts" />
     <TypeScriptCompile Include="Application\Pages\User\UserService.ts" />
-    <TypeScriptCompile Include="_references.ts" />
     <TypeScriptCompile Include="Application\BearerTokenInterceptor.ts" />
     <TypeScriptCompile Include="Application\BearerTokenStorageService.ts" />
     <TypeScriptCompile Include="Application\Pages\Authentication\AuthenticationService.ts" />
@@ -159,6 +158,7 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <TypeScriptCompile Include="_references.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Index.html" />
@@ -202,7 +202,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>17736</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
