@@ -1,7 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net.Http.Formatting;
+using System.Net.Http.Headers;
 using System.Web.Http;
 using Boligf.Api.Filters;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Owin;
 
@@ -23,10 +26,28 @@ namespace Boligf.Api.Configuration
 				defaults: new { id = RouteParameter.Optional }
 			);
 
+			httpConfiguration.Formatters.Add(new BrowserJsonFormatter());
+
 			var jsonFormatter = httpConfiguration.Formatters.OfType<JsonMediaTypeFormatter>().First();
 			jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
 			app.UseWebApi(httpConfiguration);
+		}
+
+		public class BrowserJsonFormatter : JsonMediaTypeFormatter
+		{
+			public BrowserJsonFormatter()
+			{
+				SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
+				SerializerSettings.Formatting = Formatting.Indented;
+			}
+
+			public override void SetDefaultContentHeaders(Type type, HttpContentHeaders headers, MediaTypeHeaderValue mediaType)
+			{
+				base.SetDefaultContentHeaders(type, headers, mediaType);
+
+				headers.ContentType = new MediaTypeHeaderValue("application/json");
+			}
 		}
 	}
 }
