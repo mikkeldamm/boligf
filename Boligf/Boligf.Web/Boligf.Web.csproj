@@ -82,6 +82,7 @@
     <Content Include="Assets\Fonts\fontawesome-webfont.svg" />
     <Content Include="Assets\Images\boligflogoblack.svg" />
     <Content Include="Assets\Images\boligflogobrand.svg" />
+    <Content Include="robots.txt" />
     <Content Include="Scripts\Libraries\angular.translate-loader.min.js" />
     <Content Include="Scripts\Libraries\angular.translate.min.js" />
     <Content Include="Scripts\Libraries\angular.ui-router.min.js" />
