@@ -80,8 +80,8 @@
     <Content Include="Application\Pages\Authentication\Authentication.html" />
     <Content Include="Application\Pages\Home\Home.html" />
     <Content Include="Assets\Fonts\fontawesome-webfont.svg" />
-    <Content Include="Assets\Images\boligflogobrand.svg" />
     <Content Include="Assets\Images\boligflogoblack.svg" />
+    <Content Include="Assets\Images\boligflogobrand.svg" />
     <Content Include="Scripts\Libraries\angular.translate-loader.min.js" />
     <Content Include="Scripts\Libraries\angular.translate.min.js" />
     <Content Include="Scripts\Libraries\angular.ui-router.min.js" />
