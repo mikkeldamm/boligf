@@ -28,7 +28,7 @@ namespace Boligf.Api.Controllers
 		{
 			var view = _getAssociationView.Load(associationId);
 
-			return new Models.View.AssociationUserProfile {Email = "jesper.dk"};
+			return new Models.View.AssociationUserProfile {Email = "andreas.dk"};
 		}
 	}
 }
