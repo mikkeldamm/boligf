@@ -25,7 +25,7 @@ namespace Boligf.Web.Settings
 		private string GetJavascriptConfiguration()
 		{
 			return string.Format(
-				@"var Boligf = Boligf || (Boligf = {{}});Boligf.Config = {{ ApiProtocol: 'http://', ApiDomainClean: '{0}', ApiDomain: '{0}/api' }};",
+				@"var Boligf = Boligf || (Boligf = {{}});Boligf.Config = {{ ApiProtocol: 'http://', ApiDomainClean: '{0}', ApiDomain: '{0}/api', ApiAccess: function(hideApi) {{ return Boligf.Config.ApiProtocol + (hideApi ? Boligf.Config.ApiDomainClean : Boligf.Config.ApiDomain); }} }};",
 				ApiDomain
 			);
 		}

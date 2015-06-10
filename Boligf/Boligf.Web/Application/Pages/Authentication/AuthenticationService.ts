@@ -33,7 +33,7 @@
 			var defer = this.$q.defer();
 			var data: string = "grant_type=password&username=" + email + "&password=" + password;
 
-			this.$http.post(Boligf.Config.ApiDomainClean + '/token', data).success((response: any) => {
+			this.$http.post(Boligf.Config.ApiAccess(true) + '/token', data).success((response: any) => {
 
 				this.bearerTokenStore.token = response.access_token;
 				this._isAuthenticated = true;

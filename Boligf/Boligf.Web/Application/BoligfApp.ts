@@ -1,12 +1,15 @@
-﻿module Boligf {
+﻿declare module "Boligf" {
+	export = Config;
+}
+declare var Config: Boligf.IConfig;
+
+module Boligf {
 
 	export interface IBoligfApp extends ng.IModule { }
 	export interface IConfig {
-		ApiDomainClean: string;
-		ApiDomain: string;
+		ApiAccess(hideApi?: boolean): string;
 	}
-
-	export var Config: IConfig;
+	
 	export var App: IBoligfApp;
 
 	export class Startup {
@@ -19,12 +22,6 @@
 				'ngCookies',
 				'pascalprecht.translate'
 			]);
-
-			// TODO: Maybe get these from environment? (config file)
-			Config = <IConfig> {
-				ApiDomainClean: 'http://localhost:17776',
-				ApiDomain: 'http://localhost:17776/api'
-			};
 		}
 
 		public Run() {
