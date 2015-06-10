@@ -5,7 +5,7 @@ namespace Boligf.Web.Settings
 {
 	public class EnvironmentConfig : IHttpHandler
 	{
-		public bool IsReusable => true;
+		public bool IsReusable { get { return true; } }
 
 		public string ApiDomain
 		{
