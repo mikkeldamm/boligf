@@ -1,7 +1,6 @@
-﻿declare module "Boligf" {
-	export = Config;
+﻿declare module Boligf {
+	var Config: Boligf.IConfig;
 }
-declare var Config: Boligf.IConfig;
 
 module Boligf {
 
