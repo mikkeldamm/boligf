@@ -65,8 +65,9 @@ namespace Boligf.Api.Configuration
 		private static void SetupCirqusConfiguration(Container container)
 		{
 			RegisterSimpleViewInstance<GetAssociationView>();
+			RegisterSimpleViewInstance<GetAssociationsView>();
 			RegisterSimpleViewInstance<GetAssociationUserView>();
-			RegisterSimpleViewInstance<GetUserAssociationsView>();
+			RegisterSimpleViewInstance<GetUsersAssociationsView>();
 			RegisterSimpleViewInstance<GetUserView>();
 			RegisterSimpleViewInstance<GetUsersView>();
 

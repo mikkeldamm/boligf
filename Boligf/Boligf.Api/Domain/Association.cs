@@ -53,9 +53,19 @@ namespace Boligf.Api.Domain
 			Members.Add(e.MemberId);
 		}
 
-		public void AddAddress(string id, string streetAddress, string city, string zip, string country)
+		public void AddAddress(string id, string streetAddress, string no, string floor, string door, string city, string zip, string country)
 		{
-			Emit(new AddressAddedToAssociation { Id = id, StreetAddress = streetAddress, City = city, Zip = zip, Country = country });
+			Emit(new AddressAddedToAssociation
+			{
+				Id = id,
+				StreetAddress = streetAddress,
+				No = no,
+				Floor = floor,
+				Door = door,
+				City = city,
+				Zip = zip,
+				Country = country
+			});
 		}
 
 		public void Apply(AddressAddedToAssociation e)
@@ -64,6 +74,9 @@ namespace Boligf.Api.Domain
 			{
 				Id = e.Id,
 				StreetAddress = e.StreetAddress,
+				No = e.No,
+				Floor = e.Floor,
+				Door = e.Door,
 				City = e.City,
 				Zip = e.Zip,
 				Country = e.Country
@@ -94,6 +107,9 @@ namespace Boligf.Api.Domain
 	{
 		public string Id { get; set; }
 		public string StreetAddress { get; set; }
+		public string No { get; set; }
+		public string Floor { get; set; }
+		public string Door { get; set; }
 		public string City { get; set; }
 		public string Zip { get; set; }
 		public string Country { get; set; } // this is country code (digits)

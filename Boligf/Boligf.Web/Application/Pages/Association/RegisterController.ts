@@ -29,6 +29,17 @@
 				this.associationService.post(this.association).then((associationId: string) => {
 
 					console.log(associationId);
+					this.$state.go(Boligf.States.Default.Home);
+
+				}).catch(() => {
+
+					this.userService.delete(userId).then((isDeleted:boolean) => {
+						if (isDeleted) {
+
+							console.log("user is deleted because association could not be created");
+							this.$state.go(Boligf.States.Default.Home);
+						}
+					});
 				});
 			});
 		}

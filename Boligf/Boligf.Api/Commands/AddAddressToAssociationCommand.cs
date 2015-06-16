@@ -7,6 +7,9 @@ namespace Boligf.Api.Commands
 	{
 		public string Id { get; set; }
 		public string StreetAddress { get; set; }
+		public string No { get; set; }
+		public string Floor { get; set; }
+		public string Door { get; set; }
 		public string City { get; set; }
 		public string Zip { get; set; }
 		public string Country { get; set; }
@@ -17,7 +20,7 @@ namespace Boligf.Api.Commands
 
 		public override void Execute(Association aggregateRoot)
 		{
-			aggregateRoot.AddAddress(Id, StreetAddress, City, Zip, Country);
+			aggregateRoot.AddAddress(Id, StreetAddress, No, Floor, Door, City, Zip, Country);
 		}
 	}
 }

@@ -262,7 +262,9 @@
     <Compile Include="Models\Post\AssociationRegister.cs" />
     <Compile Include="Models\Post\UserRegister.cs" />
     <Compile Include="Models\Put\UserUpdate.cs" />
-    <Compile Include="Models\View\AssociationUserProfile.cs" />
+    <Compile Include="Models\View\Association.cs" />
+    <Compile Include="Models\View\AssociationAddress.cs" />
+    <Compile Include="Models\View\AssociationMember.cs" />
     <Compile Include="Play\PrincipalExtensions.cs" />
     <Compile Include="Play\ViewManagerExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -273,7 +275,9 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Models\View\UserProfile.cs" />
     <Compile Include="Views\Association\GetAssociationUserView.cs" />
+    <Compile Include="Views\Association\GetAssociationsView.cs" />
     <Compile Include="Views\User\GetUserAssociationsView.cs" />
+    <Compile Include="Views\User\GetUsersAssociationsView.cs" />
     <Compile Include="Views\Association\GetAssociationView.cs" />
     <Compile Include="Views\User\GetUsersView.cs" />
     <Compile Include="Views\User\GetUserView.cs" />

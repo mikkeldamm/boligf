@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Web.Http;
 using Boligf.Api.Commands;
+using Boligf.Api.Models.Post;
+using Boligf.Api.Models.View;
+using Boligf.Api.Play;
 using Boligf.Api.Views.Association;
 using d60.Cirqus;
 using d60.Cirqus.Views.ViewManagers;
@@ -14,21 +16,26 @@ namespace Boligf.Api.Controllers
 	public class AssociationController : ApiController
 	{
 		private readonly ICommandProcessor _commandProcessor;
+		private readonly IViewManager<GetAssociationsView> _getAssociationsView;
 		private readonly IViewManager<GetAssociationView> _getAssociationView;
 
 		public AssociationController(
 			ICommandProcessor commandProcessor,
-			IViewManager<GetAssociationView> getAssociationView
+			IViewManager<GetAssociationsView> getAssociationsView,
+            IViewManager<GetAssociationView> getAssociationView
 			)
 		{
 			_commandProcessor = commandProcessor;
+			_getAssociationsView = getAssociationsView;
 			_getAssociationView = getAssociationView;
 		}
 		
 		[Route(""), HttpGet]
-		public IEnumerable<string> Get()
+		[AllowAnonymous]
+		public List<Association> Get()
 		{
-			return new[] {""};
+			var view = _getAssociationsView.Load();
+            return view.Associations;
 		}
 
 		[Route("{id}"), HttpGet]
@@ -42,10 +49,10 @@ namespace Boligf.Api.Controllers
 		
 		[Route(""), HttpPost]
 		[AllowAnonymous]
-		public string Post([FromBody]Models.Post.AssociationRegister associationRegister)
+		public string Post([FromBody]AssociationRegister associationRegister)
 		{
 			var associationId = Guid.NewGuid().ToString();
-			var addressId = Guid.NewGuid().ToString();
+			var addressId = associationRegister.AddressId ?? Guid.NewGuid().ToString();
 
 			_commandProcessor.ProcessCommand(new CreateAssociationCommand(associationId)
 			{
@@ -61,6 +68,9 @@ namespace Boligf.Api.Controllers
 			{
 				Id = addressId,
                 StreetAddress = associationRegister.StreetAddress,
+				No = associationRegister.No,
+				Floor = associationRegister.Floor,
+				Door = associationRegister.Door,
 				City = associationRegister.City,
 				Zip = associationRegister.Zip,
 				Country = "+45"

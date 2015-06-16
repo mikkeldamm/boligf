@@ -1,0 +1,8 @@
+﻿<a href="/" class="selector profile" ng-show="memberLoginInfoCtrl.ready">
+	<span>
+		<span class="hide-for-small-only">{{ memberLoginInfoCtrl.streetName }}</span>
+		<span>{{ memberLoginInfoCtrl.no }}</span>
+		<span ng-show="memberLoginInfoCtrl.isFloorAndDoorAvailable">, {{ memberLoginInfoCtrl.floor }}.{{ memberLoginInfoCtrl.door }}</span>
+		<i class="fa fa-map-marker"></i>
+	</span>
+</a>

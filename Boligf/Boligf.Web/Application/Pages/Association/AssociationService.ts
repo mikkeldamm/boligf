@@ -3,7 +3,11 @@
 	export interface IRegisterAssociation {
 
 		name: string;
+		addressId: string;
 		streetAddress: string;
+		no: string;
+		floor: string;
+		door: string;
 		zip: string;
 		city: string;
 		userId: string;

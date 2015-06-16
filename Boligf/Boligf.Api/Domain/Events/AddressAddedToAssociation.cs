@@ -9,5 +9,8 @@ namespace Boligf.Api.Domain.Events
 		public string City { get; set; }
 		public string Zip { get; set; }
 		public string Country { get; set; }
+		public string No { get; set; }
+		public string Floor { get; set; }
+		public string Door { get; set; }
 	}
 }

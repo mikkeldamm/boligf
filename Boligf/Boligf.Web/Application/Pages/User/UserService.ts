@@ -1,6 +1,6 @@
 ﻿module Boligf {
 
-	export interface UserProfile {
+	export class UserProfile {
 
 		id: string;
 		email: string;
@@ -17,6 +17,7 @@
 	export interface IUserService {
 
 		post(model: IRegisterUser): ng.IPromise<string>;
+		delete(userId: string): ng.IPromise<boolean>;
 	}
 
 	export class UserService implements IUserService {
@@ -32,6 +33,11 @@
 		post(model: IRegisterUser): ng.IPromise<string> {
 
 			return this.apiService.post<string>("/user", model);
+		}
+
+		delete(userId: string): ng.IPromise<boolean> {
+
+			return this.apiService.delete<boolean>("/user/" + userId);
 		}
 	}
 

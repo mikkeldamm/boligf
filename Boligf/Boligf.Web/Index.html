@@ -13,11 +13,9 @@
     }({
         instrumentationKey:"dfc90806-5d54-4872-812c-a228ded8ff04"
     });
-
     window.appInsights=appInsights;
     appInsights.trackPageView();
 	</script>
-
 </head>
 <body data-ng-cloak data-translate-cloak class="ng-cloak">
 
@@ -33,14 +31,7 @@
 					<i class="fa fa-language"></i>
 				</span>
 			</a>
-			<a href="/" class="selector profile" boligf-is-authorized="true">
-				<span>
-					<span class="hide-for-small-only">Nordre Fasanvej</span>
-					<span>124a</span>
-					<span>3tv.</span>
-					<i class="fa fa-map-marker"></i>
-				</span>
-			</a>
+			<boligf-member-login-info></boligf-member-login-info>
 			<a ui-sref="authentication.login" class="selector login" boligf-is-authorized="false">
 				<span>
 					<span>{{ 'Authentication_Login' | translate }}</span>
