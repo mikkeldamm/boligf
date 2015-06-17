@@ -43,6 +43,9 @@ namespace Boligf.Api.Views.Association
 			{
 				Id = domainEvent.Id,
 				StreetAddress = domainEvent.StreetAddress,
+				No = domainEvent.No,
+				Floor = domainEvent.Floor,
+				Door = domainEvent.Door,
 				City = domainEvent.City,
 				Zip = domainEvent.Zip,
 				Country = domainEvent.Country

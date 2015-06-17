@@ -7,12 +7,18 @@ namespace Boligf.Api.Filters
 {
 	public class ValidateModelFilterAttribute : ActionFilterAttribute
 	{
+		public HttpRequestMessage TestRequestMessage { get; set; }
+
 		public override void OnActionExecuting(HttpActionContext actionContext)
+		{
+			PerformValidation(actionContext, TestRequestMessage ?? actionContext.Request);
+		}
+
+		private static void PerformValidation(HttpActionContext actionContext, HttpRequestMessage request)
 		{
 			if (actionContext.ModelState.IsValid == false)
 			{
-				actionContext.Response = actionContext.Request.CreateErrorResponse(
-					HttpStatusCode.BadRequest, actionContext.ModelState);
+				actionContext.Response = request.CreateErrorResponse(HttpStatusCode.BadRequest, actionContext.ModelState);
 			}
 		}
 	}

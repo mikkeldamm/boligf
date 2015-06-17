@@ -53,7 +53,7 @@ namespace Boligf.Api.Controllers
 		{
 			var associationId = Guid.NewGuid().ToString();
 			var addressId = associationRegister.AddressId ?? Guid.NewGuid().ToString();
-
+			
 			_commandProcessor.ProcessCommand(new CreateAssociationCommand(associationId)
 			{
 				Name = associationRegister.Name
