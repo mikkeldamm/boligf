@@ -115,10 +115,12 @@ namespace Boligf.Api.Domain
 		public string Country { get; set; } // this is country code (digits)
 		public string Cadastre { get; set; }
 		public List<string> Residents { get; set; }
+		public List<string> AssignCodes { get; set; }
 
 		public Address()
 		{
 			Residents = new List<string>();
-		}
+			AssignCodes = new List<string>();
+        }
 	}
 }

@@ -106,6 +106,7 @@
   <ItemGroup>
     <Compile Include="Controllers\AssociationUserControllerTests.cs" />
     <Compile Include="Controllers\UserControllerTests.cs" />
+    <Compile Include="Domain\AssociationTests.cs" />
     <Compile Include="Filters\ValidateModelFilterAttributeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestExtensions\NSubstituteExtensions.cs" />
