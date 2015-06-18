@@ -41,9 +41,7 @@ namespace Boligf.Api.Controllers
 		[Route("{id}"), HttpGet]
 		public string Get(string id)
 		{
-			var associationId = id;
-			var view = _getAssociationView.Load(associationId);
-
+			var view = _getAssociationView.Load(id);
 			return view.AssociationName;
 		}
 		
