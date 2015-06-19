@@ -5,6 +5,7 @@ using Boligf.Api.Domain.Entities;
 using Boligf.Api.Infrastructure;
 using Boligf.Api.Providers;
 using Boligf.Api.Views.Association;
+using Boligf.Api.Views.Association.Address;
 using Boligf.Api.Views.User;
 using d60.Cirqus;
 using d60.Cirqus.MsSql.Config;
@@ -68,6 +69,7 @@ namespace Boligf.Api.Configuration
 			RegisterSimpleViewInstance<GetAssociationsView>();
 			RegisterSimpleViewInstance<GetAssociationUserView>();
 			RegisterSimpleViewInstance<GetUsersAssociationsView>();
+			RegisterSimpleViewInstance<GetAddressesView>();
 			RegisterSimpleViewInstance<GetUserView>();
 			RegisterSimpleViewInstance<GetUsersView>();
 

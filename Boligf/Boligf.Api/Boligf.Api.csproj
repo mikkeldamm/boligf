@@ -234,9 +234,12 @@
     <Compile Include="Context\Connection.cs" />
     <Compile Include="Context\UserContext.cs" />
     <Compile Include="Controllers\AssociationController.cs" />
+    <Compile Include="Controllers\AssociationAddressController.cs" />
     <Compile Include="Controllers\AssociationUserController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Domain\Association.cs" />
+    <Compile Include="Domain\Events\CodeAssignedToAddress.cs" />
+    <Compile Include="Domain\Events\AddressRemovedFromAssociation.cs" />
     <Compile Include="Domain\Events\UserAttachedToAddress.cs" />
     <Compile Include="Domain\Events\AddressAddedToAssociation.cs" />
     <Compile Include="Domain\Events\MemberRegisteredToAssociation.cs" />
@@ -263,6 +266,7 @@
     <Compile Include="Models\Post\UserRegister.cs" />
     <Compile Include="Models\Put\UserUpdate.cs" />
     <Compile Include="Models\View\Association.cs" />
+    <Compile Include="Models\View\AssociationAddressCode.cs" />
     <Compile Include="Models\View\AssociationAddress.cs" />
     <Compile Include="Models\View\AssociationMember.cs" />
     <Compile Include="Play\PrincipalExtensions.cs" />
@@ -275,11 +279,12 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Models\View\UserProfile.cs" />
     <Compile Include="Utils\HumanReadableUniqueId.cs" />
+    <Compile Include="Views\Association\Address\GetAddressesView.cs" />
     <Compile Include="Views\Association\GetAssociationUserView.cs" />
     <Compile Include="Views\Association\GetAssociationsView.cs" />
     <Compile Include="Views\User\GetUserAssociationsView.cs" />
-    <Compile Include="Views\User\GetUsersAssociationsView.cs" />
     <Compile Include="Views\Association\GetAssociationView.cs" />
+    <Compile Include="Views\User\GetUsersAssociationsView.cs" />
     <Compile Include="Views\User\GetUsersView.cs" />
     <Compile Include="Views\User\GetUserView.cs" />
   </ItemGroup>

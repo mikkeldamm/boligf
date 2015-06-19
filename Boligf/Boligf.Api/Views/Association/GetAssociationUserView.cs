@@ -44,17 +44,10 @@ namespace Boligf.Api.Views.Association
 
 		public void Handle(IViewContext context, AddressAddedToAssociation domainEvent)
 		{
-			AssociationAddresses.Add(new AssociationAddress
-			{
-				Id = domainEvent.Id,
-				StreetAddress = domainEvent.StreetAddress,
-				No = domainEvent.No,
-				Floor = domainEvent.Floor,
-				Door = domainEvent.Door,
-				City = domainEvent.City,
-				Zip = domainEvent.Zip,
-				Country = domainEvent.Country
-			});
+			var address = new AssociationAddress();
+			address.MapFromEvent(domainEvent);
+
+            AssociationAddresses.Add(address);
         }
 
 		public void Handle(IViewContext context, UserAttachedToAddress domainEvent)
