@@ -66,10 +66,8 @@ namespace Boligf.Api.Views.Association.Address
 			var associationId = domainEvent.GetAggregateRootId();
 
 			var address = GetAssociationAddressList(associationId).SingleOrDefault(a => a.Id == domainEvent.AddressId);
-			if (address != null)
-			{
-				address.Codes.Add(domainEvent.Code);
-            }
+
+			address.Codes.Add(domainEvent.Code);
 		}
 
 		private List<AssociationAddressCode> GetAssociationAddressList(string associationId)

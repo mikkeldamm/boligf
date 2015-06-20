@@ -113,6 +113,7 @@
     <Compile Include="TestExtensions\NSubstituteExtensions.cs" />
     <Compile Include="TestHelpers\DomainEventHelper.cs" />
     <Compile Include="Utils\HumanReadableUniqueIdTests.cs" />
+    <Compile Include="Views\Association\Address\GetAddressesViewTests.cs" />
     <Compile Include="Views\User\GetUsersViewTests.cs" />
   </ItemGroup>
   <ItemGroup>
