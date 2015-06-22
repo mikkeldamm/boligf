@@ -19,8 +19,7 @@
 		}
 
 		constructor(private $cookies: ng.cookies.ICookieStoreService) {
-
-			this.$cookies.get("auth_token");
+			
 		}
 
 		public anyToken(): boolean {

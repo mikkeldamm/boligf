@@ -1,0 +1,15 @@
+﻿{
+  "files": [
+	"Scripts/Libraries/jquery.js",
+	"Scripts/Libraries/angular.js",
+	"Scripts/Libraries/angular.resource.js",
+	"Scripts/Libraries/angular.cookies.js",
+	"Scripts/Libraries/angular.ui-router.min.js",
+	"Scripts/Libraries/angular.translate.min.js",
+	"Scripts/Libraries/angular.translate-loader.min.js",
+	"Scripts/app.js"
+  ],
+  "tests": [
+    "Scripts/Tests/*Spec.js"
+  ]
+}

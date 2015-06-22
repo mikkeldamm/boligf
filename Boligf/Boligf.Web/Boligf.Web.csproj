@@ -60,11 +60,13 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="ApplicationTests\BearerTokenStorageServiceSpec.ts" />
     <TypeScriptCompile Include="Application\ApiService.ts" />
     <TypeScriptCompile Include="Application\Pages\Association\Member\MemberLoginInfoComponent.ts" />
     <TypeScriptCompile Include="Application\Pages\Association\AssociationMemberService.ts" />
     <TypeScriptCompile Include="Application\Pages\Association\AssociationService.ts" />
     <TypeScriptCompile Include="Application\Pages\Association\AssociationController.ts" />
+    <TypeScriptCompile Include="Application\Pages\Association\Member\RegisterMemberController.ts" />
     <TypeScriptCompile Include="Application\Pages\Association\RegisterController.ts" />
     <TypeScriptCompile Include="Application\Pages\Association\AssociationStorageService.ts" />
     <TypeScriptCompile Include="Application\Pages\Authentication\AuthenticationController.ts" />
@@ -80,6 +82,7 @@
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-ui-router.d.ts" />
     <Content Include="Application\Pages\Association\Association.html" />
     <Content Include="Application\Pages\Association\Member\MemberLoginInfoComponent.html" />
+    <Content Include="Application\Pages\Association\Member\RegisterMember.html" />
     <Content Include="Application\Pages\Association\Register.html" />
     <Content Include="Application\Pages\Authentication\Login.html" />
     <Content Include="Application\Pages\Authentication\Authentication.html" />
@@ -88,9 +91,18 @@
     <Content Include="Assets\Images\boligflogoblack.svg" />
     <Content Include="Assets\Images\boligflogobrand.svg" />
     <Content Include="robots.txt" />
+    <Content Include="Scripts\Libraries\angular.cookies.js" />
+    <Content Include="Scripts\Libraries\angular.js" />
+    <Content Include="Scripts\Libraries\angular.mocks.js" />
     <Content Include="Scripts\Libraries\angular.translate-loader.min.js" />
     <Content Include="Scripts\Libraries\angular.translate.min.js" />
     <Content Include="Scripts\Libraries\angular.ui-router.min.js" />
+    <Content Include="Scripts\Libraries\Jasmine\boot.js" />
+    <Content Include="Scripts\Libraries\Jasmine\console.js" />
+    <Content Include="Scripts\Libraries\Jasmine\jasmine-html.js" />
+    <Content Include="Scripts\Libraries\Jasmine\jasmine.css" />
+    <Content Include="Scripts\Libraries\Jasmine\jasmine.js" />
+    <Content Include="Scripts\Libraries\jquery.js" />
     <Content Include="Styles\Application\_overview.scss" />
     <Content Include="Styles\initializer.css">
       <DependentUpon>initializer.scss</DependentUpon>
@@ -158,16 +170,20 @@
     <Content Include="Assets\Fonts\fontawesome-webfont.ttf" />
     <Content Include="Assets\Fonts\fontawesome-webfont.woff" />
     <Content Include="Assets\Fonts\fontawesome-webfont.woff2" />
+    <Content Include="wallaby-jasmine.json" />
+    <Content Include="Scripts\Libraries\angular.resource.js" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <TypeScriptCompile Include="Scripts\typings\jasmine.d.ts" />
     <TypeScriptCompile Include="_references.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Index.html" />
+    <Content Include="wallaby.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

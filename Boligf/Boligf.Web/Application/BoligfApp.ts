@@ -74,6 +74,7 @@ module Boligf {
 		private setupDefaultRouting(urlRouterProvider: ng.ui.IUrlRouterProvider, locationProvider: ng.ILocationProvider) {
 
 			urlRouterProvider.otherwise("/");
+			urlRouterProvider.when("/registermember", "/registermember/")
 
 			locationProvider.html5Mode(true);
 		}
@@ -124,6 +125,12 @@ module Boligf {
 					templateUrl: "/Application/Pages/Association/Register.html",
 					controller: "Association_RegisterController",
 					controllerAs: "registerCtrl"
+				})
+				.state(Boligf.States.Association.RegisterMember, {
+					url: '/registermember/:code',
+					templateUrl: "/Application/Pages/Association/Member/RegisterMember.html",
+					controller: "Association_RegisterMemberController",
+					controllerAs: "registerMemberCtrl"
 				})
 				.state(Boligf.States.Errors.E404, {
 					url: '/404',
