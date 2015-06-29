@@ -62,6 +62,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="ApplicationTests\BearerTokenStorageServiceSpec.ts" />
     <TypeScriptCompile Include="Application\ApiService.ts" />
+    <TypeScriptCompile Include="Application\Pages\Association\AssociationAddressService.ts" />
     <TypeScriptCompile Include="Application\Pages\Association\Member\MemberLoginInfoComponent.ts" />
     <TypeScriptCompile Include="Application\Pages\Association\AssociationMemberService.ts" />
     <TypeScriptCompile Include="Application\Pages\Association\AssociationService.ts" />

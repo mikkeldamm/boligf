@@ -54,7 +54,7 @@
 			
 			if (this.associationDataStore.associationId) {
 
-				this.associationMemberService.setup(this.associationDataStore.associationId).getSingle(this.userDataStore.userId).then((member: AssociationMember) => {
+				this.associationMemberService.setup(this.associationDataStore.associationId).getSingle(this.userDataStore.userId).then((member: IAssociationMember) => {
 
 					this.streetName = member.address.streetAddress;
 					this.no = member.address.no;

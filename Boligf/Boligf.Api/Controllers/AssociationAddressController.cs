@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 using System.Web.Http;
 using Boligf.Api.Commands;
 using Boligf.Api.Models.View;
@@ -9,7 +10,7 @@ using d60.Cirqus.Views.ViewManagers;
 
 namespace Boligf.Api.Controllers
 {
-	[RoutePrefix("api/association/")]
+	[RoutePrefix("api/association")]
 	[Authorize]
     public class AssociationAddressController : ApiController
 	{
@@ -39,8 +40,8 @@ namespace Boligf.Api.Controllers
 			return view.GetAddressCodes(associationId, addressId);
 		}
 
-		[Route("{associationId}/address/{addresId}/user/{userId}"), HttpPost]
-		public void Post(string associationId, string addressId, string userId)
+		[Route("{associationId}/address/{addresId}/user"), HttpPost]
+		public void Post(string associationId, string addressId, [FromBody] string userId)
 		{
 			_commandProcessor.ProcessCommand(new RegisterUserToAssociationCommand(associationId) { UserId = userId });
 			_commandProcessor.ProcessCommand(new AttachUserToAddressCommand(associationId) { AddressId = addressId, UserId = userId });

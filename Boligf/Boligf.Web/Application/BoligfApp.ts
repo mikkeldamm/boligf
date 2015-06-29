@@ -74,7 +74,7 @@ module Boligf {
 		private setupDefaultRouting(urlRouterProvider: ng.ui.IUrlRouterProvider, locationProvider: ng.ILocationProvider) {
 
 			urlRouterProvider.otherwise("/");
-			urlRouterProvider.when("/registermember", "/registermember/")
+			urlRouterProvider.when("/association/registermember", "/association/registermember/");
 
 			locationProvider.html5Mode(true);
 		}

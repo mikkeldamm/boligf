@@ -8,14 +8,16 @@
 
 	export class BearerTokenStorageService implements IStoreBearerToken {
 
+		private static tokenKey: string = "auth_token";
+
 		static $inject = ['$cookieStore'];
 
 		public get token() {
-			return this.$cookies.get("auth_token");
+			return this.$cookies.get(BearerTokenStorageService.tokenKey);
 		}
 
 		public set token(value) {
-			this.$cookies.put("auth_token", value);
+			this.$cookies.put(BearerTokenStorageService.tokenKey, value);
 		}
 
 		constructor(private $cookies: ng.cookies.ICookieStoreService) {
@@ -24,7 +26,7 @@
 
 		public anyToken(): boolean {
 
-			if (this.$cookies.get("auth_token")) {
+			if (this.$cookies.get(BearerTokenStorageService.tokenKey)) {
 				return true;
 			} else {
 				return false;
@@ -33,7 +35,7 @@
 
 		public deleteToken() {
 
-			this.$cookies.remove("auth_token");
+			this.$cookies.remove(BearerTokenStorageService.tokenKey);
 		}
 	}
 

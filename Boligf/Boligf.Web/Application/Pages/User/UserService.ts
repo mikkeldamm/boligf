@@ -15,7 +15,7 @@
 	}
 
 	export interface IUserService {
-
+		
 		post(model: IRegisterUser): ng.IPromise<string>;
 		delete(userId: string): ng.IPromise<boolean>;
 	}

@@ -1,12 +1,12 @@
 ﻿module Boligf {
 
-	export class AssociationMember {
+	export interface IAssociationMember {
 		id: string;
 		email: string;
-		address: AssociationAddress;
+		address: IAssociationAddress;
 	}
 
-	export class AssociationAddress {
+	export interface IAssociationAddress {
 		id: string;
 		streetAddress: string;
 		no: string;
@@ -20,8 +20,8 @@
 	export interface IAssociationMemberService {
 
 		setup(associationId: string);
-		getAll(associationId?: string): ng.IPromise<AssociationMember[]>;
-		getSingle(userId: string, associationId?: string): ng.IPromise<AssociationMember>;
+		getAll(associationId?: string): ng.IPromise<IAssociationMember[]>;
+		getSingle(userId: string, associationId?: string): ng.IPromise<IAssociationMember>;
 	}
 
 	export class AssociationMemberService implements IAssociationMemberService {
@@ -42,16 +42,16 @@
 			return this;
 		}
 
-		getAll(): ng.IPromise<AssociationMember[]> {
+		getAll(): ng.IPromise<IAssociationMember[]> {
 
 			this.ensureSetup();
-			return this.apiService.get<AssociationMember[]>(this.getUrlString(this.associationId));
+			return this.apiService.get<IAssociationMember[]>(this.getUrlString(this.associationId));
 		}
 
-		getSingle(userId: string): ng.IPromise<AssociationMember> {
+		getSingle(userId: string): ng.IPromise<IAssociationMember> {
 
 			this.ensureSetup();
-			return this.apiService.get<AssociationMember>(this.getUrlString(this.associationId, userId));
+			return this.apiService.get<IAssociationMember>(this.getUrlString(this.associationId, userId));
 		}
 
 		private ensureSetup() {

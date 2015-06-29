@@ -22,4 +22,18 @@ namespace Boligf.Api.Filters
 			}
 		}
 	}
+
+	public class HandleNullReturnFilterAttribute : ActionFilterAttribute
+	{
+		public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
+		{
+			object returnObject;
+			actionExecutedContext.Response.TryGetContentValue(out returnObject);
+
+			if (returnObject == null)
+				actionExecutedContext.Response = new HttpResponseMessage(HttpStatusCode.NotFound);
+
+			base.OnActionExecuted(actionExecutedContext);
+		}
+	}
 }

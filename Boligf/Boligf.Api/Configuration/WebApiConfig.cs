@@ -18,6 +18,7 @@ namespace Boligf.Api.Configuration
 
 			httpConfiguration.DependencyResolver = GlobalConfiguration.Configuration.DependencyResolver;
 			httpConfiguration.Filters.Add(new ValidateModelFilterAttribute());
+			httpConfiguration.Filters.Add(new HandleNullReturnFilterAttribute());
 
 			httpConfiguration.MapHttpAttributeRoutes();
 			httpConfiguration.Routes.MapHttpRoute(

@@ -11,7 +11,8 @@ namespace Boligf.Api.Domain
 		IEmit<AssociationNameUpdated>,
 		IEmit<MemberRegisteredToAssociation>,
 		IEmit<AddressAddedToAssociation>,
-		IEmit<UserAttachedToAddress>
+		IEmit<UserAttachedToAddress>,
+		IEmit<CodeAssignedToAddress>
 	{
 		public string Name { get; set; }
 		public List<Address> Addresses { get; set; }
@@ -99,6 +100,20 @@ namespace Boligf.Api.Domain
 				{
 					address.Residents.Add(e.UserId);
 				}
+			}
+		}
+
+		public void AddCodeToAddress(string addressId, string code)
+		{
+			Emit(new CodeAssignedToAddress { AddressId = addressId, Code = code });
+		}
+
+		public void Apply(CodeAssignedToAddress e)
+		{
+			var address = Addresses.SingleOrDefault(a => a.Id == e.AddressId);
+			if (address != null && address.AssignCodes.Any(code => code != e.Code))
+			{
+				address.AssignCodes.Add(e.Code);
 			}
 		}
 	}

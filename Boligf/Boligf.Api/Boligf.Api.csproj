@@ -221,6 +221,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\AddCodeToAddressCommand.cs" />
     <Compile Include="Commands\AttachUserToAddressCommand.cs" />
     <Compile Include="Commands\CreateAssociationCommand.cs" />
     <Compile Include="Commands\AddAddressToAssociationCommand.cs" />

@@ -5,6 +5,7 @@ using Boligf.Api.Commands;
 using Boligf.Api.Models.Post;
 using Boligf.Api.Models.View;
 using Boligf.Api.Play;
+using Boligf.Api.Utils;
 using Boligf.Api.Views.Association;
 using d60.Cirqus;
 using d60.Cirqus.Views.ViewManagers;
@@ -39,8 +40,18 @@ namespace Boligf.Api.Controllers
 		}
 
 		[Route("{id}"), HttpGet]
+		[AllowAnonymous]
 		public string Get(string id)
 		{
+			var testCode = HumanReadableUniqueId.NewUid();
+			var addressId = "";
+
+			_commandProcessor.ProcessCommand(new AddCodeToAddressCommand(id)
+			{
+				AddressId = addressId,
+				Code = testCode
+			});
+
 			var view = _getAssociationView.Load(id);
 			return view.AssociationName;
 		}
