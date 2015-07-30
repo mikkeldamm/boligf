@@ -8,6 +8,7 @@ using Boligf.Api.Views.Association;
 using Boligf.Api.Views.Association.Address;
 using Boligf.Api.Views.User;
 using d60.Cirqus;
+using d60.Cirqus.MongoDb.Config;
 using d60.Cirqus.MsSql.Config;
 using d60.Cirqus.Views;
 using d60.Cirqus.Views.ViewManagers;
@@ -75,7 +76,7 @@ namespace Boligf.Api.Configuration
 
 			var commandProcessor = CommandProcessor
 				.With()
-				.EventStore(e => e.UseSqlServer(Connection.DataConnectionName, "test2events"))
+				.EventStore(e => e.UseMongoDb(Connection.DataMongoDbConnection, "eventData"))
 				.EventDispatcher(ed => ed.UseViewManagerEventDispatcher(Views.ToArray()))
 				.Create();
 
