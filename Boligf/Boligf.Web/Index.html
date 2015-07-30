@@ -2,17 +2,17 @@
 <html ng-app="BoligfApp">
 <head>
 	<title>Boligf - change title how?</title>
-	<base href="/"/>
+	<base href="/">
 	<meta name="robots" content="noindex, nofollow">
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<style>.ng-cloak, .ng-translate-cloak, .translate-cloak { display: none; }</style>
-	<link rel="stylesheet" href="/Styles/initializer.min.css"/>
+	<link rel="stylesheet" href="/Styles/initializer.css"/>
 </head>
 <body data-ng-cloak data-translate-cloak class="ng-cloak">
 
 	<div id="header">
 		<header class="row">
-			<a ui-sref="home" class="brand">
+			<a ui-sref="association.register" class="brand">
 				<img src="/Assets/Images/boligflogoblack.svg" alt="BoligForeninger" class="logo" />
 				<span class="hide-for-small-only">{{ 'Logo_Text' | translate }}</span>
 			</a>
@@ -63,6 +63,18 @@
 	<script src="/Scripts/Libraries/angular.ui-router.min.js"></script>
 	<script src="/Scripts/Libraries/angular.translate.min.js"></script>
 	<script src="/Scripts/Libraries/angular.translate-loader.min.js"></script>
+
+	<script>
+		var Boligf = Boligf || (Boligf = {});
+		Boligf.Config = {
+			ApiProtocol: 'http://',
+			ApiDomainClean: 'api.boligf.dk',
+			ApiDomain: 'api.boligf.dk/api',
+			ApiAccess: function(hideApi) {
+				return Boligf.Config.ApiProtocol + (hideApi ? Boligf.Config.ApiDomainClean : Boligf.Config.ApiDomain);
+			}
+		};
+	</script>
 
 	<script src="/Scripts/config.js"></script>
 	<script src="/Scripts/app.js"></script>

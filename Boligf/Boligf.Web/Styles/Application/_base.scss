@@ -35,3 +35,11 @@ a {
 }
 
 @include align-classes;
+
+@media #{$large-up} {
+
+	.large-6-end {
+
+		margin-right: 50%;
+	}
+}

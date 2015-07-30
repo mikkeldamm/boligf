@@ -91,6 +91,7 @@
     <Content Include="Assets\Fonts\fontawesome-webfont.svg" />
     <Content Include="Assets\Images\boligflogoblack.svg" />
     <Content Include="Assets\Images\boligflogobrand.svg" />
+    <Content Include="gulpfile.js" />
     <Content Include="robots.txt" />
     <Content Include="Scripts\Libraries\angular.cookies.js" />
     <Content Include="Scripts\Libraries\angular.js" />
@@ -173,6 +174,8 @@
     <Content Include="Assets\Fonts\fontawesome-webfont.woff2" />
     <Content Include="wallaby-jasmine.json" />
     <Content Include="Scripts\Libraries\angular.resource.js" />
+    <Content Include="Styles\Application\_forms.scss" />
+    <Content Include="package.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -76,7 +76,7 @@ module Boligf {
 			urlRouterProvider.otherwise("/");
 			urlRouterProvider.when("/association/registermember", "/association/registermember/");
 
-			locationProvider.html5Mode(true);
+			//locationProvider.html5Mode(true);
 		}
 
 		private setupStates(stateProvider: ng.ui.IStateProvider) {
