@@ -1,0 +1,24 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Boligf/Boligf.Api/bin
+/Boligf/Boligf.Api/obj
+/Boligf/Boligf.Api/Properties/PublishProfiles
+*.user
+*.ncrunchproject
+/Boligf/Boligf.Api.Tests/obj
+/Boligf/Boligf.Api.Tests/bin/Debug
+/Boligf/Boligf.Application.Tests/obj/Debug
+/Boligf/Boligf.DataAccess.Tests/obj/Debug
+*.dll
+*.pdb
+*.pubxml
+*.DS_Store
+/Boligf/packages
+*.cache
+*.suo
+/Boligf/Boligf.Web/bin
+/Boligf/Boligf.Web/node_modules
+/Boligf/Boligf.Web/obj
+/Boligf/Boligf.Web/Properties/PublishProfiles
