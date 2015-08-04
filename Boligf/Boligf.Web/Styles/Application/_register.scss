@@ -1,0 +1,33 @@
+﻿.register-option {
+
+    background-color: #FFF;
+    padding: 1em;
+    border-radius: 2px;
+    border: 1px solid #E4E4E4;
+    cursor: pointer;
+    box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.06);
+	text-align: center;
+	
+	img {
+
+		width: 30%;
+		margin-bottom: 1em;
+	}
+
+	span {
+
+		text-align: center;
+		display: block;
+	}
+
+	&:hover, &.selected {
+
+		border: 1px solid #EAC901;
+		box-shadow: 2px 2px 1px 0px rgba(0, 0, 0, 0.06);
+	}
+
+	&.selected {
+
+		background-color: #FDF8DE;
+	}
+}

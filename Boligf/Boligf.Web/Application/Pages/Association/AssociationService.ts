@@ -5,6 +5,7 @@
 		name: string;
 		addressId: string;
 		streetAddress: string;
+		streetAddressAutoComplete: string;
 		no: string;
 		floor: string;
 		door: string;

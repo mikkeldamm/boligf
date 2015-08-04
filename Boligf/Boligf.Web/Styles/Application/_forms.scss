@@ -20,13 +20,14 @@
 			&:before {
 				content: "";
 				position: relative;
-				width: 0.6em;
-				height: 0.6em;
+				width: 8px;
+				height: 8px;
 				background-color: #FFDA00;
 				display: inline-block;
 				border-radius: 100%;
 				border: 2px solid #E6C400;
 				margin-right: 0.7em;
+				vertical-align: middle;
 			}
 		}
 

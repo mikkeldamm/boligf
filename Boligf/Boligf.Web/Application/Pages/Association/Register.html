@@ -8,13 +8,13 @@
 						<label>{{ 'Association_Register_UserEmail' | translate }}:</label>
 					</div>
 					<div class="column small-12 large-9">
-						<input type="text" placeholder="{{ 'Association_Register_UserEmail_Placeholder' | translate }}" ng-model="registerCtrl.user.email" />
+						<input type="text" placeholder="{{ 'Association_Register_UserEmail_Placeholder' | translate }}" name="email" ng-model="registerCtrl.user.email" />
 					</div>
 					<div class="column small-12 large-3">
 						<label>{{ 'Association_Register_UserPassword' | translate }}:</label>
 					</div>
 					<div class="column small-12 large-9">
-						<input type="password" placeholder="{{ 'Association_Register_UserPassword_Placeholder' | translate }}" ng-model="registerCtrl.user.password" />
+						<input type="password" placeholder="{{ 'Association_Register_UserPassword_Placeholder' | translate }}" name="password" ng-model="registerCtrl.user.password" />
 					</div>
 				</div>
 			</div>
@@ -33,7 +33,7 @@
 						<label>{{ 'Association_Register_StreetAddressAutoComplete' | translate }}:</label>
 					</div>
 					<div class="column small-12 large-9">
-						<input type="text" placeholder="{{ 'Association_Register_StreetAddressAutoComplete_Placeholder' | translate }}" ng-model="registerCtrl.association.streetAddressAutoComplete"/>
+						<boligf-address-autocomplete address-selected="registerCtrl.addressSelected(address)" ng-model="registerCtrl.association.streetAddressAutoComplete" placeholder="{{ 'Association_Register_StreetAddressAutoComplete_Placeholder' | translate }}"></boligf-address-autocomplete>
 					</div>
 				</div>
 				<div class="row hide">
@@ -84,7 +84,9 @@
 	</div>
 </div>
 <div class="column small-12 large-4">
-	<div class="box">
-		hej
+	<div class="box tip">
+		<img src="/Assets/Images/illustration_members.svg" alt="" />
+		<h3>{{ 'Tip_Association_Register_Heading' | translate }}</h3>
+		<p>{{ 'Tip_Association_Register_Description' | translate }}</p>
 	</div>
 </div>

@@ -1,15 +1,35 @@
-﻿<div class="column small-12">
-	{{ 'Authentication_Login_Email' | translate }}:
+﻿<div class="column small-12 large-8">
+	<div class="form">
+		<fieldset>
+			<legend>{{ 'Authentication_Login_Fieldset' | translate }}</legend>
+			<div class="fields">
+				<div class="row">
+					<div class="column small-12 large-3">
+						<label>{{ 'Authentication_Login_Email' | translate }}:</label>
+					</div>
+					<div class="column small-12 large-9">
+						<input type="text" ng-model="loginCtrl.email" name="email" />
+					</div>
+					<div class="column small-12 large-3">
+						<label>{{ 'Authentication_Login_Password' | translate }}:</label>
+					</div>
+					<div class="column small-12 large-9">
+						<input type="password" ng-model="loginCtrl.password" name="password" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="column small-12 large-9 large-push-3">
+						<button ng-click="loginCtrl.login()">{{ 'Authentication_Login_Submit' | translate }}</button>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+	</div>
 </div>
-<div class="column small-12">
-	<input type="text" ng-model="loginCtrl.email" />
-</div>
-<div class="column small-12">
-	{{ 'Authentication_Login_Password' | translate }}:
-</div>
-<div class="column small-12">
-	<input type="text" ng-model="loginCtrl.password" />
-</div>
-<div class="column small-12">
-	<button ng-click="loginCtrl.login()">{{ 'Authentication_Login_Submit' | translate }}</button>
+<div class="column small-12 large-4">
+	<div class="box tip">
+		<img src="/Assets/Images/illustration_members.svg" alt="" />
+		<h3>{{ 'Tip_Authentication_Login_Heading' | translate }}</h3>
+		<p>{{ 'Tip_Authentication_Login_Description' | translate }}</p>
+	</div>
 </div>

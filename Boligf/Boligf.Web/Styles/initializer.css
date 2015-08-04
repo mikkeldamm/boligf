@@ -4061,15 +4061,64 @@ a {
       margin-right: 1em; }
 
 #section {
+  position: relative;
   margin-top: 1.875rem; }
+  @media only screen and (min-width: 40.0625em) {
+    #section {
+      margin-bottom: 3.5em; } }
+  #section.loading:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #EEF2F3;
+    z-index: 20;
+    opacity: 0.5; }
+  #section.loading:after {
+    content: "";
+    position: absolute;
+    left: 0%;
+    width: 20%;
+    top: -1.875rem;
+    height: 0.45em;
+    background-color: #D2F898;
+    border: 1px solid #CBF194;
+    border-radius: 20px;
+    -webkit-animation: movelefttoright 2s linear infinite;
+    -moz-animation: movelefttoright 2s linear infinite;
+    -o-animation: movelefttoright 2s linear infinite; }
+
+@-webkit-keyframes movelefttoright {
+  0% {
+    left: -20%; }
+  100% {
+    left: 100%; } }
+
+@-moz-keyframes movelefttoright {
+  0% {
+    left: -20%; }
+  100% {
+    left: 100%; } }
+
+@-o-keyframes movelefttoright {
+  0% {
+    left: -20%; }
+  100% {
+    left: 100%; } }
 
 #footer {
+  display: none;
   position: relative;
   bottom: 0;
   left: 0;
   right: 0;
   background-color: #E8EBEC;
   box-shadow: inset 0 1px 7px -4px rgba(0, 0, 0, 0.3); }
+  @media only screen and (min-width: 40.0625em) {
+    #footer {
+      position: fixed; } }
   #footer footer {
     font-size: 0.875em;
     padding: 1em 0; }
@@ -4124,13 +4173,14 @@ a {
     .form fieldset legend:before {
       content: "";
       position: relative;
-      width: 0.6em;
-      height: 0.6em;
+      width: 8px;
+      height: 8px;
       background-color: #FFDA00;
       display: inline-block;
       border-radius: 100%;
       border: 2px solid #E6C400;
-      margin-right: 0.7em; }
+      margin-right: 0.7em;
+      vertical-align: middle; }
   .form fieldset .fields {
     position: relative;
     padding: 1.5em 2.4em;
@@ -4183,3 +4233,64 @@ a {
 :-moz-placeholder,
 :-ms-input-placeholder {
   color: #C5C5C5; }
+
+.tip img {
+  width: 100%;
+  height: 160px; }
+
+.tip h3 {
+  font-weight: bold; }
+
+.tip p:last-child {
+  margin-bottom: 0; }
+
+.autocomplete {
+  position: relative; }
+  .autocomplete .autocomplete-box {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 1px;
+    border: 1px solid #CECCCC;
+    z-index: 30;
+    margin-top: -1px;
+    box-shadow: 2px 2px 5px -2px rgba(0, 0, 0, 0.2); }
+    .autocomplete .autocomplete-box.show {
+      display: block; }
+    .autocomplete .autocomplete-box ul {
+      list-style: none;
+      margin: 0;
+      padding: 0; }
+      .autocomplete .autocomplete-box ul li {
+        padding: 0.3em 0.6em;
+        cursor: pointer; }
+        .autocomplete .autocomplete-box ul li:first-child {
+          padding-top: 0.6em; }
+        .autocomplete .autocomplete-box ul li:last-child {
+          padding-bottom: 0.6em; }
+        .autocomplete .autocomplete-box ul li:hover, .autocomplete .autocomplete-box ul li.selected {
+          background-color: #EEF2F3; }
+
+.register-option {
+  background-color: #FFF;
+  padding: 1em;
+  border-radius: 2px;
+  border: 1px solid #E4E4E4;
+  cursor: pointer;
+  box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.06);
+  text-align: center; }
+  .register-option img {
+    width: 30%;
+    margin-bottom: 1em; }
+  .register-option span {
+    text-align: center;
+    display: block; }
+  .register-option:hover, .register-option.selected {
+    border: 1px solid #EAC901;
+    box-shadow: 2px 2px 1px 0px rgba(0, 0, 0, 0.06); }
+  .register-option.selected {
+    background-color: #FDF8DE; }

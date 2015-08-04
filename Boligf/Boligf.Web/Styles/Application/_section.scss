@@ -2,5 +2,55 @@
 
 #section {
 
+	position: relative;
     margin-top: $column-gutter;
+
+	@media #{$medium-up} {
+
+		margin-bottom: 3.5em;
+	}
+
+	&.loading {
+
+		&:before {
+
+			content: "";
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			background-color: #EEF2F3;
+			z-index: 20;
+			opacity: 0.5;
+		}
+
+		&:after {
+			content: "";
+			position: absolute;
+			left: 0%;
+			width: 20%;
+			top: -1.875rem;
+			height: 0.45em;
+			background-color: #D2F898;
+			border: 1px solid #CBF194;
+			border-radius: 20px;
+			-webkit-animation: movelefttoright 2s linear infinite;
+			-moz-animation: movelefttoright 2s linear infinite;
+			-o-animation: movelefttoright 2s linear infinite;
+		}
+	}
+}
+
+@-webkit-keyframes movelefttoright {
+	0% { left: -20%; }
+	100% { left: 100%; }
+}
+@-moz-keyframes movelefttoright {
+	0% { left: -20%; }
+	100% { left: 100%; }
+}
+@-o-keyframes movelefttoright {
+	0% { left: -20%; }
+	100% { left: 100%; }
 }

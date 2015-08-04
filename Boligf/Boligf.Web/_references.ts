@@ -12,10 +12,10 @@
 /// <reference path="Scripts/typings/jquery/jquery.d.ts"/>
 
 // Application statics
-/// <reference path="Application/States.ts"/>
+/// <reference path="Application/!!States.ts"/>
 
 // Application uses
-/// <reference path="Application/BoligfApp.ts"/>
+/// <reference path="Application/!BoligfApp.ts"/>
 
 /// <reference path="Application/BearerTokenStorageService.ts"/>
 /// <reference path="Application/BearerTokenInterceptor.ts"/>

@@ -149,170 +149,159 @@ var Boligf;
 var app = Boligf.Startup.Initialize();
 var Boligf;
 (function (Boligf) {
-    var BearerTokenStorageService = (function () {
-        function BearerTokenStorageService($cookies) {
-            this.$cookies = $cookies;
-        }
-        Object.defineProperty(BearerTokenStorageService.prototype, "token", {
-            get: function () {
-                return this.$cookies.get(BearerTokenStorageService.tokenKey);
-            },
-            set: function (value) {
-                this.$cookies.put(BearerTokenStorageService.tokenKey, value);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        BearerTokenStorageService.prototype.anyToken = function () {
-            if (this.$cookies.get(BearerTokenStorageService.tokenKey)) {
-                return true;
-            }
-            else {
-                return false;
-            }
-        };
-        BearerTokenStorageService.prototype.deleteToken = function () {
-            this.$cookies.remove(BearerTokenStorageService.tokenKey);
-        };
-        BearerTokenStorageService.tokenKey = "auth_token";
-        BearerTokenStorageService.$inject = ['$cookieStore'];
-        return BearerTokenStorageService;
-    })();
-    Boligf.BearerTokenStorageService = BearerTokenStorageService;
-    Boligf.App.service('IStoreBearerToken', Boligf.BearerTokenStorageService);
-})(Boligf || (Boligf = {}));
-var Boligf;
-(function (Boligf) {
-    var BearerTokenInterceptor = (function () {
-        function BearerTokenInterceptor($q, bearerTokenStorageService) {
-            var _this = this;
-            this.$q = $q;
-            this.bearerTokenStorageService = bearerTokenStorageService;
-            this.request = function (config) {
-                config.headers = config.headers || {};
-                if (_this.bearerTokenStorageService.anyToken()) {
-                    config.headers.Authorization = 'Bearer ' + _this.bearerTokenStorageService.token;
-                    config.headers.ContentType = 'application/x-www-form-urlencoded';
-                }
-                return config;
-            };
-            this.requestError = function (rejection) {
-                return _this.$q.reject(rejection);
-            };
-            this.responseError = function (rejection) {
-                if (rejection != null && rejection.status === 401 && _this.bearerTokenStorageService.anyToken()) {
-                    _this.bearerTokenStorageService.deleteToken();
-                }
-                return _this.$q.reject(rejection);
-            };
-        }
-        BearerTokenInterceptor.$inject = ['$q', 'IStoreBearerToken'];
-        return BearerTokenInterceptor;
-    })();
-    Boligf.BearerTokenInterceptor = BearerTokenInterceptor;
-    Boligf.App.service('IInterceptHttpProvider', Boligf.BearerTokenInterceptor);
-})(Boligf || (Boligf = {}));
-var Boligf;
-(function (Boligf) {
-    var AuthenticationService = (function () {
-        function AuthenticationService($http, $q, bearerTokenStore, userDataStore, associationDataStore) {
+    var AddressAutocompleteComponent = (function () {
+        function AddressAutocompleteComponent($http, $timeout) {
             this.$http = $http;
-            this.$q = $q;
-            this.bearerTokenStore = bearerTokenStore;
-            this.userDataStore = userDataStore;
-            this.associationDataStore = associationDataStore;
-            if (this.bearerTokenStore.anyToken()) {
-                this._isAuthenticated = true;
+            this.$timeout = $timeout;
+            this.currentAddressIndex = 0;
+        }
+        AddressAutocompleteComponent.prototype.lookupAddress = function () {
+            var _this = this;
+            if (this.timeoutPromise) {
+                this.$timeout.cancel(this.timeoutPromise);
+            }
+            if (!this.searchQuery || this.searchQuery.length <= 1) {
+                this.hideList();
+                return;
+            }
+            this.timeoutPromise = this.$timeout(function () {
+                _this.getAddressFromQuery();
+            }, 250);
+        };
+        AddressAutocompleteComponent.prototype.getIndexToNextAddress = function () {
+            if (this.currentAddressIndex === (this.addresses.length - 1)) {
+                this.currentAddressIndex = 0;
             }
             else {
-                this._isAuthenticated = false;
+                this.currentAddressIndex += 1;
             }
-        }
-        Object.defineProperty(AuthenticationService.prototype, "isAuthenticated", {
-            get: function () {
-                return this._isAuthenticated;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        AuthenticationService.prototype.login = function (email, password) {
+            return this.currentAddressIndex;
+        };
+        AddressAutocompleteComponent.prototype.getIndexToPreviousAddress = function () {
+            if (this.currentAddressIndex <= 0) {
+                this.currentAddressIndex = (this.addresses.length - 1);
+            }
+            else {
+                this.currentAddressIndex -= 1;
+            }
+            return this.currentAddressIndex;
+        };
+        AddressAutocompleteComponent.prototype.selectCurrentAddresss = function () {
+            this.selectAddress(this.addresses[this.currentAddressIndex]);
+        };
+        AddressAutocompleteComponent.prototype.resetCurrentIndex = function () {
+            this.currentAddressIndex = 0;
+        };
+        AddressAutocompleteComponent.prototype.selectAddress = function (address) {
+            this.searchQuery = address.tekst;
+            var addressResult = {
+                id: address.adresse.id,
+                streetname: address.adresse.vejnavn,
+                no: address.adresse.husnr,
+                floor: address.adresse.etage,
+                door: address.adresse.dør,
+                zip: address.adresse.postnr,
+                city: address.adresse.postnrnavn
+            };
+            this.addressSelected({ address: addressResult });
+            this.resetCurrentIndex();
+            this.hideList();
+        };
+        AddressAutocompleteComponent.prototype.getAddressFromQuery = function () {
             var _this = this;
-            var defer = this.$q.defer();
-            var data = "grant_type=password&username=" + email + "&password=" + password;
-            this.$http.post(Boligf.Config.ApiAccess(true) + '/token', data).success(function (response) {
-                _this.bearerTokenStore.token = response.access_token;
-                _this.userDataStore.userId = response.userId;
-                _this.userDataStore.userName = response.userName;
-                _this.associationDataStore.associationId = response.associationId;
-                _this._isAuthenticated = true;
-                defer.resolve(true);
-            }).error(function (err, status) {
-                defer.resolve(false);
+            this.$http.get("https://dawa.aws.dk/adresser/autocomplete?per_side=8&q=" + this.searchQuery).then(function (a) {
+                _this.addresses = a.data.slice(0, 8);
+                _this.showList();
+            }).catch(function (b) {
+                // Write here that the address cant be found
+                console.log(b);
             });
-            return defer.promise;
         };
-        AuthenticationService.$inject = ['$http', '$q', 'IStoreBearerToken', 'IStoreUserData', 'IStoreAssociationData'];
-        return AuthenticationService;
+        AddressAutocompleteComponent.$inject = ['$http', '$timeout'];
+        return AddressAutocompleteComponent;
     })();
-    Boligf.AuthenticationService = AuthenticationService;
-    Boligf.App.service("IAuthenticationService", Boligf.AuthenticationService);
-})(Boligf || (Boligf = {}));
-var Boligf;
-(function (Boligf) {
-    function isAuthorizedDirective(authenticationService) {
-        var directive = {
-            restrict: 'A',
-            scope: {
-                isProtected: "=boligfIsAuthorized"
-            },
-            link: link
-        };
-        function link(scope, element, attributes) {
-            scope.$watch(function () {
-                return authenticationService.isAuthenticated;
-            }, function (newValue, oldValue) {
-                if (newValue) {
-                    if (scope.isProtected) {
-                        element.show();
-                    }
-                    else {
-                        element.hide();
-                    }
+    Boligf.AddressAutocompleteComponent = AddressAutocompleteComponent;
+    function addressAutocompleteDirective() {
+        function link(scope, element, attributes, controller) {
+            var addressJustSelected = false;
+            var inputElement = element.find('input');
+            var listBox = element.find('.autocomplete-box');
+            function markCurrentAddress(index) {
+                var items = listBox.find('li');
+                items.removeClass('selected');
+                var item = $(items[index]);
+                item.addClass('selected');
+            }
+            function showList() {
+                if (listBox.css('top') === "0px") {
+                    listBox.css('top', inputElement.outerHeight());
+                }
+                listBox.addClass('show');
+                setTimeout(function () {
+                    markCurrentAddress(controller.currentAddressIndex);
+                }, 100);
+            }
+            function hideList() {
+                listBox.removeClass('show');
+            }
+            controller.showList = showList;
+            controller.hideList = hideList;
+            // Disable default browser autocomplete
+            inputElement.attr('autocomplete', 'off');
+            // Bind focus & blur event
+            inputElement.off('focus').on('focus', function () {
+                if (addressJustSelected) {
+                    addressJustSelected = false;
+                    return false;
+                }
+                controller.lookupAddress();
+            });
+            //inputElement.off('blur').on('blur', () => hideList());
+            // Bind arrow and tab events
+            element.off('keyup').on('keyup', function (e) {
+                if (e.keyCode === 40) {
+                    markCurrentAddress(controller.getIndexToNextAddress());
+                }
+                else if (e.keyCode === 38) {
+                    markCurrentAddress(controller.getIndexToPreviousAddress());
                 }
                 else {
-                    if (!scope.isProtected) {
-                        element.show();
+                    if (addressJustSelected) {
+                        addressJustSelected = false;
+                        return false;
                     }
-                    else {
-                        element.hide();
-                    }
+                    controller.resetCurrentIndex();
+                    controller.lookupAddress();
+                    scope.$apply();
+                }
+            });
+            element.off('keydown').on('keydown', function (e) {
+                if (e.keyCode === 9 || e.keyCode === 13) {
+                    controller.selectCurrentAddresss();
+                    scope.$apply();
+                    addressJustSelected = true;
                 }
             });
         }
+        var directive = {
+            restrict: 'E',
+            scope: {
+                searchQuery: "=ngModel",
+                placeholder: "@",
+                addressSelected: "&"
+            },
+            replace: true,
+            bindToController: true,
+            templateUrl: '/Application/AddressAutocompleteComponent.html',
+            controller: ['$http', '$timeout', Boligf.AddressAutocompleteComponent],
+            controllerAs: "addressAutocompleteCtrl",
+            link: link
+        };
         return directive;
     }
-    Boligf.isAuthorizedDirective = isAuthorizedDirective;
-    Boligf.App.directive("boligfIsAuthorized", ['IAuthenticationService', Boligf.isAuthorizedDirective]);
+    Boligf.addressAutocompleteDirective = addressAutocompleteDirective;
+    Boligf.App.directive("boligfAddressAutocomplete", [Boligf.addressAutocompleteDirective]);
 })(Boligf || (Boligf = {}));
-// Typings 
-/// <reference path="Scripts/typings/angularjs/angular.d.ts"/>
-/// <reference path="Scripts/typings/angularjs/angular-route.d.ts"/>
-/// <reference path="Scripts/typings/angularjs/angular-resource.d.ts"/>
-/// <reference path="Scripts/typings/angularjs/angular-cookies.d.ts"/>
-/// <reference path="Scripts/typings/angularjs/angular-mocks.d.ts"/>
-/// <reference path="Scripts/typings/angularjs/angular-sanitize.d.ts"/>
-/// <reference path="Scripts/typings/angularjs/angular-animate.d.ts"/>
-/// <reference path="Scripts/typings/angularjs/angular-translate.d.ts"/>
-/// <reference path="Scripts/typings/angularjs/angular-ui-router.d.ts"/>
-/// <reference path="Scripts/typings/jquery/jquery.d.ts"/>
-// Application statics
-/// <reference path="Application/States.ts"/>
-// Application uses
-/// <reference path="Application/BoligfApp.ts"/>
-/// <reference path="Application/BearerTokenStorageService.ts"/>
-/// <reference path="Application/BearerTokenInterceptor.ts"/>
-/// <reference path="Application/Pages/Authentication/AuthenticationService.ts"/>
-/// <reference path="Application/Pages/Authentication/IsAuthorizedDirective.ts"/> 
 var Boligf;
 (function (Boligf) {
     var ApiService = (function () {
@@ -353,6 +342,71 @@ var Boligf;
     })();
     Boligf.ApiService = ApiService;
     Boligf.App.service("IApiService", Boligf.ApiService);
+})(Boligf || (Boligf = {}));
+var Boligf;
+(function (Boligf) {
+    var BearerTokenInterceptor = (function () {
+        function BearerTokenInterceptor($q, bearerTokenStorageService) {
+            var _this = this;
+            this.$q = $q;
+            this.bearerTokenStorageService = bearerTokenStorageService;
+            this.request = function (config) {
+                config.headers = config.headers || {};
+                if (_this.bearerTokenStorageService.anyToken()) {
+                    config.headers.Authorization = 'Bearer ' + _this.bearerTokenStorageService.token;
+                    config.headers.ContentType = 'application/x-www-form-urlencoded';
+                }
+                return config;
+            };
+            this.requestError = function (rejection) {
+                return _this.$q.reject(rejection);
+            };
+            this.responseError = function (rejection) {
+                if (rejection != null && rejection.status === 401 && _this.bearerTokenStorageService.anyToken()) {
+                    _this.bearerTokenStorageService.deleteToken();
+                }
+                return _this.$q.reject(rejection);
+            };
+        }
+        BearerTokenInterceptor.$inject = ['$q', 'IStoreBearerToken'];
+        return BearerTokenInterceptor;
+    })();
+    Boligf.BearerTokenInterceptor = BearerTokenInterceptor;
+    Boligf.App.service('IInterceptHttpProvider', Boligf.BearerTokenInterceptor);
+})(Boligf || (Boligf = {}));
+var Boligf;
+(function (Boligf) {
+    var BearerTokenStorageService = (function () {
+        function BearerTokenStorageService($cookies) {
+            this.$cookies = $cookies;
+        }
+        Object.defineProperty(BearerTokenStorageService.prototype, "token", {
+            get: function () {
+                return this.$cookies.get(BearerTokenStorageService.tokenKey);
+            },
+            set: function (value) {
+                this.$cookies.put(BearerTokenStorageService.tokenKey, value);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        BearerTokenStorageService.prototype.anyToken = function () {
+            if (this.$cookies.get(BearerTokenStorageService.tokenKey)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        };
+        BearerTokenStorageService.prototype.deleteToken = function () {
+            this.$cookies.remove(BearerTokenStorageService.tokenKey);
+        };
+        BearerTokenStorageService.tokenKey = "auth_token";
+        BearerTokenStorageService.$inject = ['$cookieStore'];
+        return BearerTokenStorageService;
+    })();
+    Boligf.BearerTokenStorageService = BearerTokenStorageService;
+    Boligf.App.service('IStoreBearerToken', Boligf.BearerTokenStorageService);
 })(Boligf || (Boligf = {}));
 var Boligf;
 (function (Boligf) {
@@ -465,130 +519,43 @@ var Boligf;
 })(Boligf || (Boligf = {}));
 var Boligf;
 (function (Boligf) {
-    var MemberLoginInfoComponent = (function () {
-        function MemberLoginInfoComponent(associationMemberService, userDataStore, associationDataStore) {
-            this.associationMemberService = associationMemberService;
-            this.userDataStore = userDataStore;
-            this.associationDataStore = associationDataStore;
-        }
-        Object.defineProperty(MemberLoginInfoComponent.prototype, "isFloorAndDoorAvailable", {
-            get: function () {
-                if (this.no && this.floor) {
-                    return true;
-                }
-                return false;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        MemberLoginInfoComponent.prototype.fillMemberInfo = function () {
-            var _this = this;
-            if (this.associationDataStore.associationId) {
-                this.associationMemberService.setup(this.associationDataStore.associationId).getSingle(this.userDataStore.userId).then(function (member) {
-                    _this.streetName = member.address.streetAddress;
-                    _this.no = member.address.no;
-                    _this.floor = member.address.floor;
-                    _this.door = member.address.door;
-                    _this.ready = true;
-                });
-            }
-        };
-        MemberLoginInfoComponent.$inject = ['IAssociationMemberService', 'IStoreUserData', 'IStoreAssociationData'];
-        return MemberLoginInfoComponent;
-    })();
-    Boligf.MemberLoginInfoComponent = MemberLoginInfoComponent;
-    function memberLoginInfoDirective(authenticationService) {
-        function link(scope, element, attributes, controller) {
-            scope.$watch(function () {
-                return authenticationService.isAuthenticated;
-            }, function (newValue, oldValue) {
-                if (newValue) {
-                    controller.fillMemberInfo();
-                }
-            });
-        }
-        var directive = {
-            restrict: 'AE',
-            scope: {},
-            replace: true,
-            templateUrl: '/Application/Pages/Association/Member/MemberLoginInfoComponent.html',
-            controller: ['IAssociationMemberService', 'IStoreUserData', 'IStoreAssociationData', Boligf.MemberLoginInfoComponent],
-            controllerAs: "memberLoginInfoCtrl",
-            link: link
-        };
-        return directive;
-    }
-    Boligf.memberLoginInfoDirective = memberLoginInfoDirective;
-    Boligf.App.directive("boligfMemberLoginInfo", ['IAuthenticationService', Boligf.memberLoginInfoDirective]);
-})(Boligf || (Boligf = {}));
-var Boligf;
-(function (Boligf) {
-    var RegisterMemberController = (function () {
-        function RegisterMemberController($state, $stateParams, userService, associationAddressService) {
-            this.$state = $state;
-            this.$stateParams = $stateParams;
-            this.userService = userService;
-            this.associationAddressService = associationAddressService;
-            this.addressRegistered = {};
-            this.registerCode = this.$stateParams["code"];
-        }
-        RegisterMemberController.prototype.getAddressByCode = function () {
-            var _this = this;
-            this.associationAddressService.getCode(this.registerCode).then(function (addresWithCode) {
-                _this.addressRegistered.addressId = addresWithCode.id;
-                _this.addressRegistered.associationId = addresWithCode.associationId;
-            }).catch(function () {
-            });
-        };
-        RegisterMemberController.prototype.register = function () {
-            var _this = this;
-            debugger;
-            this.userService.post(this.user).then(function (userId) {
-                _this.addressRegistered.userId = userId;
-                _this.associationAddressService.post(_this.addressRegistered).then(function () {
-                    _this.$state.go(Boligf.States.Default.Home);
-                }).catch(function () {
-                    _this.userService.delete(userId).then(function (isDeleted) {
-                        if (isDeleted) {
-                            console.log("user is deleted because association could not be created");
-                            _this.$state.go(Boligf.States.Default.Home);
-                        }
-                    });
-                });
-            });
-        };
-        RegisterMemberController.$inject = ['$state', '$stateParams', 'IUserService', 'IAssociationAddressService'];
-        return RegisterMemberController;
-    })();
-    Boligf.RegisterMemberController = RegisterMemberController;
-    Boligf.App.controller("Association_RegisterMemberController", Boligf.RegisterMemberController);
-})(Boligf || (Boligf = {}));
-var Boligf;
-(function (Boligf) {
     var RegisterController = (function () {
-        function RegisterController($state, userService, associationService) {
+        function RegisterController($rootScope, $state, userService, associationService) {
+            this.$rootScope = $rootScope;
             this.$state = $state;
             this.userService = userService;
             this.associationService = associationService;
+            this.association = {};
         }
         RegisterController.prototype.register = function () {
             var _this = this;
+            this.$rootScope.isLoading = true;
             this.userService.post(this.user).then(function (userId) {
                 _this.association.userId = userId;
                 _this.associationService.post(_this.association).then(function (associationId) {
-                    console.log(associationId);
+                    _this.$rootScope.isLoading = false;
                     _this.$state.go(Boligf.States.Default.Home);
                 }).catch(function () {
                     _this.userService.delete(userId).then(function (isDeleted) {
                         if (isDeleted) {
                             console.log("user is deleted because association could not be created");
+                            _this.$rootScope.isLoading = false;
                             _this.$state.go(Boligf.States.Default.Home);
                         }
                     });
                 });
             });
         };
-        RegisterController.$inject = ['$state', 'IUserService', 'IAssociationService'];
+        RegisterController.prototype.addressSelected = function (address) {
+            this.association.addressId = address.id;
+            this.association.streetAddress = address.streetname;
+            this.association.no = address.no;
+            this.association.floor = address.floor;
+            this.association.door = address.door;
+            this.association.zip = address.zip;
+            this.association.city = address.city;
+        };
+        RegisterController.$inject = ['$rootScope', '$state', 'IUserService', 'IAssociationService'];
         return RegisterController;
     })();
     Boligf.RegisterController = RegisterController;
@@ -626,6 +593,88 @@ var Boligf;
     })();
     Boligf.AuthenticationController = AuthenticationController;
     Boligf.App.controller("AuthenticationController", Boligf.AuthenticationController);
+})(Boligf || (Boligf = {}));
+var Boligf;
+(function (Boligf) {
+    var AuthenticationService = (function () {
+        function AuthenticationService($http, $q, bearerTokenStore, userDataStore, associationDataStore) {
+            this.$http = $http;
+            this.$q = $q;
+            this.bearerTokenStore = bearerTokenStore;
+            this.userDataStore = userDataStore;
+            this.associationDataStore = associationDataStore;
+            if (this.bearerTokenStore.anyToken()) {
+                this._isAuthenticated = true;
+            }
+            else {
+                this._isAuthenticated = false;
+            }
+        }
+        Object.defineProperty(AuthenticationService.prototype, "isAuthenticated", {
+            get: function () {
+                return this._isAuthenticated;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        AuthenticationService.prototype.login = function (email, password) {
+            var _this = this;
+            var defer = this.$q.defer();
+            var data = "grant_type=password&username=" + email + "&password=" + password;
+            this.$http.post(Boligf.Config.ApiAccess(true) + '/token', data).success(function (response) {
+                _this.bearerTokenStore.token = response.access_token;
+                _this.userDataStore.userId = response.userId;
+                _this.userDataStore.userName = response.userName;
+                _this.associationDataStore.associationId = response.associationId;
+                _this._isAuthenticated = true;
+                defer.resolve(true);
+            }).error(function (err, status) {
+                defer.resolve(false);
+            });
+            return defer.promise;
+        };
+        AuthenticationService.$inject = ['$http', '$q', 'IStoreBearerToken', 'IStoreUserData', 'IStoreAssociationData'];
+        return AuthenticationService;
+    })();
+    Boligf.AuthenticationService = AuthenticationService;
+    Boligf.App.service("IAuthenticationService", Boligf.AuthenticationService);
+})(Boligf || (Boligf = {}));
+var Boligf;
+(function (Boligf) {
+    function isAuthorizedDirective(authenticationService) {
+        var directive = {
+            restrict: 'A',
+            scope: {
+                isProtected: "=boligfIsAuthorized"
+            },
+            link: link
+        };
+        function link(scope, element, attributes) {
+            scope.$watch(function () {
+                return authenticationService.isAuthenticated;
+            }, function (newValue, oldValue) {
+                if (newValue) {
+                    if (scope.isProtected) {
+                        element.show();
+                    }
+                    else {
+                        element.hide();
+                    }
+                }
+                else {
+                    if (!scope.isProtected) {
+                        element.show();
+                    }
+                    else {
+                        element.hide();
+                    }
+                }
+            });
+        }
+        return directive;
+    }
+    Boligf.isAuthorizedDirective = isAuthorizedDirective;
+    Boligf.App.directive("boligfIsAuthorized", ['IAuthenticationService', Boligf.isAuthorizedDirective]);
 })(Boligf || (Boligf = {}));
 var Boligf;
 (function (Boligf) {
@@ -718,61 +767,106 @@ var Boligf;
 })(Boligf || (Boligf = {}));
 var Boligf;
 (function (Boligf) {
-    var Tests;
-    (function (Tests) {
-        function describe(str, func) {
+    var MemberLoginInfoComponent = (function () {
+        function MemberLoginInfoComponent(associationMemberService, userDataStore, associationDataStore) {
+            this.associationMemberService = associationMemberService;
+            this.userDataStore = userDataStore;
+            this.associationDataStore = associationDataStore;
         }
-        Tests.describe = describe;
-        function it(str, func) {
-        }
-        Tests.it = it;
-        function beforeEach(func) {
-        }
-        Tests.beforeEach = beforeEach;
-        describe("BearerTokenStorageService", function () {
-            var cookieStoreServiceMock;
-            var bearerTokenStorageService;
-            beforeEach(function () {
-                cookieStoreServiceMock = {
-                    get: function (key) {
-                    },
-                    put: function (key) {
-                    },
-                    remove: function (key) {
-                    }
-                };
-                spyOn(cookieStoreServiceMock, "get").and.returnValue("mikkel");
-                spyOn(cookieStoreServiceMock, "put");
-                spyOn(cookieStoreServiceMock, "remove");
-                bearerTokenStorageService = new Boligf.BearerTokenStorageService(cookieStoreServiceMock);
-            });
-            describe("Token is set", function () {
-                it("should return token when getting", function () {
-                    bearerTokenStorageService.token = "mikkel";
-                    expect(bearerTokenStorageService.token).toBe("mikkel");
-                    expect(cookieStoreServiceMock.get).toHaveBeenCalled();
-                    expect(cookieStoreServiceMock.get).toHaveBeenCalledWith("auth_token");
-                });
-                it("should return true for containing the token", function () {
-                    bearerTokenStorageService.token = "mikkel";
-                    expect(bearerTokenStorageService.anyToken()).toBe(true);
-                    expect(cookieStoreServiceMock.put).toHaveBeenCalled();
-                });
-                it("should be able to remove it", function () {
-                    bearerTokenStorageService.token = "mikkel";
-                    bearerTokenStorageService.deleteToken();
-                    expect(cookieStoreServiceMock.remove).toHaveBeenCalled();
-                });
-            });
-            describe("Token not set", function () {
-                it("should return false for containing the token", function () {
-                    cookieStoreServiceMock.get = function () {
-                        return null;
-                    };
-                    expect(bearerTokenStorageService.anyToken()).toBe(false);
-                });
-            });
+        Object.defineProperty(MemberLoginInfoComponent.prototype, "isFloorAndDoorAvailable", {
+            get: function () {
+                if (this.no && this.floor) {
+                    return true;
+                }
+                return false;
+            },
+            enumerable: true,
+            configurable: true
         });
-    })(Tests = Boligf.Tests || (Boligf.Tests = {}));
+        MemberLoginInfoComponent.prototype.fillMemberInfo = function () {
+            var _this = this;
+            if (this.associationDataStore.associationId) {
+                this.associationMemberService.setup(this.associationDataStore.associationId).getSingle(this.userDataStore.userId).then(function (member) {
+                    _this.streetName = member.address.streetAddress;
+                    _this.no = member.address.no;
+                    _this.floor = member.address.floor;
+                    _this.door = member.address.door;
+                    _this.ready = true;
+                });
+            }
+        };
+        MemberLoginInfoComponent.$inject = ['IAssociationMemberService', 'IStoreUserData', 'IStoreAssociationData'];
+        return MemberLoginInfoComponent;
+    })();
+    Boligf.MemberLoginInfoComponent = MemberLoginInfoComponent;
+    function memberLoginInfoDirective(authenticationService) {
+        function link(scope, element, attributes, controller) {
+            scope.$watch(function () {
+                return authenticationService.isAuthenticated;
+            }, function (newValue, oldValue) {
+                if (newValue) {
+                    controller.fillMemberInfo();
+                }
+            });
+        }
+        var directive = {
+            restrict: 'AE',
+            scope: {},
+            replace: true,
+            templateUrl: '/Application/Pages/Association/Member/MemberLoginInfoComponent.html',
+            controller: ['IAssociationMemberService', 'IStoreUserData', 'IStoreAssociationData', Boligf.MemberLoginInfoComponent],
+            controllerAs: "memberLoginInfoCtrl",
+            link: link
+        };
+        return directive;
+    }
+    Boligf.memberLoginInfoDirective = memberLoginInfoDirective;
+    Boligf.App.directive("boligfMemberLoginInfo", ['IAuthenticationService', Boligf.memberLoginInfoDirective]);
 })(Boligf || (Boligf = {}));
-//# sourceMappingURL=app.js.map
+var Boligf;
+(function (Boligf) {
+    var RegisterMemberController = (function () {
+        function RegisterMemberController($state, $stateParams, userService, associationAddressService) {
+            this.$state = $state;
+            this.$stateParams = $stateParams;
+            this.userService = userService;
+            this.associationAddressService = associationAddressService;
+            this.associationFound = true;
+            this.selectedOption = -1;
+            this.addressRegistered = {};
+            this.registerCode = this.$stateParams["code"];
+        }
+        RegisterMemberController.prototype.getAddressByCode = function () {
+            var _this = this;
+            this.associationAddressService.getCode(this.registerCode).then(function (addresWithCode) {
+                _this.addressRegistered.addressId = addresWithCode.id;
+                _this.addressRegistered.associationId = addresWithCode.associationId;
+            }).catch(function () {
+            });
+        };
+        RegisterMemberController.prototype.register = function () {
+            var _this = this;
+            debugger;
+            this.userService.post(this.user).then(function (userId) {
+                _this.addressRegistered.userId = userId;
+                _this.associationAddressService.post(_this.addressRegistered).then(function () {
+                    _this.$state.go(Boligf.States.Default.Home);
+                }).catch(function () {
+                    _this.userService.delete(userId).then(function (isDeleted) {
+                        if (isDeleted) {
+                            console.log("user is deleted because association could not be created");
+                            _this.$state.go(Boligf.States.Default.Home);
+                        }
+                    });
+                });
+            });
+        };
+        RegisterMemberController.prototype.setOption = function (option) {
+            this.selectedOption = option;
+        };
+        RegisterMemberController.$inject = ['$state', '$stateParams', 'IUserService', 'IAssociationAddressService'];
+        return RegisterMemberController;
+    })();
+    Boligf.RegisterMemberController = RegisterMemberController;
+    Boligf.App.controller("Association_RegisterMemberController", Boligf.RegisterMemberController);
+})(Boligf || (Boligf = {}));

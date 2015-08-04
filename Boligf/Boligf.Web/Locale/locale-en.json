@@ -14,6 +14,7 @@
   "Footer_Company": "Boligf",
   "Footer_Phone": "+45 2174 6766",
   "Footer_Email": "info@boligf.dk",
+  "Authentication_Login_Fieldset": "Your logon details",
   "Authentication_Login": "Login",
   "Authentication_Login_Email": "Email",
   "Authentication_Login_Password": "Password",
@@ -34,5 +35,9 @@
   "Association_Register_Floor": "Floor",
   "Association_Register_Zip": "Zip",
   "Association_Register_City": "City",
-  "Association_Register_Submit": "Register"
+  "Association_Register_Submit": "Register",
+  "Tip_Association_Register_Heading": "Register members",
+  "Tip_Association_Register_Description": "You can register residents as soon as the association is created. Registration of residents can always be done from the administration and it is simple, easy and fast.",
+  "Tip_Authentication_Login_Heading": "Nice header tip",
+  "Tip_Authentication_Login_Description": "This should be a cool description for this tip."
 }

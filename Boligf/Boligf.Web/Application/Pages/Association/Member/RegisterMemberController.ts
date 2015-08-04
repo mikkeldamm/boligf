@@ -2,17 +2,22 @@
 	
 	export interface IRegisterMemberController {
 
+		associationFound: boolean;
+		selectedOption: number;
 		user: IRegisterUser;
 		addressRegistered: IRegisterUserToAddress;
 		registerCode: string;
 		getAddressByCode(): void;
 		register(): void;
+		setOption(option: number): void;
 	}
 
 	export class RegisterMemberController implements IRegisterMemberController {
 
 		static $inject = ['$state', '$stateParams', 'IUserService', 'IAssociationAddressService'];
 
+		associationFound: boolean;
+		selectedOption: number;
 		user: IRegisterUser;
 		addressRegistered: IRegisterUserToAddress;
 		registerCode: string;
@@ -23,6 +28,9 @@
 			private userService: IUserService,
 			private associationAddressService: IAssociationAddressService
 			) {
+
+			this.associationFound = true;
+			this.selectedOption = -1;
 
 			this.addressRegistered = <IRegisterUserToAddress> {};
 			this.registerCode = this.$stateParams["code"];
@@ -64,7 +72,11 @@
 					});
 				});
 			});
+		}
 
+		setOption(option: number): void {
+			
+			this.selectedOption = option;
 		}
 	}
 

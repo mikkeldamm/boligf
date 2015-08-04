@@ -8,7 +8,11 @@ module Boligf {
 	export interface IConfig {
 		ApiAccess(hideApi?: boolean): string;
 	}
-	
+
+	export interface IRootScope extends ng.IRootScopeService {
+		isLoading: boolean;
+	}
+
 	export var App: IBoligfApp;
 
 	export class Startup {

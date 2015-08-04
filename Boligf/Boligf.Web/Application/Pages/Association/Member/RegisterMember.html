@@ -1,25 +1,90 @@
-﻿<div class="column small-12">
-	{{ 'Association_RegisterMember_Code' | translate }}:
+﻿<div class="column small-12 large-8">
+	<div class="form">
+		<fieldset>
+			<legend>{{ 'Association_RegisterMember_OptionFieldset' | translate }}</legend>
+			<div class="fields">
+				<div class="row">
+					<div class="column small-12 medium-6">
+						<div class="register-option" ng-click="registerMemberCtrl.setOption(1)" ng-class="registerMemberCtrl.selectedOption == 1 ? 'selected' : ''">
+							<img src="/Assets/Images/illustration_association.svg" />
+							<span>{{ 'Association_RegisterMember_Option1' | translate }}</span>
+						</div>
+					</div>
+					<div class="column small-12 medium-6">
+						<div class="register-option" ng-click="registerMemberCtrl.setOption(2)" ng-class="registerMemberCtrl.selectedOption == 2 ? 'selected' : ''">
+							<img src="/Assets/Images/illustration_code.svg" />
+							<span>{{ 'Association_RegisterMember_Option2' | translate }}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+		<fieldset ng-class="registerMemberCtrl.selectedOption == 1 ? '' : 'hide'">
+			<legend>{{ 'Association_RegisterMember_AssociationFieldset' | translate }}</legend>
+			<div class="fields">
+				<div class="row">
+					<div class="column small-12 large-3">
+						<label>{{ 'Association_RegisterMember_AddressOrAssociationName' | translate }}:</label>
+					</div>
+					<div class="column small-12 large-9">
+						<boligf-address-autocomplete address-selected="registerMemberCtrl.addressSelected(address)" ng-model="registerMemberCtrl.associationId" placeholder="{{ 'Association_RegisterMember_AddressOrAssociationName_Placeholder' | translate }}"></boligf-address-autocomplete>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+		<fieldset ng-class="registerMemberCtrl.selectedOption == 2 ? '' : 'hide'">
+			<legend>{{ 'Association_RegisterMember_CodeFieldset' | translate }}</legend>
+			<div class="fields">
+				<div class="row">
+					<div class="column small-12 large-3">
+						<label>{{ 'Association_RegisterMember_Code' | translate }}:</label>
+					</div>
+					<div class="column small-12 large-9">
+						<input type="text" placeholder="{{ 'Association_RegisterMember_Code_Placeholder' | translate }}" name="code" ng-model="registerMemberCtrl.registerCode"/>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+		<fieldset ng-class="registerMemberCtrl.addressRegistered.associationId ? '' : 'hide'">
+			<legend>{{ 'Association_RegisterMember_UserFieldset' | translate }}</legend>
+			<div class="fields">
+				<div class="row">
+					<div class="column small-12 large-3">
+						<label>{{ 'Association_RegisterMember_UserEmail' | translate }}:</label>
+					</div>
+					<div class="column small-12 large-9">
+						<input type="text" placeholder="{{ 'Association_RegisterMember_UserEmail_Placeholder' | translate }}" name="email" ng-model="registerMemberCtrl.user.email"/>
+					</div>
+					<div class="column small-12 large-3">
+						<label>{{ 'Association_RegisterMember_UserPassword' | translate }}:</label>
+					</div>
+					<div class="column small-12 large-9">
+						<input type="password" placeholder="{{ 'Association_RegisterMember_UserPassword_Placeholder' | translate }}" name="password" ng-model="registerMemberCtrl.user.password"/>
+					</div>
+				</div>
+				<div class="row">
+					<div class="column small-12 large-9 large-push-3">
+						<button ng-click="registerMemberCtrl.register()">{{ 'Association_RegisterMember_Submit' | translate }}</button>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+		<fieldset ng-class="registerMemberCtrl.associationFound ? 'hide' : ''">
+			<legend>{{ 'Association_RegisterMember_NotFoundFieldset' | translate }}</legend>
+			<div class="fields">
+				<div class="row">
+					<div class="column small-12">
+						<label>{{ 'Association_RegisterMember_NotFound' | translate }}:</label>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+	</div>
 </div>
-<div class="column small-12">
-	<input type="text" ng-model="registerMemberCtrl.registerCode"/>
-</div>
-<div class="column small-12">
-	<button ng-click="registerMemberCtrl.getAddressByCode()">{{ 'Association_RegisterMember_FindAddress' | translate }}</button>
-</div>
-<div>-------</div>
-<div class="column small-12">
-	{{ 'Association_RegisterMember_UserEmail' | translate }}:
-</div>
-<div class="column small-12">
-	<input type="text" ng-model="registerMemberCtrl.user.email" />
-</div>
-<div class="column small-12">
-	{{ 'Association_RegisterMember_UserPassword' | translate }}:
-</div>
-<div class="column small-12">
-	<input type="text" ng-model="registerMemberCtrl.user.password" />
-</div>
-<div class="column small-12">
-	<button ng-click="registerMemberCtrl.register()">{{ 'Association_RegisterMember_Submit' | translate }}</button>
+<div class="column small-12 large-4">
+	<div class="box tip">
+		<img src="/Assets/Images/illustration_members.svg" alt="" />
+		<h3>{{ 'Tip_Association_RegisterMember_Heading' | translate }}</h3>
+		<p>{{ 'Tip_Association_RegisterMember_Description' | translate }}</p>
+	</div>
 </div>

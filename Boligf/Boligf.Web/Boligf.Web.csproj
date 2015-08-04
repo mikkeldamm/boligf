@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="ApplicationTests\BearerTokenStorageServiceSpec.ts" />
+    <TypeScriptCompile Include="Application\AddressAutocompleteComponent.ts" />
     <TypeScriptCompile Include="Application\ApiService.ts" />
     <TypeScriptCompile Include="Application\Pages\Association\AssociationAddressService.ts" />
     <TypeScriptCompile Include="Application\Pages\Association\Member\MemberLoginInfoComponent.ts" />
@@ -78,9 +79,10 @@
     <TypeScriptCompile Include="Application\BearerTokenStorageService.ts" />
     <TypeScriptCompile Include="Application\Pages\Authentication\AuthenticationService.ts" />
     <TypeScriptCompile Include="Application\Pages\Authentication\IsAuthorizedDirective.ts" />
-    <TypeScriptCompile Include="Application\States.ts" />
+    <None Include="Application\!!States.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-translate.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-ui-router.d.ts" />
+    <Content Include="Application\AddressAutocompleteComponent.html" />
     <Content Include="Application\Pages\Association\Association.html" />
     <Content Include="Application\Pages\Association\Member\MemberLoginInfoComponent.html" />
     <Content Include="Application\Pages\Association\Member\RegisterMember.html" />
@@ -91,6 +93,9 @@
     <Content Include="Assets\Fonts\fontawesome-webfont.svg" />
     <Content Include="Assets\Images\boligflogoblack.svg" />
     <Content Include="Assets\Images\boligflogobrand.svg" />
+    <Content Include="Assets\Images\illustration_association.svg" />
+    <Content Include="Assets\Images\illustration_code.svg" />
+    <Content Include="Assets\Images\illustration_members.svg" />
     <Content Include="gulpfile.js" />
     <Content Include="robots.txt" />
     <Content Include="Scripts\Libraries\angular.cookies.js" />
@@ -176,6 +181,9 @@
     <Content Include="Scripts\Libraries\angular.resource.js" />
     <Content Include="Styles\Application\_forms.scss" />
     <Content Include="package.json" />
+    <Content Include="Styles\Application\_tip.scss" />
+    <Content Include="Styles\Application\_autocomplete.scss" />
+    <Content Include="Styles\Application\_register.scss" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -199,7 +207,7 @@
     <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Application\BoligfApp.ts" />
+    <TypeScriptCompile Include="Application\!BoligfApp.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-cookies.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-mocks.d.ts" />
@@ -217,6 +225,16 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
     <TypeScriptOutFile>Scripts/app.js</TypeScriptOutFile>
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptCompileOnSaveEnabled>False</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptModuleKind>None</TypeScriptModuleKind>
+    <TypeScriptOutDir />
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptOutFile>Scripts/app.js</TypeScriptOutFile>
