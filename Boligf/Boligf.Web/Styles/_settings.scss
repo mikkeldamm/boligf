@@ -10,6 +10,19 @@ $color-brand-extra: #d2f898;
 $text-color: $color-light;
 
 
+@-webkit-keyframes movelefttoright {
+	0% { left: -20%; }
+	100% { left: 100%; }
+}
+@-moz-keyframes movelefttoright {
+	0% { left: -20%; }
+	100% { left: 100%; }
+}
+@-o-keyframes movelefttoright {
+	0% { left: -20%; }
+	100% { left: 100%; }
+}
+
 // Foundation by ZURB
 // foundation.zurb.com
 // Licensed under MIT Open Source

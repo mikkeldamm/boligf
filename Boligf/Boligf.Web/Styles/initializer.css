@@ -1,3 +1,21 @@
+@-webkit-keyframes movelefttoright {
+  0% {
+    left: -20%; }
+  100% {
+    left: 100%; } }
+
+@-moz-keyframes movelefttoright {
+  0% {
+    left: -20%; }
+  100% {
+    left: 100%; } }
+
+@-o-keyframes movelefttoright {
+  0% {
+    left: -20%; }
+  100% {
+    left: 100%; } }
+
 /*! normalize.css v3.0.2 | MIT License | git.io/normalize */
 /**
  * 1. Set default font family to sans-serif.
@@ -2076,6 +2094,24 @@ th.hide-for-touch {
   th.show-for-print {
     display: table-cell !important; } }
 
+@-webkit-keyframes movelefttoright {
+  0% {
+    left: -20%; }
+  100% {
+    left: 100%; } }
+
+@-moz-keyframes movelefttoright {
+  0% {
+    left: -20%; }
+  100% {
+    left: 100%; } }
+
+@-o-keyframes movelefttoright {
+  0% {
+    left: -20%; }
+  100% {
+    left: 100%; } }
+
 body {
   font-family: 'Segoe UI', sans-serif;
   min-width: 320px;
@@ -3997,6 +4033,24 @@ a {
 .fa-medium:before {
   content: "\f23a"; }
 
+@-webkit-keyframes movelefttoright {
+  0% {
+    left: -20%; }
+  100% {
+    left: 100%; } }
+
+@-moz-keyframes movelefttoright {
+  0% {
+    left: -20%; }
+  100% {
+    left: 100%; } }
+
+@-o-keyframes movelefttoright {
+  0% {
+    left: -20%; }
+  100% {
+    left: 100%; } }
+
 #header {
   background-color: #FFDA00;
   border-top: 5px solid #e6c400; }
@@ -4043,6 +4097,24 @@ a {
         #header header a.selector.language i {
           margin-left: 0; } }
 
+@-webkit-keyframes movelefttoright {
+  0% {
+    left: -20%; }
+  100% {
+    left: 100%; } }
+
+@-moz-keyframes movelefttoright {
+  0% {
+    left: -20%; }
+  100% {
+    left: 100%; } }
+
+@-o-keyframes movelefttoright {
+  0% {
+    left: -20%; }
+  100% {
+    left: 100%; } }
+
 #navigation {
   background-color: #ffffff; }
   #navigation nav {
@@ -4059,6 +4131,24 @@ a {
     padding: 1em 0.9375rem; }
     #navigation .small-menu i {
       margin-right: 1em; }
+
+@-webkit-keyframes movelefttoright {
+  0% {
+    left: -20%; }
+  100% {
+    left: 100%; } }
+
+@-moz-keyframes movelefttoright {
+  0% {
+    left: -20%; }
+  100% {
+    left: 100%; } }
+
+@-o-keyframes movelefttoright {
+  0% {
+    left: -20%; }
+  100% {
+    left: 100%; } }
 
 #section {
   position: relative;
@@ -4122,6 +4212,24 @@ a {
   #footer footer {
     font-size: 0.875em;
     padding: 1em 0; }
+
+@-webkit-keyframes movelefttoright {
+  0% {
+    left: -20%; }
+  100% {
+    left: 100%; } }
+
+@-moz-keyframes movelefttoright {
+  0% {
+    left: -20%; }
+  100% {
+    left: 100%; } }
+
+@-o-keyframes movelefttoright {
+  0% {
+    left: -20%; }
+  100% {
+    left: 100%; } }
 
 .box {
   background-color: #FFF;
@@ -4204,6 +4312,9 @@ a {
       border: 1px solid #DEDEDE; }
       .form fieldset .fields input:focus {
         outline: none; }
+      .form fieldset .fields input[disabled] {
+        background-color: #F5F5F5;
+        color: #757575; }
     .form fieldset .fields label {
       padding: 0.6em 0 0 0;
       display: block;
@@ -4234,6 +4345,15 @@ a {
 :-ms-input-placeholder {
   color: #C5C5C5; }
 
+.help-text {
+  font-size: 0.9em;
+  font-style: italic;
+  color: #6F6F6F; }
+  .help-text a {
+    font-weight: bold; }
+    .help-text a:hover {
+      text-decoration: underline; }
+
 .tip img {
   width: 100%;
   height: 160px; }
@@ -4243,6 +4363,24 @@ a {
 
 .tip p:last-child {
   margin-bottom: 0; }
+
+@-webkit-keyframes movelefttoright {
+  0% {
+    left: -20%; }
+  100% {
+    left: 100%; } }
+
+@-moz-keyframes movelefttoright {
+  0% {
+    left: -20%; }
+  100% {
+    left: 100%; } }
+
+@-o-keyframes movelefttoright {
+  0% {
+    left: -20%; }
+  100% {
+    left: 100%; } }
 
 .autocomplete {
   position: relative; }
@@ -4294,3 +4432,52 @@ a {
     box-shadow: 2px 2px 1px 0px rgba(0, 0, 0, 0.06); }
   .register-option.selected {
     background-color: #FDF8DE; }
+
+@-webkit-keyframes movelefttoright {
+  0% {
+    left: -20%; }
+  100% {
+    left: 100%; } }
+
+@-moz-keyframes movelefttoright {
+  0% {
+    left: -20%; }
+  100% {
+    left: 100%; } }
+
+@-o-keyframes movelefttoright {
+  0% {
+    left: -20%; }
+  100% {
+    left: 100%; } }
+
+.searching-status {
+  position: relative;
+  overflow: hidden; }
+  .searching-status:after {
+    content: "";
+    position: absolute;
+    left: 0%;
+    width: 20%;
+    bottom: 0;
+    height: 4px;
+    display: none; }
+  .searching-status.searching:after,
+  .searching-status.succedded:after,
+  .searching-status.failed:after {
+    display: block; }
+  .searching-status.searching:after {
+    background-color: #EAC901;
+    -webkit-animation: movelefttoright 1s linear infinite;
+    -moz-animation: movelefttoright 1s linear infinite;
+    -o-animation: movelefttoright 1s linear infinite; }
+  .searching-status.succedded:after {
+    left: 0px;
+    right: 0px;
+    width: 100%;
+    background-color: #9FCE5A; }
+  .searching-status.failed:after {
+    left: 0px;
+    right: 0px;
+    width: 100%;
+    background-color: #EA5001; }

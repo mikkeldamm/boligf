@@ -8,7 +8,9 @@
 	export interface IRegisterUserToAddress {
 		userId: string;
 		associationId: string;
+		associationName: string;
 		addressId: string;
+		addressText: string;
 	}
 
 	export interface IAssociationAddressService {
