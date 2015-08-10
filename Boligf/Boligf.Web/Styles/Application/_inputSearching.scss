@@ -1,0 +1,49 @@
+﻿@import '../_settings.scss';
+
+.searching-status {
+
+	position: relative;
+	overflow: hidden;
+
+	&:after {
+
+		content: "";
+		position: absolute;
+		left: 0%;
+		width: 20%;
+		bottom: 0;
+		height: 4px;
+		display: none;
+	}
+
+	&.searching:after,
+	&.succedded:after,
+	&.failed:after {
+		
+		display: block;
+	}
+
+	&.searching:after {
+
+		background-color: #EAC901;
+		-webkit-animation: movelefttoright 1s linear infinite;
+		-moz-animation: movelefttoright 1s linear infinite;
+		-o-animation: movelefttoright 1s linear infinite;
+	}
+
+	&.succedded:after {
+
+		left: 0px;
+		right: 0px;
+		width: 100%;
+		background-color: #9FCE5A;
+	}
+
+	&.failed:after {
+		
+		left: 0px;
+		right: 0px;
+		width: 100%;
+		background-color: #EA5001;
+	}
+}

@@ -36,7 +36,11 @@
 			<i class="fa fa-bars"></i>{{ 'Navigation_Mobile' | translate }}
 		</div>
 		<nav class="row hide-for-small-down">
-			<ul>
+			<ul boligf-is-authorized="false">
+				<li><a ui-sref="association.register">{{ 'Navigation_Register' | translate }}</a></li>
+				<li><a ui-sref="association.registermember">{{ 'Navigation_RegisterMember' | translate }}</a></li>
+			</ul>
+			<ul boligf-is-authorized="true">
 				<li><a ui-sref="home">{{ 'Navigation_Home' | translate }}</a></li>
 				<li><a ui-sref="news">{{ 'Navigation_News' | translate }}</a></li>
 				<li><a ui-sref="documents">{{ 'Navigation_Documents' | translate }}</a></li>
@@ -63,6 +67,7 @@
 	<script src="/Scripts/Libraries/angular.ui-router.min.js"></script>
 	<script src="/Scripts/Libraries/angular.translate.min.js"></script>
 	<script src="/Scripts/Libraries/angular.translate-loader.min.js"></script>
+	<script src="/Scripts/Libraries/angular.translate-log.min.js"></script>
 
 	<script>
 		var Boligf = Boligf || (Boligf = {});

@@ -79,6 +79,7 @@ var Boligf;
                 prefix: '/Locale/locale-',
                 suffix: '.json'
             });
+            translateProvider.useMissingTranslationHandlerLog();
             translateProvider.preferredLanguage('en');
         };
         Startup.prototype.setupDefaultRouting = function (urlRouterProvider, locationProvider) {
@@ -407,6 +408,44 @@ var Boligf;
     })();
     Boligf.BearerTokenStorageService = BearerTokenStorageService;
     Boligf.App.service('IStoreBearerToken', Boligf.BearerTokenStorageService);
+})(Boligf || (Boligf = {}));
+var Boligf;
+(function (Boligf) {
+    function inputSearchingDirective() {
+        function link(scope, element, attributes) {
+            element.addClass('searching-status');
+            function clearClasses() {
+                element.removeClass('searching');
+                element.removeClass('succedded');
+                element.removeClass('failed');
+            }
+            scope.$watch(function () {
+                return scope.eventStatus;
+            }, function (newValue, oldValue) {
+                clearClasses();
+                if (newValue === 0) {
+                    element.addClass('searching');
+                }
+                else if (newValue === 1) {
+                    element.addClass('succedded');
+                }
+                else if (newValue === 2) {
+                    element.addClass('failed');
+                }
+            });
+        }
+        var directive = {
+            restrict: 'A',
+            scope: {
+                eventStatus: "=boligfInputSearching"
+            },
+            replace: false,
+            link: link
+        };
+        return directive;
+    }
+    Boligf.inputSearchingDirective = inputSearchingDirective;
+    Boligf.App.directive("boligfInputSearching", [Boligf.inputSearchingDirective]);
 })(Boligf || (Boligf = {}));
 var Boligf;
 (function (Boligf) {
@@ -826,23 +865,53 @@ var Boligf;
 var Boligf;
 (function (Boligf) {
     var RegisterMemberController = (function () {
-        function RegisterMemberController($state, $stateParams, userService, associationAddressService) {
+        function RegisterMemberController($state, $stateParams, userService, associationAddressService, $timeout) {
             this.$state = $state;
             this.$stateParams = $stateParams;
             this.userService = userService;
             this.associationAddressService = associationAddressService;
-            this.associationFound = true;
+            this.$timeout = $timeout;
+            this.shouldShowNotFound = false;
             this.selectedOption = -1;
+            this.codeSearchStatus = -1;
             this.addressRegistered = {};
             this.registerCode = this.$stateParams["code"];
+            if (this.registerCode) {
+                this.setOption(2);
+            }
         }
         RegisterMemberController.prototype.getAddressByCode = function () {
             var _this = this;
-            this.associationAddressService.getCode(this.registerCode).then(function (addresWithCode) {
-                _this.addressRegistered.addressId = addresWithCode.id;
-                _this.addressRegistered.associationId = addresWithCode.associationId;
-            }).catch(function () {
-            });
+            this.codeSearchStatus = -1;
+            this.shouldShowNotFound = false;
+            if (this.registerCode.length >= 6) {
+                this.codeSearchStatus = 0;
+                this.$timeout(function () {
+                    var addressWithCode = {
+                        id: "adId1",
+                        associationId: "asId1",
+                        streetAddress: "Tranehaven",
+                        no: "48",
+                        floor: "2",
+                        door: "tv",
+                        zip: "2650",
+                        city: "Brøndby"
+                    };
+                    _this.addressRegistered.addressId = addressWithCode.id;
+                    _this.addressRegistered.associationId = addressWithCode.associationId;
+                    _this.addressRegistered.associationName = "Skorpen A/B";
+                    _this.addressRegistered.addressText = _this.combineAddressInfoToText(addressWithCode);
+                    _this.codeSearchStatus = 1;
+                    _this.shouldShowNotFound = false;
+                }, 4000);
+            }
+        };
+        RegisterMemberController.prototype.addNewAddress = function () {
+            this.registerCode = null;
+            this.codeSearchStatus = -1;
+            this.addressRegistered.addressId = null;
+            this.addressRegistered.addressText = "";
+            this.setOption(1);
         };
         RegisterMemberController.prototype.register = function () {
             var _this = this;
@@ -864,7 +933,23 @@ var Boligf;
         RegisterMemberController.prototype.setOption = function (option) {
             this.selectedOption = option;
         };
-        RegisterMemberController.$inject = ['$state', '$stateParams', 'IUserService', 'IAssociationAddressService'];
+        RegisterMemberController.prototype.combineAddressInfoToText = function (addressInfo) {
+            var text = addressInfo.streetAddress;
+            if (addressInfo.no) {
+                text += " " + addressInfo.no;
+            }
+            if (addressInfo.floor) {
+                text += ", " + addressInfo.floor + ".";
+            }
+            if (addressInfo.door) {
+                text += " " + addressInfo.door;
+            }
+            if (addressInfo.zip && addressInfo.city) {
+                text += ", " + addressInfo.zip + " " + addressInfo.city;
+            }
+            return text;
+        };
+        RegisterMemberController.$inject = ['$state', '$stateParams', 'IUserService', 'IAssociationAddressService', '$timeout'];
         return RegisterMemberController;
     })();
     Boligf.RegisterMemberController = RegisterMemberController;

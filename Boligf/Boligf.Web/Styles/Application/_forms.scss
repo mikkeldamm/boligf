@@ -63,6 +63,12 @@
 
 					outline: none;
 				}
+
+				&[disabled] {
+
+					background-color: #F5F5F5;
+					color: #757575;
+				}
 			}  
 	
 			label {
@@ -111,4 +117,21 @@
 :-moz-placeholder,
 :-ms-input-placeholder {
     color: #C5C5C5;
+}
+
+.help-text {
+
+	font-size: 0.9em;
+	font-style: italic;
+	color: #6F6F6F;
+
+	a {
+
+		font-weight: bold;
+
+		&:hover {
+
+			text-decoration: underline;
+		}
+	}
 }

@@ -63,6 +63,7 @@
     <TypeScriptCompile Include="ApplicationTests\BearerTokenStorageServiceSpec.ts" />
     <TypeScriptCompile Include="Application\AddressAutocompleteComponent.ts" />
     <TypeScriptCompile Include="Application\ApiService.ts" />
+    <TypeScriptCompile Include="Application\InputSearchingComponent.ts" />
     <TypeScriptCompile Include="Application\Pages\Association\AssociationAddressService.ts" />
     <TypeScriptCompile Include="Application\Pages\Association\Member\MemberLoginInfoComponent.ts" />
     <TypeScriptCompile Include="Application\Pages\Association\AssociationMemberService.ts" />
@@ -102,6 +103,7 @@
     <Content Include="Scripts\Libraries\angular.js" />
     <Content Include="Scripts\Libraries\angular.mocks.js" />
     <Content Include="Scripts\Libraries\angular.translate-loader.min.js" />
+    <Content Include="Scripts\Libraries\angular.translate-log.min.js" />
     <Content Include="Scripts\Libraries\angular.translate.min.js" />
     <Content Include="Scripts\Libraries\angular.ui-router.min.js" />
     <Content Include="Scripts\Libraries\Jasmine\boot.js" />
@@ -184,6 +186,7 @@
     <Content Include="Styles\Application\_tip.scss" />
     <Content Include="Styles\Application\_autocomplete.scss" />
     <Content Include="Styles\Application\_register.scss" />
+    <Content Include="Styles\Application\_inputSearching.scss" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

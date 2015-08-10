@@ -72,7 +72,10 @@ module Boligf {
 				suffix: '.json'
 			});
 
+			translateProvider.useMissingTranslationHandlerLog();
+
 			translateProvider.preferredLanguage('en');
+
 		}
 
 		private setupDefaultRouting(urlRouterProvider: ng.ui.IUrlRouterProvider, locationProvider: ng.ILocationProvider) {
