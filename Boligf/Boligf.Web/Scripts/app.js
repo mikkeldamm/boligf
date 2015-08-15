@@ -150,6 +150,375 @@ var Boligf;
 var app = Boligf.Startup.Initialize();
 var Boligf;
 (function (Boligf) {
+    var BearerTokenStorageService = (function () {
+        function BearerTokenStorageService($cookies) {
+            this.$cookies = $cookies;
+        }
+        Object.defineProperty(BearerTokenStorageService.prototype, "token", {
+            get: function () {
+                return this.$cookies.get(BearerTokenStorageService.tokenKey);
+            },
+            set: function (value) {
+                this.$cookies.put(BearerTokenStorageService.tokenKey, value);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        BearerTokenStorageService.prototype.anyToken = function () {
+            if (this.$cookies.get(BearerTokenStorageService.tokenKey)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        };
+        BearerTokenStorageService.prototype.deleteToken = function () {
+            this.$cookies.remove(BearerTokenStorageService.tokenKey);
+        };
+        BearerTokenStorageService.tokenKey = "auth_token";
+        BearerTokenStorageService.$inject = ['$cookieStore'];
+        return BearerTokenStorageService;
+    })();
+    Boligf.BearerTokenStorageService = BearerTokenStorageService;
+    Boligf.App.service('IStoreBearerToken', Boligf.BearerTokenStorageService);
+})(Boligf || (Boligf = {}));
+var Boligf;
+(function (Boligf) {
+    var BearerTokenInterceptor = (function () {
+        function BearerTokenInterceptor($q, bearerTokenStorageService) {
+            var _this = this;
+            this.$q = $q;
+            this.bearerTokenStorageService = bearerTokenStorageService;
+            this.request = function (config) {
+                config.headers = config.headers || {};
+                if (_this.bearerTokenStorageService.anyToken()) {
+                    config.headers.Authorization = 'Bearer ' + _this.bearerTokenStorageService.token;
+                    config.headers.ContentType = 'application/x-www-form-urlencoded';
+                }
+                return config;
+            };
+            this.requestError = function (rejection) {
+                return _this.$q.reject(rejection);
+            };
+            this.responseError = function (rejection) {
+                if (rejection != null && rejection.status === 401 && _this.bearerTokenStorageService.anyToken()) {
+                    _this.bearerTokenStorageService.deleteToken();
+                }
+                return _this.$q.reject(rejection);
+            };
+        }
+        BearerTokenInterceptor.$inject = ['$q', 'IStoreBearerToken'];
+        return BearerTokenInterceptor;
+    })();
+    Boligf.BearerTokenInterceptor = BearerTokenInterceptor;
+    Boligf.App.service('IInterceptHttpProvider', Boligf.BearerTokenInterceptor);
+})(Boligf || (Boligf = {}));
+var Boligf;
+(function (Boligf) {
+    var AuthenticationService = (function () {
+        function AuthenticationService($http, $q, bearerTokenStore, userDataStore, associationDataStore) {
+            this.$http = $http;
+            this.$q = $q;
+            this.bearerTokenStore = bearerTokenStore;
+            this.userDataStore = userDataStore;
+            this.associationDataStore = associationDataStore;
+            if (this.bearerTokenStore.anyToken()) {
+                this._isAuthenticated = true;
+            }
+            else {
+                this._isAuthenticated = false;
+            }
+        }
+        Object.defineProperty(AuthenticationService.prototype, "isAuthenticated", {
+            get: function () {
+                return this._isAuthenticated;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        AuthenticationService.prototype.login = function (email, password) {
+            var _this = this;
+            var defer = this.$q.defer();
+            var data = "grant_type=password&username=" + email + "&password=" + password;
+            this.$http.post(Boligf.Config.ApiAccess(true) + '/token', data).success(function (response) {
+                _this.bearerTokenStore.token = response.access_token;
+                _this.userDataStore.userId = response.userId;
+                _this.userDataStore.userName = response.userName;
+                _this.associationDataStore.associationId = response.associationId;
+                _this._isAuthenticated = true;
+                defer.resolve(true);
+            }).error(function (err, status) {
+                defer.resolve(false);
+            });
+            return defer.promise;
+        };
+        AuthenticationService.$inject = ['$http', '$q', 'IStoreBearerToken', 'IStoreUserData', 'IStoreAssociationData'];
+        return AuthenticationService;
+    })();
+    Boligf.AuthenticationService = AuthenticationService;
+    Boligf.App.service("IAuthenticationService", Boligf.AuthenticationService);
+})(Boligf || (Boligf = {}));
+var Boligf;
+(function (Boligf) {
+    function isAuthorizedDirective(authenticationService) {
+        var directive = {
+            restrict: 'A',
+            scope: {
+                isProtected: "=boligfIsAuthorized"
+            },
+            link: link
+        };
+        function link(scope, element, attributes) {
+            scope.$watch(function () {
+                return authenticationService.isAuthenticated;
+            }, function (newValue, oldValue) {
+                if (newValue) {
+                    if (scope.isProtected) {
+                        element.show();
+                    }
+                    else {
+                        element.hide();
+                    }
+                }
+                else {
+                    if (!scope.isProtected) {
+                        element.show();
+                    }
+                    else {
+                        element.hide();
+                    }
+                }
+            });
+        }
+        return directive;
+    }
+    Boligf.isAuthorizedDirective = isAuthorizedDirective;
+    Boligf.App.directive("boligfIsAuthorized", ['IAuthenticationService', Boligf.isAuthorizedDirective]);
+})(Boligf || (Boligf = {}));
+// Typings 
+/// <reference path="Scripts/typings/angularjs/angular.d.ts"/>
+/// <reference path="Scripts/typings/angularjs/angular-route.d.ts"/>
+/// <reference path="Scripts/typings/angularjs/angular-resource.d.ts"/>
+/// <reference path="Scripts/typings/angularjs/angular-cookies.d.ts"/>
+/// <reference path="Scripts/typings/angularjs/angular-mocks.d.ts"/>
+/// <reference path="Scripts/typings/angularjs/angular-sanitize.d.ts"/>
+/// <reference path="Scripts/typings/angularjs/angular-animate.d.ts"/>
+/// <reference path="Scripts/typings/angularjs/angular-translate.d.ts"/>
+/// <reference path="Scripts/typings/angularjs/angular-ui-router.d.ts"/>
+/// <reference path="Scripts/typings/jquery/jquery.d.ts"/>
+// Application statics
+/// <reference path="Application/!!States.ts"/>
+// Application uses
+/// <reference path="Application/!BoligfApp.ts"/>
+/// <reference path="Application/BearerTokenStorageService.ts"/>
+/// <reference path="Application/BearerTokenInterceptor.ts"/>
+/// <reference path="Application/Pages/Authentication/AuthenticationService.ts"/>
+/// <reference path="Application/Pages/Authentication/IsAuthorizedDirective.ts"/> 
+var Boligf;
+(function (Boligf) {
+    var Tests;
+    (function (Tests) {
+        function describe(str, func) {
+        }
+        Tests.describe = describe;
+        function it(str, func) {
+        }
+        Tests.it = it;
+        function beforeEach(func) {
+        }
+        Tests.beforeEach = beforeEach;
+        describe("BearerTokenStorageService", function () {
+            var cookieStoreServiceMock;
+            var bearerTokenStorageService;
+            beforeEach(function () {
+                cookieStoreServiceMock = {
+                    get: function (key) {
+                    },
+                    put: function (key) {
+                    },
+                    remove: function (key) {
+                    }
+                };
+                spyOn(cookieStoreServiceMock, "get").and.returnValue("mikkel");
+                spyOn(cookieStoreServiceMock, "put");
+                spyOn(cookieStoreServiceMock, "remove");
+                bearerTokenStorageService = new Boligf.BearerTokenStorageService(cookieStoreServiceMock);
+            });
+            describe("Token is set", function () {
+                it("should return token when getting", function () {
+                    bearerTokenStorageService.token = "mikkel";
+                    expect(bearerTokenStorageService.token).toBe("mikkel");
+                    expect(cookieStoreServiceMock.get).toHaveBeenCalled();
+                    expect(cookieStoreServiceMock.get).toHaveBeenCalledWith("auth_token");
+                });
+                it("should return true for containing the token", function () {
+                    bearerTokenStorageService.token = "mikkel";
+                    expect(bearerTokenStorageService.anyToken()).toBe(true);
+                    expect(cookieStoreServiceMock.put).toHaveBeenCalled();
+                });
+                it("should be able to remove it", function () {
+                    bearerTokenStorageService.token = "mikkel";
+                    bearerTokenStorageService.deleteToken();
+                    expect(cookieStoreServiceMock.remove).toHaveBeenCalled();
+                });
+            });
+            describe("Token not set", function () {
+                it("should return false for containing the token", function () {
+                    cookieStoreServiceMock.get = function () {
+                        return null;
+                    };
+                    expect(bearerTokenStorageService.anyToken()).toBe(false);
+                });
+            });
+        });
+    })(Tests = Boligf.Tests || (Boligf.Tests = {}));
+})(Boligf || (Boligf = {}));
+var Boligf;
+(function (Boligf) {
+    var AssociationAutocompleteComponent = (function () {
+        function AssociationAutocompleteComponent($http, $timeout) {
+            this.$http = $http;
+            this.$timeout = $timeout;
+            this.currentItemIndex = 0;
+        }
+        AssociationAutocompleteComponent.prototype.lookup = function () {
+            var _this = this;
+            if (this.timeoutPromise) {
+                this.$timeout.cancel(this.timeoutPromise);
+            }
+            if (!this.searchQuery || this.searchQuery.length <= 1) {
+                this.hideList();
+                return;
+            }
+            this.timeoutPromise = this.$timeout(function () {
+                _this.getItemsFromQuery();
+            }, 250);
+        };
+        AssociationAutocompleteComponent.prototype.getIndexToNextItem = function () {
+            if (this.currentItemIndex === (this.items.length - 1)) {
+                this.currentItemIndex = 0;
+            }
+            else {
+                this.currentItemIndex += 1;
+            }
+            return this.currentItemIndex;
+        };
+        AssociationAutocompleteComponent.prototype.getIndexToPreviousItem = function () {
+            if (this.currentItemIndex <= 0) {
+                this.currentItemIndex = (this.items.length - 1);
+            }
+            else {
+                this.currentItemIndex -= 1;
+            }
+            return this.currentItemIndex;
+        };
+        AssociationAutocompleteComponent.prototype.selectCurrentItem = function () {
+            this.selectItem(this.items[this.currentItemIndex]);
+        };
+        AssociationAutocompleteComponent.prototype.resetCurrentIndex = function () {
+            this.currentItemIndex = 0;
+        };
+        AssociationAutocompleteComponent.prototype.selectItem = function (item) {
+            this.searchQuery = item.text;
+            this.itemSelected({ item: item });
+            this.resetCurrentIndex();
+            this.hideList();
+        };
+        AssociationAutocompleteComponent.prototype.getItemsFromQuery = function () {
+            var _this = this;
+            this.$http.get("/api/association/autocomplete/query/?q=" + this.searchQuery).then(function (a) {
+                _this.items = a.data;
+                _this.showList();
+            }).catch(function (b) {
+                // Write here that the address cant be found
+                console.log(b);
+            });
+        };
+        AssociationAutocompleteComponent.$inject = ['$http', '$timeout'];
+        return AssociationAutocompleteComponent;
+    })();
+    Boligf.AssociationAutocompleteComponent = AssociationAutocompleteComponent;
+    function associationAutocompleteDirective() {
+        function link(scope, element, attributes, controller) {
+            var itemJustSelected = false;
+            var inputElement = element.find('input');
+            var listBox = element.find('.autocomplete-box');
+            function markCurrentItem(index) {
+                var items = listBox.find('li');
+                items.removeClass('selected');
+                var item = $(items[index]);
+                item.addClass('selected');
+            }
+            function showList() {
+                if (listBox.css('top') === "0px") {
+                    listBox.css('top', inputElement.outerHeight());
+                }
+                listBox.addClass('show');
+                setTimeout(function () {
+                    markCurrentItem(controller.currentItemIndex);
+                }, 100);
+            }
+            function hideList() {
+                listBox.removeClass('show');
+            }
+            controller.showList = showList;
+            controller.hideList = hideList;
+            // Disable default browser autocomplete
+            inputElement.attr('autocomplete', 'off');
+            inputElement.off('focus').on('focus', function () {
+                if (itemJustSelected) {
+                    itemJustSelected = false;
+                    return false;
+                }
+                controller.lookup();
+            });
+            // Bind arrow and tab events
+            element.off('keyup').on('keyup', function (e) {
+                if (e.keyCode === 40) {
+                    markCurrentItem(controller.getIndexToNextItem());
+                }
+                else if (e.keyCode === 38) {
+                    markCurrentItem(controller.getIndexToPreviousItem());
+                }
+                else {
+                    if (itemJustSelected) {
+                        itemJustSelected = false;
+                        return false;
+                    }
+                    controller.resetCurrentIndex();
+                    controller.lookup();
+                    scope.$apply();
+                }
+            });
+            element.off('keydown').on('keydown', function (e) {
+                if (e.keyCode === 9 || e.keyCode === 13) {
+                    controller.selectCurrentItem();
+                    scope.$apply();
+                    itemJustSelected = true;
+                }
+            });
+        }
+        var directive = {
+            restrict: 'E',
+            scope: {
+                searchQuery: "=ngModel",
+                placeholder: "@",
+                addressSelected: "&"
+            },
+            replace: true,
+            bindToController: true,
+            templateUrl: '/Application/AssociationAutocompleteComponent.html',
+            controller: ['$http', '$timeout', Boligf.AssociationAutocompleteComponent],
+            controllerAs: "autocompleteCtrl",
+            link: link
+        };
+        return directive;
+    }
+    Boligf.associationAutocompleteDirective = associationAutocompleteDirective;
+    Boligf.App.directive("boligfAssociationAutocomplete", [Boligf.associationAutocompleteDirective]);
+})(Boligf || (Boligf = {}));
+var Boligf;
+(function (Boligf) {
     var AddressAutocompleteComponent = (function () {
         function AddressAutocompleteComponent($http, $timeout) {
             this.$http = $http;
@@ -346,71 +715,6 @@ var Boligf;
 })(Boligf || (Boligf = {}));
 var Boligf;
 (function (Boligf) {
-    var BearerTokenInterceptor = (function () {
-        function BearerTokenInterceptor($q, bearerTokenStorageService) {
-            var _this = this;
-            this.$q = $q;
-            this.bearerTokenStorageService = bearerTokenStorageService;
-            this.request = function (config) {
-                config.headers = config.headers || {};
-                if (_this.bearerTokenStorageService.anyToken()) {
-                    config.headers.Authorization = 'Bearer ' + _this.bearerTokenStorageService.token;
-                    config.headers.ContentType = 'application/x-www-form-urlencoded';
-                }
-                return config;
-            };
-            this.requestError = function (rejection) {
-                return _this.$q.reject(rejection);
-            };
-            this.responseError = function (rejection) {
-                if (rejection != null && rejection.status === 401 && _this.bearerTokenStorageService.anyToken()) {
-                    _this.bearerTokenStorageService.deleteToken();
-                }
-                return _this.$q.reject(rejection);
-            };
-        }
-        BearerTokenInterceptor.$inject = ['$q', 'IStoreBearerToken'];
-        return BearerTokenInterceptor;
-    })();
-    Boligf.BearerTokenInterceptor = BearerTokenInterceptor;
-    Boligf.App.service('IInterceptHttpProvider', Boligf.BearerTokenInterceptor);
-})(Boligf || (Boligf = {}));
-var Boligf;
-(function (Boligf) {
-    var BearerTokenStorageService = (function () {
-        function BearerTokenStorageService($cookies) {
-            this.$cookies = $cookies;
-        }
-        Object.defineProperty(BearerTokenStorageService.prototype, "token", {
-            get: function () {
-                return this.$cookies.get(BearerTokenStorageService.tokenKey);
-            },
-            set: function (value) {
-                this.$cookies.put(BearerTokenStorageService.tokenKey, value);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        BearerTokenStorageService.prototype.anyToken = function () {
-            if (this.$cookies.get(BearerTokenStorageService.tokenKey)) {
-                return true;
-            }
-            else {
-                return false;
-            }
-        };
-        BearerTokenStorageService.prototype.deleteToken = function () {
-            this.$cookies.remove(BearerTokenStorageService.tokenKey);
-        };
-        BearerTokenStorageService.tokenKey = "auth_token";
-        BearerTokenStorageService.$inject = ['$cookieStore'];
-        return BearerTokenStorageService;
-    })();
-    Boligf.BearerTokenStorageService = BearerTokenStorageService;
-    Boligf.App.service('IStoreBearerToken', Boligf.BearerTokenStorageService);
-})(Boligf || (Boligf = {}));
-var Boligf;
-(function (Boligf) {
     function inputSearchingDirective() {
         function link(scope, element, attributes) {
             element.addClass('searching-status');
@@ -464,345 +768,6 @@ var Boligf;
     })();
     Boligf.AssociationAddressService = AssociationAddressService;
     Boligf.App.service("IAssociationAddressService", Boligf.AssociationAddressService);
-})(Boligf || (Boligf = {}));
-var Boligf;
-(function (Boligf) {
-    var AssociationController = (function () {
-        function AssociationController(associationMemberService) {
-            this.associationMemberService = associationMemberService;
-            associationMemberService.setup("456243ef-91eb-4442-8fb9-cf2680582cc8");
-            associationMemberService.getAll().then(function (members) {
-                console.log(members);
-            });
-            associationMemberService.getSingle("fd76fe33-e015-420a-92c4-41da4b6a6b9e").then(function (member) {
-                console.log(member);
-            });
-        }
-        AssociationController.$inject = ['IAssociationMemberService'];
-        return AssociationController;
-    })();
-    Boligf.AssociationController = AssociationController;
-    Boligf.App.controller("AssociationController", Boligf.AssociationController);
-})(Boligf || (Boligf = {}));
-var Boligf;
-(function (Boligf) {
-    var AssociationMemberService = (function () {
-        function AssociationMemberService(apiService) {
-            this.apiService = apiService;
-        }
-        AssociationMemberService.prototype.setup = function (associationId) {
-            this.associationId = associationId;
-            return this;
-        };
-        AssociationMemberService.prototype.getAll = function () {
-            this.ensureSetup();
-            return this.apiService.get(this.getUrlString(this.associationId));
-        };
-        AssociationMemberService.prototype.getSingle = function (userId) {
-            this.ensureSetup();
-            return this.apiService.get(this.getUrlString(this.associationId, userId));
-        };
-        AssociationMemberService.prototype.ensureSetup = function () {
-            if (!this.associationId) {
-                throw new Error("setup is not called with 'associationId', before REST calls");
-            }
-        };
-        AssociationMemberService.prototype.getUrlString = function (associationId, userId) {
-            return "/association/" + associationId + "/user/" + (userId ? userId : "");
-        };
-        AssociationMemberService.$inject = ['IApiService'];
-        return AssociationMemberService;
-    })();
-    Boligf.AssociationMemberService = AssociationMemberService;
-    Boligf.App.service("IAssociationMemberService", Boligf.AssociationMemberService);
-})(Boligf || (Boligf = {}));
-var Boligf;
-(function (Boligf) {
-    var AssociationService = (function () {
-        function AssociationService(apiService) {
-            this.apiService = apiService;
-        }
-        AssociationService.prototype.post = function (model) {
-            return this.apiService.post("/association", model);
-        };
-        AssociationService.$inject = ['IApiService'];
-        return AssociationService;
-    })();
-    Boligf.AssociationService = AssociationService;
-    Boligf.App.service("IAssociationService", Boligf.AssociationService);
-})(Boligf || (Boligf = {}));
-var Boligf;
-(function (Boligf) {
-    var AssociationStorageService = (function () {
-        function AssociationStorageService($cookies) {
-            this.$cookies = $cookies;
-        }
-        Object.defineProperty(AssociationStorageService.prototype, "associationId", {
-            get: function () {
-                return this.$cookies.get("associationId");
-            },
-            set: function (value) {
-                this.$cookies.put("associationId", value);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        AssociationStorageService.prototype.clear = function () {
-            this.$cookies.remove("associationId");
-        };
-        AssociationStorageService.$inject = ['$cookieStore'];
-        return AssociationStorageService;
-    })();
-    Boligf.AssociationStorageService = AssociationStorageService;
-    Boligf.App.service('IStoreAssociationData', Boligf.AssociationStorageService);
-})(Boligf || (Boligf = {}));
-var Boligf;
-(function (Boligf) {
-    var RegisterController = (function () {
-        function RegisterController($rootScope, $state, userService, associationService) {
-            this.$rootScope = $rootScope;
-            this.$state = $state;
-            this.userService = userService;
-            this.associationService = associationService;
-            this.association = {};
-        }
-        RegisterController.prototype.register = function () {
-            var _this = this;
-            this.$rootScope.isLoading = true;
-            this.userService.post(this.user).then(function (userId) {
-                _this.association.userId = userId;
-                _this.associationService.post(_this.association).then(function (associationId) {
-                    _this.$rootScope.isLoading = false;
-                    _this.$state.go(Boligf.States.Default.Home);
-                }).catch(function () {
-                    _this.userService.delete(userId).then(function (isDeleted) {
-                        if (isDeleted) {
-                            console.log("user is deleted because association could not be created");
-                            _this.$rootScope.isLoading = false;
-                            _this.$state.go(Boligf.States.Default.Home);
-                        }
-                    });
-                });
-            });
-        };
-        RegisterController.prototype.addressSelected = function (address) {
-            this.association.addressId = address.id;
-            this.association.streetAddress = address.streetname;
-            this.association.no = address.no;
-            this.association.floor = address.floor;
-            this.association.door = address.door;
-            this.association.zip = address.zip;
-            this.association.city = address.city;
-        };
-        RegisterController.$inject = ['$rootScope', '$state', 'IUserService', 'IAssociationService'];
-        return RegisterController;
-    })();
-    Boligf.RegisterController = RegisterController;
-    Boligf.App.controller("Association_RegisterController", Boligf.RegisterController);
-})(Boligf || (Boligf = {}));
-var Boligf;
-(function (Boligf) {
-    var AuthenticationController = (function () {
-        function AuthenticationController($scope, $http, authenticationService, bearerTokenStore) {
-            this.$scope = $scope;
-            this.$http = $http;
-            this.authenticationService = authenticationService;
-            this.bearerTokenStore = bearerTokenStore;
-            console.log("Auth ctrl init");
-            this.lars = "mikkel";
-        }
-        AuthenticationController.prototype.testM = function () {
-            //var token = this.authenticationService.login("mikkel@damm.dk", "1234");
-            console.log("Click event");
-            console.log("-- token: " + this.bearerTokenStore.token);
-            this.$http.get('/api/authentication', {}).success(function (data) {
-                console.log("test call");
-                console.log(data);
-            });
-        };
-        AuthenticationController.prototype.testM2 = function () {
-            console.log("Click event");
-            this.$http.get('/api/authentication/4', {}).success(function (data) {
-                console.log("test call 2");
-                console.log(data);
-            });
-        };
-        AuthenticationController.$inject = ['$scope', '$http', 'IAuthenticationService', 'IStoreBearerToken'];
-        return AuthenticationController;
-    })();
-    Boligf.AuthenticationController = AuthenticationController;
-    Boligf.App.controller("AuthenticationController", Boligf.AuthenticationController);
-})(Boligf || (Boligf = {}));
-var Boligf;
-(function (Boligf) {
-    var AuthenticationService = (function () {
-        function AuthenticationService($http, $q, bearerTokenStore, userDataStore, associationDataStore) {
-            this.$http = $http;
-            this.$q = $q;
-            this.bearerTokenStore = bearerTokenStore;
-            this.userDataStore = userDataStore;
-            this.associationDataStore = associationDataStore;
-            if (this.bearerTokenStore.anyToken()) {
-                this._isAuthenticated = true;
-            }
-            else {
-                this._isAuthenticated = false;
-            }
-        }
-        Object.defineProperty(AuthenticationService.prototype, "isAuthenticated", {
-            get: function () {
-                return this._isAuthenticated;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        AuthenticationService.prototype.login = function (email, password) {
-            var _this = this;
-            var defer = this.$q.defer();
-            var data = "grant_type=password&username=" + email + "&password=" + password;
-            this.$http.post(Boligf.Config.ApiAccess(true) + '/token', data).success(function (response) {
-                _this.bearerTokenStore.token = response.access_token;
-                _this.userDataStore.userId = response.userId;
-                _this.userDataStore.userName = response.userName;
-                _this.associationDataStore.associationId = response.associationId;
-                _this._isAuthenticated = true;
-                defer.resolve(true);
-            }).error(function (err, status) {
-                defer.resolve(false);
-            });
-            return defer.promise;
-        };
-        AuthenticationService.$inject = ['$http', '$q', 'IStoreBearerToken', 'IStoreUserData', 'IStoreAssociationData'];
-        return AuthenticationService;
-    })();
-    Boligf.AuthenticationService = AuthenticationService;
-    Boligf.App.service("IAuthenticationService", Boligf.AuthenticationService);
-})(Boligf || (Boligf = {}));
-var Boligf;
-(function (Boligf) {
-    function isAuthorizedDirective(authenticationService) {
-        var directive = {
-            restrict: 'A',
-            scope: {
-                isProtected: "=boligfIsAuthorized"
-            },
-            link: link
-        };
-        function link(scope, element, attributes) {
-            scope.$watch(function () {
-                return authenticationService.isAuthenticated;
-            }, function (newValue, oldValue) {
-                if (newValue) {
-                    if (scope.isProtected) {
-                        element.show();
-                    }
-                    else {
-                        element.hide();
-                    }
-                }
-                else {
-                    if (!scope.isProtected) {
-                        element.show();
-                    }
-                    else {
-                        element.hide();
-                    }
-                }
-            });
-        }
-        return directive;
-    }
-    Boligf.isAuthorizedDirective = isAuthorizedDirective;
-    Boligf.App.directive("boligfIsAuthorized", ['IAuthenticationService', Boligf.isAuthorizedDirective]);
-})(Boligf || (Boligf = {}));
-var Boligf;
-(function (Boligf) {
-    var LoginController = (function () {
-        function LoginController($state, authenticationService) {
-            this.$state = $state;
-            this.authenticationService = authenticationService;
-            // Redirect user to home if is logged in
-            if (this.authenticationService.isAuthenticated) {
-                this.$state.go(Boligf.States.Default.Home);
-            }
-        }
-        LoginController.prototype.login = function () {
-            var _this = this;
-            this.authenticationService.login(this.email, this.password).then(function (isSuccedded) {
-                if (isSuccedded) {
-                    _this.$state.go(Boligf.States.Default.Home);
-                }
-                else {
-                    // TODO: Instead of redirect on failure, then just show error for user
-                    _this.$state.go(Boligf.States.Errors.E403);
-                }
-            });
-        };
-        LoginController.$inject = ['$state', 'IAuthenticationService'];
-        return LoginController;
-    })();
-    Boligf.LoginController = LoginController;
-    Boligf.App.controller("LoginController", Boligf.LoginController);
-})(Boligf || (Boligf = {}));
-var Boligf;
-(function (Boligf) {
-    var UserProfile = (function () {
-        function UserProfile() {
-        }
-        return UserProfile;
-    })();
-    Boligf.UserProfile = UserProfile;
-    var UserService = (function () {
-        function UserService(apiService) {
-            this.apiService = apiService;
-        }
-        UserService.prototype.post = function (model) {
-            return this.apiService.post("/user", model);
-        };
-        UserService.prototype.delete = function (userId) {
-            return this.apiService.delete("/user/" + userId);
-        };
-        UserService.$inject = ['IApiService'];
-        return UserService;
-    })();
-    Boligf.UserService = UserService;
-    Boligf.App.service("IUserService", Boligf.UserService);
-})(Boligf || (Boligf = {}));
-var Boligf;
-(function (Boligf) {
-    var UserStorageService = (function () {
-        function UserStorageService($cookies) {
-            this.$cookies = $cookies;
-        }
-        Object.defineProperty(UserStorageService.prototype, "userId", {
-            get: function () {
-                return this.$cookies.get("userId");
-            },
-            set: function (value) {
-                this.$cookies.put("userId", value);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(UserStorageService.prototype, "userName", {
-            get: function () {
-                return this.$cookies.get("userName");
-            },
-            set: function (value) {
-                this.$cookies.put("userName", value);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        UserStorageService.prototype.clear = function () {
-            this.$cookies.remove("userId");
-            this.$cookies.remove("userName");
-        };
-        UserStorageService.$inject = ['$cookieStore'];
-        return UserStorageService;
-    })();
-    Boligf.UserStorageService = UserStorageService;
-    Boligf.App.service('IStoreUserData', Boligf.UserStorageService);
 })(Boligf || (Boligf = {}));
 var Boligf;
 (function (Boligf) {
@@ -864,6 +829,72 @@ var Boligf;
 })(Boligf || (Boligf = {}));
 var Boligf;
 (function (Boligf) {
+    var AssociationMemberService = (function () {
+        function AssociationMemberService(apiService) {
+            this.apiService = apiService;
+        }
+        AssociationMemberService.prototype.setup = function (associationId) {
+            this.associationId = associationId;
+            return this;
+        };
+        AssociationMemberService.prototype.getAll = function () {
+            this.ensureSetup();
+            return this.apiService.get(this.getUrlString(this.associationId));
+        };
+        AssociationMemberService.prototype.getSingle = function (userId) {
+            this.ensureSetup();
+            return this.apiService.get(this.getUrlString(this.associationId, userId));
+        };
+        AssociationMemberService.prototype.ensureSetup = function () {
+            if (!this.associationId) {
+                throw new Error("setup is not called with 'associationId', before REST calls");
+            }
+        };
+        AssociationMemberService.prototype.getUrlString = function (associationId, userId) {
+            return "/association/" + associationId + "/user/" + (userId ? userId : "");
+        };
+        AssociationMemberService.$inject = ['IApiService'];
+        return AssociationMemberService;
+    })();
+    Boligf.AssociationMemberService = AssociationMemberService;
+    Boligf.App.service("IAssociationMemberService", Boligf.AssociationMemberService);
+})(Boligf || (Boligf = {}));
+var Boligf;
+(function (Boligf) {
+    var AssociationService = (function () {
+        function AssociationService(apiService) {
+            this.apiService = apiService;
+        }
+        AssociationService.prototype.post = function (model) {
+            return this.apiService.post("/association", model);
+        };
+        AssociationService.$inject = ['IApiService'];
+        return AssociationService;
+    })();
+    Boligf.AssociationService = AssociationService;
+    Boligf.App.service("IAssociationService", Boligf.AssociationService);
+})(Boligf || (Boligf = {}));
+var Boligf;
+(function (Boligf) {
+    var AssociationController = (function () {
+        function AssociationController(associationMemberService) {
+            this.associationMemberService = associationMemberService;
+            associationMemberService.setup("456243ef-91eb-4442-8fb9-cf2680582cc8");
+            associationMemberService.getAll().then(function (members) {
+                console.log(members);
+            });
+            associationMemberService.getSingle("fd76fe33-e015-420a-92c4-41da4b6a6b9e").then(function (member) {
+                console.log(member);
+            });
+        }
+        AssociationController.$inject = ['IAssociationMemberService'];
+        return AssociationController;
+    })();
+    Boligf.AssociationController = AssociationController;
+    Boligf.App.controller("AssociationController", Boligf.AssociationController);
+})(Boligf || (Boligf = {}));
+var Boligf;
+(function (Boligf) {
     var RegisterMemberController = (function () {
         function RegisterMemberController($state, $stateParams, userService, associationAddressService, $timeout) {
             this.$state = $state;
@@ -871,7 +902,6 @@ var Boligf;
             this.userService = userService;
             this.associationAddressService = associationAddressService;
             this.$timeout = $timeout;
-            this.shouldShowNotFound = false;
             this.selectedOption = -1;
             this.codeSearchStatus = -1;
             this.addressRegistered = {};
@@ -883,7 +913,6 @@ var Boligf;
         RegisterMemberController.prototype.getAddressByCode = function () {
             var _this = this;
             this.codeSearchStatus = -1;
-            this.shouldShowNotFound = false;
             if (this.registerCode.length >= 6) {
                 this.codeSearchStatus = 0;
                 this.$timeout(function () {
@@ -901,8 +930,7 @@ var Boligf;
                     _this.addressRegistered.associationId = addressWithCode.associationId;
                     _this.addressRegistered.associationName = "Skorpen A/B";
                     _this.addressRegistered.addressText = _this.combineAddressInfoToText(addressWithCode);
-                    _this.codeSearchStatus = 1;
-                    _this.shouldShowNotFound = false;
+                    _this.codeSearchStatus = 2;
                 }, 4000);
             }
         };
@@ -955,3 +983,195 @@ var Boligf;
     Boligf.RegisterMemberController = RegisterMemberController;
     Boligf.App.controller("Association_RegisterMemberController", Boligf.RegisterMemberController);
 })(Boligf || (Boligf = {}));
+var Boligf;
+(function (Boligf) {
+    var RegisterController = (function () {
+        function RegisterController($rootScope, $state, userService, associationService) {
+            this.$rootScope = $rootScope;
+            this.$state = $state;
+            this.userService = userService;
+            this.associationService = associationService;
+            this.association = {};
+        }
+        RegisterController.prototype.register = function () {
+            var _this = this;
+            this.$rootScope.isLoading = true;
+            this.userService.post(this.user).then(function (userId) {
+                _this.association.userId = userId;
+                _this.associationService.post(_this.association).then(function (associationId) {
+                    _this.$rootScope.isLoading = false;
+                    _this.$state.go(Boligf.States.Default.Home);
+                }).catch(function () {
+                    _this.userService.delete(userId).then(function (isDeleted) {
+                        if (isDeleted) {
+                            console.log("user is deleted because association could not be created");
+                            _this.$rootScope.isLoading = false;
+                            _this.$state.go(Boligf.States.Default.Home);
+                        }
+                    });
+                });
+            });
+        };
+        RegisterController.prototype.addressSelected = function (address) {
+            this.association.addressId = address.id;
+            this.association.streetAddress = address.streetname;
+            this.association.no = address.no;
+            this.association.floor = address.floor;
+            this.association.door = address.door;
+            this.association.zip = address.zip;
+            this.association.city = address.city;
+        };
+        RegisterController.$inject = ['$rootScope', '$state', 'IUserService', 'IAssociationService'];
+        return RegisterController;
+    })();
+    Boligf.RegisterController = RegisterController;
+    Boligf.App.controller("Association_RegisterController", Boligf.RegisterController);
+})(Boligf || (Boligf = {}));
+var Boligf;
+(function (Boligf) {
+    var AssociationStorageService = (function () {
+        function AssociationStorageService($cookies) {
+            this.$cookies = $cookies;
+        }
+        Object.defineProperty(AssociationStorageService.prototype, "associationId", {
+            get: function () {
+                return this.$cookies.get("associationId");
+            },
+            set: function (value) {
+                this.$cookies.put("associationId", value);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        AssociationStorageService.prototype.clear = function () {
+            this.$cookies.remove("associationId");
+        };
+        AssociationStorageService.$inject = ['$cookieStore'];
+        return AssociationStorageService;
+    })();
+    Boligf.AssociationStorageService = AssociationStorageService;
+    Boligf.App.service('IStoreAssociationData', Boligf.AssociationStorageService);
+})(Boligf || (Boligf = {}));
+var Boligf;
+(function (Boligf) {
+    var AuthenticationController = (function () {
+        function AuthenticationController($scope, $http, authenticationService, bearerTokenStore) {
+            this.$scope = $scope;
+            this.$http = $http;
+            this.authenticationService = authenticationService;
+            this.bearerTokenStore = bearerTokenStore;
+            console.log("Auth ctrl init");
+            this.lars = "mikkel";
+        }
+        AuthenticationController.prototype.testM = function () {
+            //var token = this.authenticationService.login("mikkel@damm.dk", "1234");
+            console.log("Click event");
+            console.log("-- token: " + this.bearerTokenStore.token);
+            this.$http.get('/api/authentication', {}).success(function (data) {
+                console.log("test call");
+                console.log(data);
+            });
+        };
+        AuthenticationController.prototype.testM2 = function () {
+            console.log("Click event");
+            this.$http.get('/api/authentication/4', {}).success(function (data) {
+                console.log("test call 2");
+                console.log(data);
+            });
+        };
+        AuthenticationController.$inject = ['$scope', '$http', 'IAuthenticationService', 'IStoreBearerToken'];
+        return AuthenticationController;
+    })();
+    Boligf.AuthenticationController = AuthenticationController;
+    Boligf.App.controller("AuthenticationController", Boligf.AuthenticationController);
+})(Boligf || (Boligf = {}));
+var Boligf;
+(function (Boligf) {
+    var LoginController = (function () {
+        function LoginController($state, authenticationService) {
+            this.$state = $state;
+            this.authenticationService = authenticationService;
+            // Redirect user to home if is logged in
+            if (this.authenticationService.isAuthenticated) {
+                this.$state.go(Boligf.States.Default.Home);
+            }
+        }
+        LoginController.prototype.login = function () {
+            var _this = this;
+            this.authenticationService.login(this.email, this.password).then(function (isSuccedded) {
+                if (isSuccedded) {
+                    _this.$state.go(Boligf.States.Default.Home);
+                }
+                else {
+                    // TODO: Instead of redirect on failure, then just show error for user
+                    _this.$state.go(Boligf.States.Errors.E403);
+                }
+            });
+        };
+        LoginController.$inject = ['$state', 'IAuthenticationService'];
+        return LoginController;
+    })();
+    Boligf.LoginController = LoginController;
+    Boligf.App.controller("LoginController", Boligf.LoginController);
+})(Boligf || (Boligf = {}));
+var Boligf;
+(function (Boligf) {
+    var UserStorageService = (function () {
+        function UserStorageService($cookies) {
+            this.$cookies = $cookies;
+        }
+        Object.defineProperty(UserStorageService.prototype, "userId", {
+            get: function () {
+                return this.$cookies.get("userId");
+            },
+            set: function (value) {
+                this.$cookies.put("userId", value);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(UserStorageService.prototype, "userName", {
+            get: function () {
+                return this.$cookies.get("userName");
+            },
+            set: function (value) {
+                this.$cookies.put("userName", value);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        UserStorageService.prototype.clear = function () {
+            this.$cookies.remove("userId");
+            this.$cookies.remove("userName");
+        };
+        UserStorageService.$inject = ['$cookieStore'];
+        return UserStorageService;
+    })();
+    Boligf.UserStorageService = UserStorageService;
+    Boligf.App.service('IStoreUserData', Boligf.UserStorageService);
+})(Boligf || (Boligf = {}));
+var Boligf;
+(function (Boligf) {
+    var UserProfile = (function () {
+        function UserProfile() {
+        }
+        return UserProfile;
+    })();
+    Boligf.UserProfile = UserProfile;
+    var UserService = (function () {
+        function UserService(apiService) {
+            this.apiService = apiService;
+        }
+        UserService.prototype.post = function (model) {
+            return this.apiService.post("/user", model);
+        };
+        UserService.prototype.delete = function (userId) {
+            return this.apiService.delete("/user/" + userId);
+        };
+        UserService.$inject = ['IApiService'];
+        return UserService;
+    })();
+    Boligf.UserService = UserService;
+    Boligf.App.service("IUserService", Boligf.UserService);
+})(Boligf || (Boligf = {}));
+//# sourceMappingURL=app.js.map

@@ -4165,7 +4165,7 @@ a {
     bottom: 0;
     background-color: #EEF2F3;
     z-index: 20;
-    opacity: 0.5; }
+    opacity: 0.6; }
   #section.loading:after {
     content: "";
     position: absolute;

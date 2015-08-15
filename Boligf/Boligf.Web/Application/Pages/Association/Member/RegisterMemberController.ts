@@ -1,8 +1,7 @@
 ﻿module Boligf {
 	
 	export interface IRegisterMemberController {
-
-		shouldShowNotFound: boolean;
+		
 		selectedOption: number;
 		codeSearchStatus: number;
 		user: IRegisterUser;
@@ -17,8 +16,7 @@
 	export class RegisterMemberController implements IRegisterMemberController {
 
 		static $inject = ['$state', '$stateParams', 'IUserService', 'IAssociationAddressService', '$timeout'];
-
-		shouldShowNotFound: boolean;
+		
 		selectedOption: number;
 		codeSearchStatus: number;
 		user: IRegisterUser;
@@ -32,8 +30,7 @@
 			private associationAddressService: IAssociationAddressService,
 			private $timeout: ng.ITimeoutService
 			) {
-
-			this.shouldShowNotFound = false;
+			
 			this.selectedOption = -1;
 			this.codeSearchStatus = -1;
 
@@ -48,7 +45,6 @@
 		getAddressByCode(): void {
 
 			this.codeSearchStatus = -1;
-			this.shouldShowNotFound = false;
 
 			if (this.registerCode.length >= 6) {
 
@@ -72,8 +68,7 @@
 					this.addressRegistered.associationName = "Skorpen A/B";
 					this.addressRegistered.addressText = this.combineAddressInfoToText(addressWithCode);
 
-					this.codeSearchStatus = 1;
-					this.shouldShowNotFound = false;
+					this.codeSearchStatus = 2;
 
 				}, 4000);
 

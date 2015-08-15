@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="ApplicationTests\BearerTokenStorageServiceSpec.ts" />
+    <TypeScriptCompile Include="Application\AssociationAutocompleteComponent.ts" />
     <TypeScriptCompile Include="Application\AddressAutocompleteComponent.ts" />
     <TypeScriptCompile Include="Application\ApiService.ts" />
     <TypeScriptCompile Include="Application\InputSearchingComponent.ts" />
@@ -83,6 +84,7 @@
     <None Include="Application\!!States.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-translate.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-ui-router.d.ts" />
+    <Content Include="Application\AssociationAutocompleteComponent.html" />
     <Content Include="Application\AddressAutocompleteComponent.html" />
     <Content Include="Application\Pages\Association\Association.html" />
     <Content Include="Application\Pages\Association\Member\MemberLoginInfoComponent.html" />

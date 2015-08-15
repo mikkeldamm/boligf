@@ -246,6 +246,7 @@
     <Compile Include="Configuration\WebApiConfig.cs" />
     <Compile Include="Context\Connection.cs" />
     <Compile Include="Context\UserContext.cs" />
+    <Compile Include="Controllers\AssociationAutocompleteController.cs" />
     <Compile Include="Controllers\AssociationController.cs" />
     <Compile Include="Controllers\AssociationAddressController.cs" />
     <Compile Include="Controllers\AssociationUserController.cs" />

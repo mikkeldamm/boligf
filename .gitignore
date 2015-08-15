@@ -22,3 +22,4 @@
 /Boligf/Boligf.Web/node_modules
 /Boligf/Boligf.Web/obj
 /Boligf/Boligf.Web/Properties/PublishProfiles
+*.ncrunchsolution
