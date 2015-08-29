@@ -25,7 +25,7 @@ namespace Boligf.Api.Controllers
 			var view = _getAssociationsView.Load();
 
 			var associationsMatched = view.Associations
-				.Where(association => association.Name.ToLower().Contains(searchQuery) || association.Addresses.Any(a => a.GetFullAddress().ToLower().Contains(searchQuery)))
+				.Where(association => association.Name.ToLower().Contains(searchQuery) || association.Addresses.Any(a => a.FullAddress.ToLower().Contains(searchQuery)))
 				.ToList();
 
 			if (associationsMatched.Any())

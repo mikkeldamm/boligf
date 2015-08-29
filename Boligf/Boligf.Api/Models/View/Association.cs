@@ -26,34 +26,37 @@ namespace Boligf.Api.Models.View
 			public string City { get; set; }
 			public string Country { get; set; }
 
-			public string GetFullAddress()
+			public string FullAddress
 			{
-				var stringBuilder = new StringBuilder();
-
-				stringBuilder.Append(StreetAddress);
-
-				if (!string.IsNullOrWhiteSpace(No))
+				get
 				{
+					var stringBuilder = new StringBuilder();
+
+					stringBuilder.Append(StreetAddress);
+
+					if (!string.IsNullOrWhiteSpace(No))
+					{
+						stringBuilder.Append(" ");
+						stringBuilder.Append(No);
+						stringBuilder.Append(",");
+					}
+
+					if (!string.IsNullOrWhiteSpace(Floor) && !string.IsNullOrWhiteSpace(Door))
+					{
+						stringBuilder.Append(" ");
+						stringBuilder.Append(Floor);
+						stringBuilder.Append(".");
+						stringBuilder.Append(Door);
+						stringBuilder.Append(",");
+					}
+
 					stringBuilder.Append(" ");
-					stringBuilder.Append(No);
-					stringBuilder.Append(",");
-				}
-
-				if (!string.IsNullOrWhiteSpace(Floor) && !string.IsNullOrWhiteSpace(Door))
-				{
+					stringBuilder.Append(Zip);
 					stringBuilder.Append(" ");
-					stringBuilder.Append(Floor);
-					stringBuilder.Append(".");
-					stringBuilder.Append(Door);
-					stringBuilder.Append(",");
+					stringBuilder.Append(City);
+
+					return stringBuilder.ToString();
 				}
-
-				stringBuilder.Append(" ");
-				stringBuilder.Append(Zip);
-				stringBuilder.Append(" ");
-				stringBuilder.Append(City);
-
-				return stringBuilder.ToString();
 			}
 
 			public List<string> Residents { get; set; }
