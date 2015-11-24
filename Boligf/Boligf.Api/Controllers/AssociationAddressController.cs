@@ -56,7 +56,7 @@ namespace Boligf.Api.Controllers
 			_commandProcessor.ProcessCommand(new AttachUserToAddressCommand(associationId) { AddressId = addressId, UserId = userId });
 		}
 
-		[Route("{associationId}/address")]
+		[Route("{associationId}/address"), HttpPost]
 		public void Post(string associationId, List<AssociationAddressRegister> addresses)
 		{
 			var command = new AddAddressesToAssociationCommand(associationId);
