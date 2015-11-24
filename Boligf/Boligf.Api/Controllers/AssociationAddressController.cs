@@ -57,7 +57,7 @@ namespace Boligf.Api.Controllers
 		}
 
 		[Route("{associationId}/address"), HttpPost]
-		public void Post(string associationId, List<AssociationAddressRegister> addresses)
+		public void Post(string associationId, [FromBody]List<AssociationAddressRegister> addresses)
 		{
 			var command = new AddAddressesToAssociationCommand(associationId);
 
