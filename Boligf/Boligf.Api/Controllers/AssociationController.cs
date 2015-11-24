@@ -43,15 +43,6 @@ namespace Boligf.Api.Controllers
 		[AllowAnonymous]
 		public string Get(string id)
 		{
-			var testCode = HumanReadableUniqueId.NewUid();
-			var addressId = "";
-
-			_commandProcessor.ProcessCommand(new AddCodeToAddressCommand(id)
-			{
-				AddressId = addressId,
-				Code = testCode
-			});
-
 			var view = _getAssociationView.Load(id);
 			return view.AssociationName;
 		}

@@ -43,6 +43,11 @@ namespace Boligf.Api.Views.Association.Address
 			return address.Codes;
 		}
 
+		public List<AssociationAddressCode> GetAllAddresses(string associationId)
+		{
+			return _associationAddresses[associationId];
+		} 
+
 		public void Handle(IViewContext context, AddressAddedToAssociation domainEvent)
 		{
 			var associationId = domainEvent.GetAggregateRootId();
