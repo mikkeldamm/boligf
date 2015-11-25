@@ -79,7 +79,7 @@ namespace Boligf.Api.Controllers
 				});
 			}
 
-			if (addresses.Any())
+			if (!addresses.Any())
 				return;
 
 			_commandProcessor.ProcessCommand(command);
