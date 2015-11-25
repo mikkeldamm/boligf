@@ -94,7 +94,7 @@ namespace Boligf.Api.Domain
 
 		public void Apply(UserAttachedToAddress e)
 		{
-			var address = Addresses.SingleOrDefault(a => a.Id == e.AddressId);
+			var address = Addresses.FirstOrDefault(a => a.Id == e.AddressId);
 			if (address != null)
 			{
 				if (!address.Residents.Contains(e.UserId))
@@ -108,11 +108,11 @@ namespace Boligf.Api.Domain
 		{
 			Emit(new CodeAssignedToAddress { AddressId = addressId, Code = code });
 		}
-
+		
 		public void Apply(CodeAssignedToAddress e)
 		{
-			var address = Addresses.SingleOrDefault(a => a.Id == e.AddressId);
-			if (address != null && address.AssignCodes.Any(code => code != e.Code))
+			var address = Addresses.FirstOrDefault(a => a.Id == e.AddressId);
+			if (address != null && address.AssignCodes.Any(code => code == e.Code) == false)
 			{
 				address.AssignCodes.Add(e.Code);
 			}
