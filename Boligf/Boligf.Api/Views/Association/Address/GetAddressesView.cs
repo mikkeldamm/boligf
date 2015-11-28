@@ -70,7 +70,7 @@ namespace Boligf.Api.Views.Association.Address
 		{
 			var associationId = domainEvent.GetAggregateRootId();
 
-			var address = GetAssociationAddressList(associationId).SingleOrDefault(a => a.Id == domainEvent.AddressId);
+			var address = GetAssociationAddressList(associationId).FirstOrDefault(a => a.Id == domainEvent.AddressId);
 
 			address.Codes.Add(domainEvent.Code);
 		}
