@@ -50,13 +50,16 @@ namespace Boligf.Api.Controllers
 		}
 
 		[Route("{associationId}/address/{addresId}/user"), HttpPost]
-		public void Post(string associationId, string addressId, [FromBody] string userId)
+		public IHttpActionResult Post(string associationId, string addressId, [FromBody] string userId)
 		{
 			_commandProcessor.ProcessCommand(new RegisterUserToAssociationCommand(associationId) { UserId = userId });
 			_commandProcessor.ProcessCommand(new AttachUserToAddressCommand(associationId) { AddressId = addressId, UserId = userId });
+
+			return Ok();
 		}
 
 		[Route("{associationId}/address"), HttpPost]
+		[AllowAnonymous]
 		public void Post(string associationId, [FromBody]List<AssociationAddressRegister> addresses)
 		{
 			var command = new AddAddressesToAssociationCommand(associationId);

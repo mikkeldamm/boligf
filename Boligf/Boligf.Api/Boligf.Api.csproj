@@ -330,8 +330,9 @@
   <ItemGroup>
     <Content Include="ApplicationInsights.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Properties\PublishProfiles\" />
+    <None Include="Properties\PublishProfiles\apiboligf.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

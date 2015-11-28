@@ -27,11 +27,15 @@ namespace Boligf.Api.Filters
 	{
 		public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
 		{
-			object returnObject;
-			actionExecutedContext.Response.TryGetContentValue(out returnObject);
+			var methodType = actionExecutedContext.Request.Method.Method;
+			if (methodType.ToUpper().Equals("GET"))
+			{
+				object returnObject;
+				actionExecutedContext.Response.TryGetContentValue(out returnObject);
 
-			if (returnObject == null)
-				actionExecutedContext.Response = new HttpResponseMessage(HttpStatusCode.NotFound);
+				if (returnObject == null)
+					actionExecutedContext.Response = new HttpResponseMessage(HttpStatusCode.NotFound);
+			}
 
 			base.OnActionExecuted(actionExecutedContext);
 		}
