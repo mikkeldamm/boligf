@@ -62,33 +62,20 @@ namespace Boligf.Api.Controllers
 		[AllowAnonymous]
 		public void Post(string associationId, [FromBody]List<AssociationAddressRegister> addresses)
 		{
-			var command = new AddAddressesToAssociationCommand(associationId);
-
 			foreach (var address in addresses)
 			{
-				command.Addresses.Add(new AddAddressesToAssociationCommand.Address
+				_commandProcessor.ProcessCommand(new AddAddressToAssociationCommand(associationId)
 				{
 					Id = address.Id,
-					FullAddress = address.FullAddress,
 					City = address.City,
 					Zip = address.Zip,
 					Country = "+45",
 					Door = address.Door,
 					Floor = address.Floor,
 					No = address.No,
-					Streetname = address.Streetname,
-					Latitude = address.Latitude,
-					Longitude = address.Longitude
+					StreetAddress = address.Streetname
 				});
-			}
 
-			if (!addresses.Any())
-				return;
-
-			_commandProcessor.ProcessCommand(command);
-
-			foreach (var address in addresses)
-			{
 				_commandProcessor.ProcessCommand(new AddCodeToAddressCommand(associationId)
 				{
 					AddressId = address.Id,
