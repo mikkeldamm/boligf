@@ -59,7 +59,6 @@ namespace Boligf.Api.Controllers
 		}
 
 		[Route("{associationId}/address"), HttpPost]
-		[AllowAnonymous]
 		public void Post(string associationId, [FromBody]List<AssociationAddressRegister> addresses)
 		{
 			foreach (var address in addresses)
