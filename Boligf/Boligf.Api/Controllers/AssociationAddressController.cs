@@ -18,44 +18,28 @@ namespace Boligf.Api.Controllers
 	{
 		private readonly ICommandProcessor _commandProcessor;
 		private readonly IViewManager<GetAddressesView> _getAddressesView;
+		private readonly IViewManager<GetAddressesWithResidentsView> _getAddressesWithResidentsView;
 
 		public AssociationAddressController(
 			ICommandProcessor commandProcessor,
-			IViewManager<GetAddressesView> getAddressesView)
+			IViewManager<GetAddressesView> getAddressesView,
+			IViewManager<GetAddressesWithResidentsView> getAddressesWithResidentsView
+		)
 		{
 			_commandProcessor = commandProcessor;
 			_getAddressesView = getAddressesView;
+			_getAddressesWithResidentsView = getAddressesWithResidentsView;
 		}
 
-		[Route("address/code/{code}"), HttpGet]
-		[AllowAnonymous]
-		public AssociationAddressCode Get(string code)
-		{
-			var view = _getAddressesView.Load();
-			return view.GetAddressByCode(code);
-		}
-
+		/*
+		** Address
+		*/
 		[Route("{associationId}/address"), HttpGet]
-		public IEnumerable<AssociationAddressCode> GetAllAddresses(string associationId)
+		[AllowAnonymous]
+		public IEnumerable<AssociationAddress> GetAllAddresses(string associationId)
 		{
-			var view = _getAddressesView.Load();
-			return view.GetAllAddresses(associationId);
-		}
-			
-		[Route("{associationId}/address/{addresId}/code"), HttpGet]
-		public IEnumerable<string> Get(string associationId, string addressId)
-		{
-			var view = _getAddressesView.Load();
-			return view.GetAddressCodes(associationId, addressId);
-		}
-
-		[Route("{associationId}/address/{addresId}/user"), HttpPost]
-		public IHttpActionResult Post(string associationId, string addressId, [FromBody] string userId)
-		{
-			_commandProcessor.ProcessCommand(new RegisterUserToAssociationCommand(associationId) { UserId = userId });
-			_commandProcessor.ProcessCommand(new AttachUserToAddressCommand(associationId) { AddressId = addressId, UserId = userId });
-
-			return Ok();
+			var view = _getAddressesWithResidentsView.Load(associationId);
+			return view.GetAllAddresses();
 		}
 
 		[Route("{associationId}/address"), HttpPost]
@@ -81,6 +65,34 @@ namespace Boligf.Api.Controllers
 					Code = HumanReadableUniqueId.NewUid()
 				});
 			}
+		}
+
+		/*
+		** Address Code
+		*/
+		[Route("address/code/{code}"), HttpGet]
+		[AllowAnonymous]
+		public AssociationAddressCode Get(string code)
+		{
+			var view = _getAddressesView.Load();
+			return view.GetAddressByCode(code);
+		}
+
+		[Route("{associationId}/address/{addresId}/code"), HttpGet]
+		public IEnumerable<string> Get(string associationId, string addressId)
+		{
+			var view = _getAddressesView.Load();
+			return view.GetAddressCodes(associationId, addressId);
+		}
+
+		/*
+		** Address User
+		*/
+		[Route("{associationId}/address/{addresId}/user"), HttpPost]
+		public void Post(string associationId, string addressId, [FromBody] string userId)
+		{
+			_commandProcessor.ProcessCommand(new RegisterUserToAssociationCommand(associationId) { UserId = userId });
+			_commandProcessor.ProcessCommand(new AttachUserToAddressCommand(associationId) { AddressId = addressId, UserId = userId });
 		}
 	}
 }

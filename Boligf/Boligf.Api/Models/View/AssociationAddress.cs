@@ -1,4 +1,5 @@
 ﻿using Boligf.Api.Domain.Events;
+using System.Collections.Generic;
 
 namespace Boligf.Api.Models.View
 {
@@ -12,6 +13,21 @@ namespace Boligf.Api.Models.View
 		public string Zip { get; set; }
 		public string City { get; set; }
 		public string Country { get; set; }
+
+		public string FullAddress
+		{
+			get
+			{
+				return string.Format("{0} {1}, {2}. {3}", StreetAddress, No, Floor, Door);
+            }
+		}
+
+		public List<Resident> Residents { get; set; }
+
+		public AssociationAddress()
+		{
+			Residents = new List<Resident>();
+        }
 
 		public void MapFromEvent(AddressAddedToAssociation domainEvent)
 		{

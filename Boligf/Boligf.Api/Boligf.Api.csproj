@@ -286,6 +286,7 @@
     <Compile Include="Models\View\AssociationAddressCode.cs" />
     <Compile Include="Models\View\AssociationAddress.cs" />
     <Compile Include="Models\View\AssociationMember.cs" />
+    <Compile Include="Models\View\Resident.cs" />
     <Compile Include="Play\PrincipalExtensions.cs" />
     <Compile Include="Play\ViewManagerExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -296,6 +297,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Models\View\UserProfile.cs" />
     <Compile Include="Utils\HumanReadableUniqueId.cs" />
+    <Compile Include="Views\Association\Address\GetAddressesWithResidentsView.cs" />
     <Compile Include="Views\Association\Address\GetAddressesView.cs" />
     <Compile Include="Views\Association\GetAssociationUserView.cs" />
     <Compile Include="Views\Association\GetAssociationsView.cs" />

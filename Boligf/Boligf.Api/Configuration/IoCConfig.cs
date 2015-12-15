@@ -71,6 +71,7 @@ namespace Boligf.Api.Configuration
 			RegisterSimpleViewInstance<GetAssociationUserView>();
 			RegisterSimpleViewInstance<GetUsersAssociationsView>();
 			RegisterSimpleViewInstance<GetAddressesView>();
+			RegisterSimpleViewInstance<GetAddressesWithResidentsView>();
 			RegisterSimpleViewInstance<GetUserView>();
 			RegisterSimpleViewInstance<GetUsersView>();
 
